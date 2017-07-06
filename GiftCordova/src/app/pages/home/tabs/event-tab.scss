@@ -1,0 +1,42 @@
+.event-tab-list-grid{
+
+}
+
+.event-tab-list-row{
+    height: 170px;
+    display: flex;
+    flex-direction: row;
+}
+
+.event-tab-list-row .col {
+    
+    align-content: flex-end center;
+    padding: 2% 2% 2% 2% !important;
+}
+
+.event-tab-list-col-profile-pic {
+    flex: 4;   
+    background-image: url('./../assets/inner-pages/pic_frame.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 2% 2% 2% 2%;
+}
+
+.event-tab-list-col-detail {
+    flex: 7;
+}
+
+.event-tab-list-col-gift-count {
+    flex: 2;
+}
+
+.event-tab-detail-text p span {
+    color: white;
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.event-tab-footer{
+    text-align: center;
+}

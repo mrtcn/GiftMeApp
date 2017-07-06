@@ -1,0 +1,125 @@
+﻿.auth-container{
+    background-image: url('./../assets/auth/bg-doodle.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.auth-container .item-inner{
+    color: white;
+    font-size: small;
+    font-weight: 100;
+    text-align: center;
+}
+
+
+#auth-grid{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: 100%;
+}
+
+.auth-row{
+
+}
+
+#auth-row-logo{
+    flex: 4;    
+}
+
+.auth-welcome-text .item-inner .input-wrapper ion-label p span {
+    color: white;
+    display: block;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+#auth-row-logo img {
+    width: 45%;
+    height: auto;
+     margin: auto;
+}
+
+#auth-row-logo .auth-col{
+    display: flex;
+}
+
+#auth-row-text{
+    flex: 2;
+}
+
+#auth-row-button-container{
+    flex: 3;
+}
+
+#auth-row-button-grid{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.auth-row-button-grid-row{
+    flex: 1;
+}
+
+#auth-row-logo-grid{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+#auth-row-logo-grid-row-img{
+    flex: 5;
+    align-content: center;
+}
+
+#auth-row-logo-grid-row-text{
+    flex: 2;
+}
+
+#auth-row-logo-grid-row-text .item-md{
+    background-color: transparent !important;
+}
+
+.auth-col{
+
+}
+
+#auth-row-logo ion-item .item-inner{
+    padding: 0;
+    border-bottom: none !important;
+    /*border-top: 1px solid !important;*/
+    /*-webkit-border-image: url(./../assets/auth/line.png) 1 0 0 0 !important;*/ /* Safari 3.1-5 */
+    /*-o-border-image: url(./../assets/auth/line.png) 1 0 0 0 !important;*/ /* Opera 11-12.1 */
+    /*border-image: url(./../assets/auth/line.png) 1 0 0 0 !important;*/   
+}
+
+.auth-item-border  .item-inner{
+    border-bottom: none !important;
+    border-top: 1px solid !important;
+    /*-webkit-border-image: url(./../assets/auth/line.png) 1 0 0 0 !important;*/ /* Safari 3.1-5 */
+    /*-o-border-image: url(./../assets/auth/line.png) 1 0 0 0 !important;*/ /* Opera 11-12.1 */
+    /*border-image: url(./../assets/auth/line.png) 1 0 0 0 !important;*/    
+}
+
+.auth-container #auth-grid #auth-row-button-container #auth-row-button-grid .auth-row-button-grid-row .auth-col .item-md
+{
+    background-color: transparent !important;
+    padding: 0;
+}
+
+.auth-logo .label {
+    font-size: 2.5em;
+    font-weight:800;
+}
+
+.auth-logo img{
+    width: 50%;
+    height: auto;
+}
+
+.auth-selection{
+    /*height: 25%*/
+    margin-top: auto;
+    margin-bottom: 0;
+}

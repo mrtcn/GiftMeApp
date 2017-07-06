@@ -1,0 +1,27 @@
+<ion-header class="home-header" no-border>
+    <ion-navbar no-padding>
+        <ion-toolbar color="eventListHeaderColor">
+            <button (click)="addEvent()" block>
+                <img src="./assets/inner-pages/plus-icon.png" />
+            </button>
+            <button ion-button menuToggle right>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+            <ion-title>Page One</ion-title>
+        </ion-toolbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-margin no-padding class="home-content">
+    <ion-tabs selectedIndex="1">
+        <ion-tab [root]="EventTab" [rootParams]="2" tabTitle="Friend's Events"></ion-tab>
+        <ion-tab [root]="EventTab" [rootParams]="3" tabTitle="Public's Events"></ion-tab>
+    </ion-tabs>
+</ion-content>
+<ion-footer class="home-footer">
+    <ion-toolbar color="eventListHeaderColor">
+        <button (click)="addEvent()" block>
+            <img src="./assets/inner-pages/plus-icon.png" />
+        </button>
+</ion-toolbar>
+</ion-footer>

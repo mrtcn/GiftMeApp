@@ -1,0 +1,11 @@
+﻿{
+  "android": {
+    "release": {
+      "keystore": "C:\\Users\\mrtcn\\Desktop\\gift-release-key.keystore",
+      "storePassword": "mrtcn.1907",
+      "alias": "gift",
+      "password": "mrtcn.1907",
+      "keystoreType": ""
+    }
+  }
+}

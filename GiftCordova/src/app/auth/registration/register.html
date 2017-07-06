@@ -1,0 +1,108 @@
+﻿<ion-header>
+    <ion-toolbar color="authHeaderColor">
+        <ion-grid class="register-nav-grid">
+            <ion-row>
+                <ion-col col-3>
+                    <img class="register-nav-custom-close-button" src="assets/auth/Close.png" ng-click="close()"/>
+                </ion-col>
+                <ion-col class="register-nav-custom-title" col-6 text-center>
+                    REGISTER
+                </ion-col>
+                <ion-col col-3>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>       
+    </ion-toolbar>
+</ion-header>
+<ion-content class="register-container">
+
+    <ion-title>{{ 'REGISTRATIONX' | translate }}</ion-title>
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+        <ion-list>
+            <ion-item *ngIf="lastImage !== null">
+                <ion-label center text-center (click)="presentActionSheet()">                   
+                    <img src="{{pathForImage(lastImage)}}" [hidden]="lastImage === null">
+                </ion-label>
+            </ion-item>
+            <ion-item *ngIf="lastImage === null">
+                <ion-label center text-center (click)="presentActionSheet()">
+                    <img src="./assets/auth/ProfilePhoto.png"/>
+                </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png"/>
+                </ion-label>
+                <ion-input class="input-icon-fullname" type="text" [(ngModel)]="registration.fullName" name="fullName" placeholder="Full Name" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/email.png"/>
+                </ion-label>
+                <ion-input class="input-icon-fullname" type="text" [(ngModel)]="registration.email" name="email" placeholder="E-mail" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png"/>
+                </ion-label>
+                <ion-input class="input-icon-fullname" type="text" [(ngModel)]="registration.userName" name="userName" placeholder="Username" required></ion-input>
+            </ion-item>
+            <ion-item>
+
+                <ion-list radio-group item-content>
+                    <ion-row text-center center>
+                        <ion-col id="register-gender-col-img" width-20>
+                            <img src="./assets/auth/gender.png"/>
+                        </ion-col>
+                        <ion-col id="register-gender-col-male-radio" width-10>
+                            <ion-radio value="isMale" checked></ion-radio>
+                        </ion-col>
+                        <ion-col id="register-gender-col-male-label" width-25>
+                            Erkek
+                        </ion-col>
+                        <ion-col id="register-gender-col-female-radio" width-10>
+                            <ion-radio value="isFemale"></ion-radio>
+                        </ion-col>
+                        <ion-col id="register-gender-col-female-label" width-25>
+                            Kadın
+                        </ion-col>
+                    </ion-row>
+                </ion-list>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/password.png"/>
+                </ion-label>
+                <ion-input class="input-icon-fullname" type="password" [(ngModel)]="registration.password" name="password" placeholder="Password" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/password.png"/>
+                </ion-label>
+                <ion-input class="input-icon-fullname" type="password" [(ngModel)]="registration.confirmPassword" name="confirmPassword" placeholder="Confirm Password" required></ion-input>
+            </ion-item>
+        </ion-list>
+        <!--<div padding>
+            <button block ion-button color="light" icon-left type="submit" [disabled]="!registerForm.form.valid">
+                REGISTER
+            </button>
+        </div>-->        
+    </form>
+</ion-content>
+<ion-footer class="register-footer">
+    <ion-toolbar color="authHeaderColor">
+        
+        <!--<ion-buttons>
+            <button ion-button icon-left (click)="presentActionSheet()">
+                <ion-icon name="camera"></ion-icon>Select Image
+            </button>
+            <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
+                <ion-icon name="cloud-upload"></ion-icon>Upload
+            </button>
+        </ion-buttons>-->
+        <button ion-button full (click)="register()">
+            CONTINUE
+        </button>
+    </ion-toolbar>
+</ion-footer>

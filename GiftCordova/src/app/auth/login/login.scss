@@ -1,0 +1,88 @@
+﻿.login-container{
+    background-image: url('./../assets/auth/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-container ion-item{
+    background-color: transparent;
+}
+
+
+.login-container ion-item img{
+    /*width: 80%;*/
+}
+
+.login-container ion-item ion-list{
+    margin: 0;
+}
+
+.login-container .text-input{
+    font-size: 1.1em;
+    font-weight: 100;
+    color: white;
+}
+
+.login-container .text-input:-ms-input-placeholder{
+    color: white;
+}
+
+.login-container .text-input::-moz-placeholder{
+    color: white;
+}
+
+.login-container .text-input::-webkit-input-placeholder{
+    color: white;
+}
+
+
+.login-nav-custom-close-button{
+    width: 30%;
+}
+
+.login-nav-custom-title{
+
+}
+
+.login-footer{
+    text-align: center;
+}
+
+.login-footer ion-toolbar button{
+    color: white;
+    font-size: 1.3em;
+    font-weight: 100;
+}
+
+#login-top-section{
+    font-size: 1.3rem;
+    -webkit-flex: 2;
+    flex: 2;
+}
+
+#login-top-section img {
+    width: 30px;
+    height: 30px;
+}
+
+#login-top-section h2{
+    font-size: 2.2rem;
+}
+
+#login-bottom-section{
+    font-size: 1rem;
+    font-weight: 400;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+#login-content{
+    display: -webkit-flex;
+    display: flex;
+
+    flex-direction: column;
+}
+
+#login-wrapper{
+    height: 100%;
+}

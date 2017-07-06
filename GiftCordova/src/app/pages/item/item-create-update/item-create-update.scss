@@ -1,0 +1,49 @@
+.item-create-update-content{
+    background-image: url('./../assets/auth/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.item-create-update-header {
+    background-image: transparent !important;
+}
+    
+.item-create-update-content ion-item{
+    background-color: transparent;
+}
+
+.item-create-update-content .tabbar .tab-button {
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+.item-create-update-content .tabbar .tab-button .tab-button-text {
+    white-space: nowrap;
+}
+
+.item-create-update-content .tabbar .tab-button[aria-selected=true] {
+    border-bottom: 6px solid !important;
+    -webkit-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Safari 3.1-5 
+    -o-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Opera 11-12.1 
+    border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  
+}
+
+.item-create-update-text p span {
+    color: white;
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.item-create-update-footer{
+    text-align: center;
+}
+
+.item-create-update-footer img{
+    width: 10%;
+}
+
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated, .tabbar {
+    opacity: 1;
+}

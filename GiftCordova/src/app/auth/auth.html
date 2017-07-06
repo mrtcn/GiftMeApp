@@ -1,0 +1,60 @@
+﻿<ion-content padding center text-center class="auth-container">
+    <ion-grid id="auth-grid" no-padding>
+        <ion-row class="auth-row" id="auth-row-logo">
+            <ion-grid id="auth-row-logo-grid" no-padding>
+                <ion-row id="auth-row-logo-grid-row-img">
+                    <ion-col class="auth-col" width-100>
+                        <img src="assets/auth/gift-logo.png" />
+                    </ion-col>
+                </ion-row>
+                <ion-row id="auth-row-logo-grid-row-text">
+                    <ion-col class="auth-col" width-100>
+                        <ion-item center text-center text-wrap class="auth-welcome-text">
+                            <p>
+                                <span>Welcome To</span>
+                                <span>Gift ME</span>
+                            </p>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-row>
+
+        <ion-row class="auth-row" id="auth-row-button-container">
+            <ion-grid id="auth-row-button-grid" no-padding>
+                <ion-row class="auth-row-button-grid-row">
+                </ion-row>
+                <ion-row class="auth-row-button-grid-row">
+                    <ion-col class="auth-col" width-100>
+                        <button ion-item center text-center text-wrap class="auth-item-border" (click)="navigate(1)" width-100>
+                            SIGN IN
+                        </button>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="auth-row-button-grid-row">
+                    <ion-col class="auth-col" width-100>
+                        <button ion-item center text-center text-wrap class="auth-item-border" (click)="navigate(2)" width-100>
+                            NEW ACCOUNT
+                        </button>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="auth-row-button-grid-row">
+                    <ion-col class="auth-col" width-100>
+                        <button ion-item center text-center text-wrap class="auth-item-border" icon-left (click)="redirectToFacebook()" width-100>
+                            <ion-icon name="logo-facebook"> </ion-icon>
+                            CONNECT WITH FACEBOOK
+                        </button>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="auth-row-button-grid-row">
+                    <ion-col class="auth-col" width-100>
+                        <button ion-item center text-center text-wrap class="auth-item-border" icon-left (click)="clearCache()" width-100>
+                            <ion-icon name="logo-facebook"> </ion-icon>
+                            Clear Cache + {{checkResult || async}}
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-row>
+    </ion-grid>
+</ion-content>

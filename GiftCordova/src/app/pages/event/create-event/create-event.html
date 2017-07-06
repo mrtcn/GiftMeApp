@@ -1,0 +1,99 @@
+<ion-header class="create-event-header" no-border>
+    <ion-navbar no-padding>
+        <ion-toolbar color="eventListHeaderColor">
+            <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+            <ion-title>Event Detail</ion-title>
+        </ion-toolbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="create-event-content">
+    <form (ngSubmit)="createEventSubmit()" #form="ngForm">
+        <ion-list>
+
+            <ion-item *ngIf="lastImage !== null">
+                <ion-label center text-center (click)="presentActionSheet()">
+                    <img src="{{pathForImage(lastImage)}}" [hidden]="lastImage === null">
+                </ion-label>
+            </ion-item>
+            <ion-item *ngIf="lastImage === null">
+                <ion-label center text-center (click)="presentActionSheet()">
+                    <img src="./assets/auth/ProfilePhoto.png" />
+                </ion-label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png" />
+                </ion-label>
+                <ion-input type="text" [(ngModel)]="createEvent.eventName" name="eventName" placeholder="Event Name" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png" />
+                </ion-label>
+                <ion-label>Date</ion-label><ion-datetime displayFormat="MMMM YYYY" min="2016" max="2020-10-31" [(ngModel)]="createEvent.eventDate" name="eventDate"></ion-datetime>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png" />
+                </ion-label>
+                <ion-input type="text" [(ngModel)]="createEvent.permission" name="permission" placeholder="Permission" required></ion-input>
+            </ion-item>
+            
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png" />
+                    Choose Permission
+                </ion-label>
+                <ion-list radio-group item-content [(ngModel)]="createEvent.permission" name="permission">
+                    <ion-row text-center center>
+                        
+                        <ion-col id="create-event-permission-col-img" width-20>
+                            <img src="./assets/auth/gender.png"/>
+                        </ion-col>
+
+                        <ion-col id="create-event-permission-col-only-friends-radio" width-10>
+                            <ion-radio value="0" checked></ion-radio>
+                        </ion-col>
+                        <ion-col id="create-event-permission-col-only-friend-label" width-25>
+                            Only Friends
+                        </ion-col>
+
+                        <ion-col id="create-event-permission-col-public-radio" width-10>
+                            <ion-radio value="1" checked></ion-radio>
+                        </ion-col>
+                        <ion-col id="create-event-permission-col-public-label" width-25>
+                            Public
+                        </ion-col>
+
+                        <ion-col id="create-event-permission-col-private-radio" width-10>
+                            <ion-radio value="2"></ion-radio>
+                        </ion-col>
+                        <ion-col id="create-event-permission-col-private-label" width-25>
+                            Private
+                        </ion-col>
+
+                    </ion-row>
+                </ion-list>
+            </ion-item>
+
+        </ion-list>
+        <!--<div padding>
+            <button block ion-button color="light" icon-left type="submit" [disabled]="!loginForm.form.valid">
+                LOGIN
+            </button>
+        </div>-->
+    </form>
+</ion-content>
+<ion-footer class="create-event-footer">
+    <div padding>
+        <button block ion-button color="light" icon-left type="submit" [disabled]="!form.form.valid" (click)="submitEvent()">
+            CREATE EVENT
+        </button>
+    </div>
+</ion-footer>

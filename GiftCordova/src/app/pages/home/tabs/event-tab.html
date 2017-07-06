@@ -1,0 +1,21 @@
+<ion-content scroll="false">
+    <ion-grid text-center no-padding class="event-tab-list-grid">
+        <ion-row (click)="eventClick(userEvent.id)" class="event-tab-list-row" *ngFor="let userEvent of eventList | async" [ngStyle]="{'background-image': ' url(assets/inner-pages/bg_overlay.png), url(' + userEvent.eventImagePath + ')', 'background-repeat': 'no-repeat, no-repeat', 'background-size': 'cover, cover'}" text-center bottom>
+            <ion-col class="event-tab-list-col-profile-pic">
+                <img src="{{userEvent.eventOwner.userImagePath}}" />
+            </ion-col>
+            <!--<ion-col class="home-list-col-detail" [ngStyle]="{'background-image': 'url(' + userEvent.eventImagePath + ')'}">-->
+            <ion-col class="event-tab-list-col-detail">
+                <ion-label text-wrap class="event-tab-detail-text" no-margin text-left>
+                    <p>
+                        <span>{{userEvent.eventOwner.fullName}}</span>
+                        <span>{{userEvent.eventName}}</span>
+                    </p>
+                </ion-label>
+            </ion-col>
+            <ion-col class="event-tab-list-col-gift-count">
+                <img src="./assets/inner-pages/gift_box.png" />
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

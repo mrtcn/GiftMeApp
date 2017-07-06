@@ -1,0 +1,134 @@
+﻿.register-container{
+    background-image: url('./../assets/auth/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.register-container ion-item{
+    background-color: transparent;
+}
+
+
+.register-container ion-item img{
+    /*width: 80%;*/
+}
+
+.register-container ion-item ion-list{
+    margin: 0;
+}
+
+.register-container ion-item ion-list ion-row ion-col {
+    color: white;
+    font-size: 1.2em;
+    font-weight: 100;
+}
+
+.register-container ion-item ion-list ion-row ion-col img{
+    width: 56px;
+}
+
+.register-container ion-item ion-list ion-row ion-col ion-radio .radio-icon{
+    border-color: white;
+}
+
+.register-container ion-item ion-list ion-row ion-col ion-radio .radio-icon .radio-inner {
+    background-color: white;
+}
+
+#register-gender-col-img{
+
+}
+
+#register-gender-col-male-radio {
+    margin-left: 5%;
+}
+
+#register-gender-col-male-label {
+}
+
+#register-gender-col-female-radio {
+    margin-left: 5%;
+}
+
+#register-gender-col-female-label {
+}
+
+.register-container .text-input{
+    font-size: 1.1em;
+    font-weight: 100;
+    color: white;
+}
+
+.register-container .text-input:-ms-input-placeholder{
+    color: white;
+}
+
+.register-container .text-input::-moz-placeholder{
+    color: white;
+}
+
+.register-container .text-input::-webkit-input-placeholder{
+    color: white;
+}
+.input-icon-fullname{
+    /*background:url(./../assets/auth/name.png) no-repeat right center;*/
+    /*background-size:auto 100%;*/
+    /*background-position: left center;*/
+}
+
+.register-nav-grid{
+    color: white;
+    font-size: 1.3em;
+    font-weight: 100;
+}
+
+.register-nav-custom-close-button{
+    width: 30%;
+}
+
+.register-nav-custom-title{
+
+}
+
+.register-footer{
+    text-align: center;
+}
+
+.register-footer ion-title .toolbar-title{
+    color: white;
+    font-size: 1.3em;
+    font-weight: 100;
+}
+
+#register-top-section{
+    font-size: 1.3rem;
+    -webkit-flex: 2;
+    flex: 2;
+}
+
+#register-top-section img {
+    width: 30px;
+    height: 30px;
+}
+
+#register-top-section h2{
+    font-size: 2.2rem;
+}
+
+#register-bottom-section{
+    font-size: 1rem;
+    font-weight: 400;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+#register-content{
+    display: -webkit-flex;
+    display: flex;
+
+    flex-direction: column;
+}
+
+#register-wrapper{
+    height: 100%;
+}

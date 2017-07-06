@@ -1,0 +1,82 @@
+<ion-header class="item-detail-header" no-border>
+    <ion-navbar no-padding>
+        <ion-toolbar color="itemListHeaderColor">
+            <button ion-button menuToggle>
+                <ion-icon name="menu"></ion-icon>
+            </button>
+            <ion-title>Event Detail</ion-title>
+        </ion-toolbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="item-detail-content">
+        <ion-list>
+            <ion-item *ngIf="lastImage !== null">
+                <ion-label center text-center (click)="presentActionSheet()">
+                    <img src="{{pathForImage(lastImage)}}" [hidden]="lastImage === null">
+                </ion-label>
+            </ion-item>
+            <ion-item *ngIf="lastImage === null">
+                <ion-label center text-center (click)="presentActionSheet()">
+                    <img src="./assets/auth/ProfilePhoto.png" />
+                </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/name.png" />
+                    {{(itemDetail | async)?.itemName}}
+                </ion-label>
+                
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    <img src="./assets/auth/email.png" />
+                    {{(itemDetail | async)?.itemDate}}
+                </ion-label>                
+            </ion-item>
+
+            <ion-item>
+                <ion-list>
+                    <ion-row (click)="userClick()" class="gift-list-row" *ngFor="let giftItem of (itemDetail | async)?.giftItemList" text-center bottom>
+                        <ion-col class="gift-item-col-profile-pic">
+                            <img src="{{giftItem.giftImagePath}}" />
+                        </ion-col>
+                        <ion-col class="gift-item-col-detail">
+                            <ion-label text-wrap class="gift-item-text" no-margin text-left>
+                                <p>
+                                    <span>{{giftItem.giftItemName}}</span>
+                                </p>
+                            </ion-label>
+                        </ion-col>
+                        <ion-col class="gift-item-col-detail">
+                            <ion-label text-wrap class="gift-item-check" no-margin text-left>
+                                <p>
+                                    <span>{{giftItem.isBought}}</span>
+                                </p>
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-list>
+            </ion-item>
+
+            <ion-item>
+                <ion-list>
+                    <ion-row (click)="userClick()" class="user-list-row" *ngFor="let user of (itemDetail | async)?.users" text-center bottom>
+                        <ion-col class="user-item-col-profile-pic">
+                            <img src="{{user.userImagePath}}" />
+                        </ion-col>
+                        <ion-col class="user-item-col-detail">
+                            <ion-label text-wrap class="item-item-text" no-margin text-left>
+                                <p>
+                                    <span>{{user.fullName}}</span>
+                                </p>
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-list>
+            </ion-item>
+        </ion-list>
+</ion-content>
+<ion-footer class="item-detail-footer">
+
+</ion-footer>

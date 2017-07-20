@@ -187,8 +187,11 @@ export class AccountService {
 
         return this.http.post('/Token', body, options).flatMap((res: Response) => {
             let accessToken: string = res.json().access_token;
-            //ADD USER AND ACCESS TOKEN INTO NATIVESTORAGE            
+            //ADD USER AND ACCESS TOKEN INTO NATIVESTORAGE
+            console.log("Login User Info = " + res.json());
+
             return this.addAccessTokenIntoStorage(res.json()).flatMap((x: boolean) => {
+                console.log("Login Add Access Success = " + x);
                 if (x) {
                     return this.getUserInfo().flatMap((user: StoredUserModel) => {
                         return this.addUserIntoStorage(user).map((isSuccess: boolean) => {
@@ -200,6 +203,9 @@ export class AccountService {
                     return null;
                 }
             });
+        }).catch(error => {
+            console.log("token error = " + JSON.stringify(error));
+            return null;
         });
     }
 
@@ -303,33 +309,33 @@ export class AccountService {
         let removeUserPromise: Promise<any> = NativeStorage.remove('user');
         let removeUserObservable: Observable<any> = Observable.fromPromise(removeUserPromise);
 
-        let setUserPromise: Promise<any> = NativeStorage.setItem('user', new StoredUserModel
-            (
-            storedUserModel.id,
-            storedUserModel.fullName,
-            storedUserModel.userName,
-            storedUserModel.firstName,
-            storedUserModel.lastName,
-            storedUserModel.email,
-            storedUserModel.imagePath,
-            storedUserModel.gender,
-            null,
-            null
+        let setUserPromise: Promise<any> = NativeStorage.setItem('user',
+            new StoredUserModel(
+                storedUserModel.id,
+                storedUserModel.fullName,
+                storedUserModel.userName,
+                storedUserModel.firstName,
+                storedUserModel.lastName,
+                storedUserModel.email,
+                storedUserModel.imagePath,
+                storedUserModel.gender,
+                null,
+                null
             )
-        )
+        );
         let setUserObservable: Observable<any> = Observable.fromPromise(setUserPromise);
 
-        return removeUserObservable.flatMap(x => {
+        return removeUserObservable.map(x => {
             return x;
-        }).flatMap(x => {
+        }).flatMap(y => {
             return setUserObservable.map(result => {
                 return Observable.of(true);
-            })
+            });
         }).catch(error => {
-            console.log("AddUserIntoStorage Exception = " + JSON.stringify(error))
+            console.log("AddUserIntoStorage Exception = " + JSON.stringify(error));
             return Observable.of(false);
-        })
-            
+        });
+
 
     }
 

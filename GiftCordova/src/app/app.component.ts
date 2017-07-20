@@ -44,23 +44,20 @@ export class MyApp {
         this.initializeApp();
         //Facebook.browserInit(this.FB_APP_ID, "v2.8");
         // used for an example of ngFor and navigation
-        this.pages = [
-            { title: 'Page One', component: HomeComponent },
-            { title: 'Page Two', component: HomeComponent }
-        ];
+        
         let env = this;
         //env.nav.push(Page2);
 
-        this.accountService.isAuthenticated().subscribe(x => {
-            if (x) {
-                this._isAuthenticated.next(x);
-                this.nav.setRoot(HomeComponent);
-                Splashscreen.hide();
-            }
-        },
-        function(error) {
-            Splashscreen.hide();
-        });
+        //this.accountService.isAuthenticated().subscribe(x => {
+        //    if (x) {
+        //        this._isAuthenticated.next(x);
+        //        this.nav.setRoot(HomeComponent);
+        //        Splashscreen.hide();
+        //    }
+        //},
+        //function(error) {
+        //    Splashscreen.hide();
+        //});
         this.localizationService.translateConfig();
     }
 

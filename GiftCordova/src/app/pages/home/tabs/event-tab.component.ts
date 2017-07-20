@@ -36,11 +36,11 @@ export class EventTabComponent implements OnInit {
     public getEventList() {
         return this.eventService.getEventList(this.navParams.data).subscribe((x: Array<HomeEventListViewModel>) => {
             this._eventList.next(x);
+        }, error => {
         });
     }
 
     public eventClick(eventId: number) {
-        console.log("eventId = " + eventId);
         this.app.getRootNav().push(EventDetailComponent, eventId);
     }
 }

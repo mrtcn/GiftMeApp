@@ -53,23 +53,23 @@ export class InterceptedHttp extends Http {
                 if (res.status >= 200 && res.status <= 300) {                   
                     let successResponse: HttpResponseSuccessModel = res.json();                   
                     if (successResponse.code == 1234) {
-
+                        this.dialogs.alert(successResponse.message)
+                            .then(() => console.log('Dialog dismissed'))
+                            .catch(e => console.log('Warning displaying dialog', e));
                     }
-                } else {                    
-                    let errorResponse: HttpResponseErrorModel = res.json();
-                    this.dialogs.alert(errorResponse.errorMessage)
-                        .then(() => console.log('Dialog dismissed'))
-                        .catch(e => console.log('Error displaying dialog', e));
-                }
-
+                }               
                 return res;
             }).catch(error => {
                 console.log("AuthorizedPost Exception = " + JSON.stringify(error));
+                let errorResponse: HttpResponseErrorModel = error._body;
+                console.log("AuthorizedPost Exception errorResponse = " + JSON.stringify(errorResponse));
+                this.dialogs.alert(errorResponse.errorMessage)
+                    .then(() => console.log('Dialog dismissed'))
+                    .catch(e => console.log('Error displaying dialog', e));
+
                 return null;
             });
-        })
-       
-        
+        })            
     }
 
     put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
@@ -93,8 +93,9 @@ export class InterceptedHttp extends Http {
         if (options.headers == null) {
             options.headers = new Headers();
         }
-        options.headers.append('Content-Type', 'application/json');        
-
+        if (!options.headers.get("Content-Type")) {
+            options.headers.append('Content-Type', 'application/json');
+        }
         return options;
     }
 
@@ -107,7 +108,10 @@ export class InterceptedHttp extends Http {
             options.headers = new Headers();
         }        
         return this.getAccountService().getAccessTokenFromStorage().map((accessToken: AccessTokenModel) => {
-            options.headers.append('Content-Type', 'application/json');
+            if (!options.headers.get("Content-Type")) {
+                options.headers.append('Content-Type', 'application/json');
+            }
+            
             options.headers.append('Authorization', 'Bearer ' + accessToken.access_token);
             return options;
         })

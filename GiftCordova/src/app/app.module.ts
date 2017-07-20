@@ -20,9 +20,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app';
-
+import { ImageHandler } from './helpers/image.helper';
+import { imageHandlerFactory } from './helpers/image.helper.factory';
 
 import { GiftDatePickerComponent } from './helpers/directives/datepicker/datepicker.component';
+
+
+
+import { ActionSheetController, ToastController, Platform, LoadingController } from 'ionic-angular';
+import { File } from '@ionic-native/file';
+import { Transfer } from '@ionic-native/transfer';
+import { FilePath } from '@ionic-native/file-path';
+import { Camera } from '@ionic-native/camera';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -72,9 +82,14 @@ export function HttpLoaderFactory(http: Http) {
           provide: ErrorHandler,
           useClass: IonicErrorHandler
       },
+      {
+          provide: ImageHandler,
+          useFactory: imageHandlerFactory,
+          deps: [Camera, Platform, FilePath, File, ToastController, Transfer, LoadingController, ActionSheetController]
+      },
       Dialogs,
       EventService,
-      ItemService,
+      ItemService,      
       LocalizationService]
 })
 export class AppModule {}

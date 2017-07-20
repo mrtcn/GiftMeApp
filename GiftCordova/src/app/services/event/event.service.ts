@@ -10,6 +10,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { AccountService } from '../../auth/shared/account.service';
 import { AccessTokenModel } from '../../auth/shared/account.model';
 import { HomeEventListViewModel, EventViewModel, EventListType, EventIdModel, CreateEventModel } from './event.model';
+import { ImageHandler } from './../../helpers/image.helper';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -27,7 +28,10 @@ export class EventService {
         private accountService: AccountService,
         private transfer: Transfer,
         private file: File,
-        private filePath: FilePath) { }
+        private filePath: FilePath,
+        private imageHandler: ImageHandler) {
+        console.log("event service constructor");
+    }
 
     public getEventList(eventType: number): Observable<Array<HomeEventListViewModel>> {
         return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
@@ -36,8 +40,14 @@ export class EventService {
                 console.log("getEventList Status Code = " + res.status);
                 let httpResponse: HttpResponseSuccessModel = res.json();
                 return httpResponse.content;
+            }, error => {
+                console.log("eventList Error StatusCode BadRequest");
+                return null;
+             }).catch(x => {
+                console.log("eventList Catch StatusCode BadRequest");
+                return null;
             });
-        });       
+        });
     }
 
     public getEventById(eventId: number): Observable<EventViewModel> {
@@ -52,8 +62,9 @@ export class EventService {
     public createEvent(eventModel: CreateEventModel, targetPath: string, fileName: string): Observable<number> {
 
         let eventJson = JSON.stringify(eventModel);
-        return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
 
+        return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
+            console.log("eventJson = " + eventJson);
             var options: FileUploadOptions = {
                 fileKey: "file",
                 fileName: fileName,
@@ -65,18 +76,16 @@ export class EventService {
 
             const fileTransfer: TransferObject = this.transfer.create();
 
-            let url: string = '/api/Event/CreateOrUpdateEvent';
+            let url: string = 'http://192.168.0.16:52264/api/Event/CreateOrUpdateEvent';
             // Use the FileTransfer to upload the image
-            let uploadThen = fileTransfer.upload(targetPath, url, options).then();
-            let uploadObservable: Observable<FileUploadResult> = Observable.fromPromise(uploadThen);
-
-            return uploadObservable.map((fileUploadResult: FileUploadResult) => {
-                    //Login User && GetToken
-
-                let eventId = JSON.parse(fileUploadResult.response);
+            console.log("options = " + JSON.stringify(options));
+            return this.imageHandler.uploadImage(url, options).map((eventId: number) => {
+                console.log("uploadImage");
+                
                     return eventId;
                 },
                 error => {
+                    console.log("uploadImage error = " + JSON.stringify(error));
                     return null;
                 }
             );

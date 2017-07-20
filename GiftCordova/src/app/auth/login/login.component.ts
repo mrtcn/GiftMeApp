@@ -40,7 +40,9 @@ export class LoginComponent implements OnInit {
             let result: boolean = x.valueOf();
             this._result.next(result);
             this.app.getRootNav().setRoot(HomeComponent);
-        }, err => err.toString());       
+        }, err => {
+            console.log("err = " + JSON.stringify(err));
+        });
     }
 
     public loginUser() {
@@ -49,7 +51,9 @@ export class LoginComponent implements OnInit {
             let result: boolean = x.valueOf();
             this._result.next(result);
             this.app.getRootNav().setRoot(HomeComponent);
-        }, err => err.toString());    
+        }, err => {
+            console.log("err = " + JSON.stringify(err));
+        });
 
     }
 }

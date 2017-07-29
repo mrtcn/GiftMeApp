@@ -10,8 +10,8 @@ export const AppConfig: IAppConfig = {
     //apiEndpoint: "http://api.movieconnections.huretsucuklari.com/api/",
     //baseEndpoint: "https://192.168.0.32:44302/",
     //apiEndpoint: "https://192.168.0.32:44302/api/"
-    baseEndpoint: "http://192.168.0.16:52264/",
-    apiEndpoint: "http://192.168.0.16:52264/api/"
+    baseEndpoint: "https://192.168.0.16:44302/",
+    apiEndpoint: "https://192.168.0.16:44302/api/"
     //baseEndpoint: "https://localhost:44302/",
     //apiEndpoint: "https://localhost:44302/api/"
 };

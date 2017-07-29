@@ -35,12 +35,47 @@ export class InterceptedHttp extends Http {
             return new Observable<Response>()
         }
         url = this.updateUrl(url);
-        return super.get(url, this.getRequestOptionArgs(options));
+        return super.get(url, this.getRequestOptionArgs(options)).map(x => x).catch(error => {
+            let errorResponse: HttpResponseErrorModel = error._body;
+            this.dialogs.alert(errorResponse.errorMessage)
+                .then(() => console.log('Dialog dismissed'))
+                .catch(e => console.log('Error displaying dialog', e));
+
+            return null;
+        });;
     }
 
     post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
         url = this.updateUrl(url);
-        return super.post(url, body, this.getRequestOptionArgs(options));
+        return super.post(url, body, this.getRequestOptionArgs(options)).map((res: Response) => {
+            console.log("authorizedPost res = " + res.text());
+
+            if (res.status >= 200 && res.status <= 300) {
+                let successResponse: HttpResponseSuccessModel = res.json();
+                if (successResponse.code == 1234) {
+                    this.dialogs.alert(successResponse.message)
+                        .then(() => console.log('Dialog dismissed'))
+                        .catch(e => console.log('Warning displaying dialog', e));
+                }
+            }
+            return res;
+        }, error => {
+            console.log("AuthorizedPost Exception = " + JSON.stringify(error));                        
+            this.dialogs.alert("Unknown error occured.")
+                .then(() => console.log('Dialog dismissed'))
+                .catch(e => console.log('Error displaying dialog', e));
+
+            return null;
+        }).catch(error => {
+            console.log("AuthorizedPost Exception = " + JSON.stringify(error));
+            let errorResponse: HttpResponseErrorModel = error._body;
+            console.log("AuthorizedPost Exception errorResponse = " + JSON.stringify(errorResponse));
+            this.dialogs.alert(errorResponse.errorMessage)
+                .then(() => console.log('Dialog dismissed'))
+                .catch(e => console.log('Error displaying dialog', e));
+
+            return null;
+        });
     }
 
     authorizedPost(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {

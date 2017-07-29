@@ -1,0 +1,84 @@
+﻿.ion-input-item{
+    background-repeat: no-repeat;
+    background-size: 7%;
+    background-position: 7% 80%;
+}
+
+.ion-input-item-username{
+    background-image: url('./../assets/auth/name.png');
+}
+
+.ion-input-item-password{
+    background-image: url('./../assets/auth/password.png');
+}
+
+.ion-input-item .input-wrapper{
+    padding-left: 15%;
+}
+
+.ion-input-item-label.label.label-md{
+    color: white;
+    opacity: 0.8;
+    font-weight: 100;
+}
+
+//Validation Border Colors
+
+//Current Input
+.ion-input-item.item-md.item-input.input-has-focus .item-inner {
+  border-bottom-color: #fff !important;
+  box-shadow: inset 0 -1px 0 0 #fff !important;
+}
+
+.ion-input-item.list-md .item-input.input-has-focus:last-child {
+  border-bottom-color: #fff !important;
+  box-shadow: inset 0 -1px 0 0 #fff !important;
+}
+
+.ion-input-item.list-md .item-input.input-has-focus:last-child .item-inner {
+  box-shadow: none;
+}
+
+//Valid Input
+.ion-input-item.ion-input-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
+  border-bottom-color: #fff !important;
+  box-shadow: inset 0 0 0 0 #fff !important;
+}
+
+.ion-input-item.list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
+  border-bottom-color: #fff !important;
+  box-shadow: inset 0 0 0 0 #fff !important;
+}
+
+.ion-input-item.list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
+  box-shadow: none;
+}
+
+//Invalid Input
+.ion-input-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+  border-bottom-color: #f53d3d;
+  box-shadow: inset 0 0 0 0 #f53d3d;
+}
+
+.ion-input-item.list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
+  border-bottom-color: #f53d3d;
+  box-shadow: inset 0 0 0 0 #f53d3d;
+}
+
+.ion-input-item.list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child .item-inner {
+  box-shadow: none;
+}
+
+//Vertical Align All
+.vertical-align-content
+{
+     display: flex!important;
+     justify-content: center;
+     align-content: center!important;
+     align-items: center!important;
+}
+
+//Set no-border-item into ion-item class
+.no-border-item .item-inner{
+    border: none !important;
+}

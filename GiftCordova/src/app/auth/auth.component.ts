@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { StatusBar, Splashscreen, InAppBrowser, Facebook, NativeStorage } from 'ionic-native';
 
 import { NavController, Platform, AlertController, App } from 'ionic-angular';
-import { IName, RegisterExternalBindingModel, StoredUserModel, AccessTokenModel } from '../auth/shared/account.model';
+import { IName, RegisterExternalBindingModel, StoredUserModel, AccessTokenModel, LoginViewModel } from '../auth/shared/account.model';
 import { AccountService } from './shared/account.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './registration/register.component';
@@ -31,6 +31,11 @@ export class AuthComponent implements OnInit {
     private accessToken: AccessTokenModel;
     private externalAccessToken: string;
 
+    public login: LoginViewModel = new LoginViewModel(null, null);
+
+    private _result = new BehaviorSubject<boolean>(false);
+    result = this._result.asObservable();
+
     constructor(public navCtrl: NavController, private platform: Platform, public alertController: AlertController, public accountService: AccountService, private app: App) {
 
     }
@@ -38,7 +43,8 @@ export class AuthComponent implements OnInit {
     public clearCache() {
         this.accountService.removeAccountCaches();
     }
-    ngOnInit() {                
+
+    ngOnInit() {  
         this.platform.ready().then(() => {
             this.accountService.isAuthenticated().subscribe((x: boolean) => {
                 console.log("isAuthenticated");
@@ -47,6 +53,17 @@ export class AuthComponent implements OnInit {
                     this.navCtrl.setRoot(HomeComponent);
                 }
             }, error => { console.log("error = " + JSON.stringify(error)); });
+        });
+    }
+
+    public loginSubmit() {
+        let loginModel = new LoginViewModel(this.login.userName, this.login.password);
+        this.accountService.login(loginModel).subscribe(x => {
+            let result: boolean = x.valueOf();
+            this._result.next(result);
+            this.app.getRootNav().setRoot(HomeComponent);
+        }, err => {
+            console.log("err = " + JSON.stringify(err));
         });
     }
 

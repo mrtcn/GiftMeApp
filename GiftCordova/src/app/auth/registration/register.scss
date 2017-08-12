@@ -1,5 +1,13 @@
-﻿.register-container{
-    background-image: url('./../assets/auth/bg.png');
+﻿/*REGISTER HEADERS*/
+.register-header{
+    z-index: auto !important;
+}
+
+/*REGISTER HEADERS ENDS*/
+
+/*REGISTER CONTAINER*/
+.register-container{
+    background-image: url('./../assets/img/shared/bg.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -8,74 +16,72 @@
     background-color: transparent;
 }
 
-
-.register-container ion-item img{
-    /*width: 80%;*/
+.register-form-img-item .item-inner {
+    border-bottom: 0 !important;
 }
 
-.register-container ion-item ion-list{
-    margin: 0;
+.register-form-img-item img{
+    width: 35%;
 }
 
-.register-container ion-item ion-list ion-row ion-col {
+.register-input-item-username{
+    background-image: url('./../assets/img/shared/name.png');
+}
+
+.register-input-item-password{
+    background-image: url('./../assets/img/shared/password.png');
+}
+
+.register-input-item-email{
+    background-image: url('./../assets/img/register/email.png');
+}
+
+.register-input-item-birthday{
+    height: 4.4em;
+    background-image: url('./../assets/img/register/birthday.png');
+}
+
+.register-input-item-birthday .input-wrapper{
+    width: 100%;
+}
+
+.register-input-item-birthday ion-datetime{
     color: white;
-    font-size: 1.2em;
     font-weight: 100;
+    padding: 0;
+    padding-bottom: 0.5em;
 }
 
-.register-container ion-item ion-list ion-row ion-col img{
-    width: 56px;
+.register-input-item-birthday ion-label{        
+    width: 40%;
 }
 
-.register-container ion-item ion-list ion-row ion-col ion-radio .radio-icon{
-    border-color: white;
+.register-input-item-gender{
+    background-image: url('./../assets/img/register/gender.png');
+    height: 4.4em;
 }
 
-.register-container ion-item ion-list ion-row ion-col ion-radio .radio-icon .radio-inner {
+.register-input-item-gender ion-label{
+    display: none;
+}
+
+#register-gender-col-male-radio .radio-md.radio-checked{
+    border-color: none;
     background-color: white;
 }
 
-#register-gender-col-img{
-
-}
-
-#register-gender-col-male-radio {
-    margin-left: 5%;
-}
-
-#register-gender-col-male-label {
-}
-
-#register-gender-col-female-radio {
-    margin-left: 5%;
-}
-
-#register-gender-col-female-label {
-}
-
-.register-container .text-input{
-    font-size: 1.1em;
+#register-next-button{
+    width: 100%;
+    background-color: $red-button-color;
+    /*height: 90%;*/
+    border-radius: 100px;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    border: 0px solid #000000;
     font-weight: 100;
-    color: white;
+    text-transform: none;  
 }
-
-.register-container .text-input:-ms-input-placeholder{
-    color: white;
-}
-
-.register-container .text-input::-moz-placeholder{
-    color: white;
-}
-
-.register-container .text-input::-webkit-input-placeholder{
-    color: white;
-}
-.input-icon-fullname{
-    /*background:url(./../assets/auth/name.png) no-repeat right center;*/
-    /*background-size:auto 100%;*/
-    /*background-position: left center;*/
-}
-
+/*REGISTER NAV*/
 .register-nav-grid{
     color: white;
     font-size: 1.3em;
@@ -89,7 +95,9 @@
 .register-nav-custom-title{
 
 }
+/*REGISTER NAV ENDS*/
 
+/*REGISTER FOOTER*/
 .register-footer{
     text-align: center;
 }
@@ -132,3 +140,29 @@
 #register-wrapper{
     height: 100%;
 }
+
+/*HAVE AN ACCOUNT SECTION*/
+#signin-button-section{
+    padding: 8px;
+}
+
+#signin-button-section button{
+    color: white;
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2rem;
+}
+
+#signin-button-section button #signin-button-first-text{
+    opacity: 0.6;
+}
+
+#signin-button-section button #signin-button-second-text{
+    opacity: 1;
+}
+
+#signin-button-section button span{
+    opacity: 1;
+}
+/*HAVE AN ACCOUNT SECTION ENDS*/

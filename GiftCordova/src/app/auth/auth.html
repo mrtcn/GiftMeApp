@@ -1,57 +1,56 @@
 ﻿<ion-content padding center text-center class="auth-container">
     <ion-grid id="auth-grid" no-padding>
         <ion-row class="auth-row" id="auth-row-logo">
-            <img src="assets/auth/GiftIcon.png" />
+            <img src="assets/img/shared/GiftIcon.png" />
         </ion-row>
         <ion-row class="auth-row" id="auth-row-form">
             <ion-list id="auth-row-form-list">
-                <form (ngSubmit)="loginSubmit()" #loginForm="ngForm" class="auth-login-container">
-                    <ion-item class="ion-input-item ion-input-item-username">
+                <form #loginForm="ngForm" class="auth-login-container">
+                    <ion-item class="ion-input-item auth-input-item-username">
                         <ion-label class="ion-input-item-label" floating>
-                            Username or Email
+                            {{ 'USERNAME' | translate }}
                         </ion-label>
                         <ion-input type="text" [(ngModel)]="login.userName" name="userName" required></ion-input>
                     </ion-item>
 
-                    <ion-item class="ion-input-item ion-input-item-password">                        
+                    <ion-item class="ion-input-item auth-input-item-password">                        
                         <ion-label class="ion-input-item-label" floating>
-                            Password
+                            {{ 'PASSWORD' | translate }}
                         </ion-label>
                         <ion-input type="password" [(ngModel)]="login.password" name="password" required></ion-input>
-                    </ion-item>
-
-                    <ion-item class="ion-input-item-forgot-password no-border-item">
-                        <div id="auth-login-forgot-password">
-                            <button>
-                                forgot your password?
-                            </button>
-                        </div>
-                    </ion-item>
+                    </ion-item>                    
                 </form>
+                <div class="auth-input-item-forgot-password">
+                    <div id="auth-login-forgot-password">
+                        <button>
+                            {{ 'FORGOT_YOUR_PASSWORD' | translate }}
+                        </button>
+                    </div>
+                </div>
             </ion-list>
         </ion-row>  
         <ion-row class="auth-row" id="auth-row-buttons">
             <ion-grid id="auth-row-buttons-grid" no-padding>
                 <ion-row class="auth-row-buttons-row vertical-align-content" center text-center>
-                    <button ion-button id="auth-login-signin-button" class="vertical-align-content" icon-left center text-center [disabled]="!loginForm.form.valid" (click)="loginSubmit()" width-80>
-                        Sign In
+                    <button ion-button id="auth-login-signin-button" class="vertical-align-content" icon-left center text-center (click)="loginSubmit()" width-80>
+                        {{ 'SIGNIN' | translate }}
                     </button>
                 </ion-row>
 
                 <ion-row center text-center class="auth-row-buttons-row" id="auth-row-buttons-text">
                     <ion-label>
-                        OR
+                        {{ 'OR' | translate }}
                     </ion-label>
                 </ion-row>
                 <ion-row class="auth-row-buttons-row vertical-align-content" center text-center>
                     <button ion-button id="auth-login-facebook-button" class="vertical-align-content" icon-left center text-center (click)="redirectToFacebook()" width-80>
-                        <ion-icon name="logo-facebook"> </ion-icon>
-                        Sign In with Facebook
+                        <i class="fa fa-facebook fa-lg"> </i>
+                        {{ 'SIGNIN_FACEBOOK' | translate }}
                     </button>
                 </ion-row>
                 <ion-row class="auth-row-buttons-row" id="auth-row-buttons-signup" center text-center text-wrap>
-                    <button>
-                        <span id="auth-row-buttons-first-text">Don't have an account?</span> <span id="auth-row-buttons-second-text">Sign Up</span>
+                    <button (click)="redirectToRegister()">
+                        <span id="auth-row-buttons-first-text">{{ 'DONT_HAVE_ACCOUNT' | translate }}</span> <span id="auth-row-buttons-second-text">{{ 'SIGNUP' | translate }}</span>
                     </button>
                 </ion-row>
             </ion-grid>

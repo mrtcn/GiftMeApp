@@ -2,7 +2,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { InterceptedHttp } from './../../interceptors/http.interceptor'
-import { HttpResponseSuccessModel, HttpResponseErrorModel} from './../../interceptors/http.model'
+import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../../interceptors/http.model'
+import { ImageHandler } from './../../helpers/image.helper';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { File, IFile, DirectoryEntry, FileEntry } from '@ionic-native/file';
@@ -20,7 +21,12 @@ declare var cordova: any;
 export class AccountService {
     private accessToken: string;
 
-    constructor( private transfer: Transfer, private file: File, private filePath: FilePath, private http: InterceptedHttp) { }
+    constructor(
+        private transfer: Transfer,
+        private file: File,
+        private filePath: FilePath,
+        private http: InterceptedHttp,
+        private imageHandler: ImageHandler) { }
 
     public getAccessTokenForExternalUser(providerKey: string, loginProvider: string, externalAccessToken: string): Observable<AccessTokenModel> {
         let accessTokenBindingModel: IExternalAccessTokenBindingModel =
@@ -125,36 +131,49 @@ export class AccountService {
 
         let registerJson = JSON.stringify(model);
 
-        var options = {
-            fileKey: "file",
-            fileName: fileName,
-            chunkedMode: false,
-            mimeType: "multipart/form-data",
-            params: { 'data': registerJson }
-        };
 
-        const fileTransfer: TransferObject = this.transfer.create();
-
-        let url: string = '/api/Account/Register';
+        //const fileTransfer: TransferObject = this.transfer.create();
+       
         // Use the FileTransfer to upload the image
-        let uploadThen = fileTransfer.upload(targetPath, url, options).then();
-        let uploadObservable: Observable<FileUploadResult> = Observable.fromPromise(uploadThen);
+        if (!targetPath || !fileName) {
 
-        return uploadObservable.flatMap((fileUploadResult: FileUploadResult) =>
-        {
-            //Login User && GetToken
-            return this.login(new LoginViewModel(model.userName, model.password)).flatMap((x: boolean) => {
-                //ADD USER INTO NATIVESTORAGE
-                return this.addUserIntoStorage(JSON.parse(fileUploadResult.response)).map((isSuccess: boolean) => {
-                    var result = JSON.parse(fileUploadResult.response);
-                    return result;
-                });                
+            let headers = new Headers({ "Content-Type": "application/json" });
+            let options = new RequestOptions({ headers: headers });
+
+            return this.http.post('api/Account/RegisterWithoutPhoto', registerJson, options).flatMap((storedUserModel: Response) => {
+                //Login User && GetToken
+                return this.login(new LoginViewModel(model.userName, model.password)).flatMap((x: boolean) => {
+                    //ADD USER INTO NATIVESTORAGE
+                    return this.addUserIntoStorage(storedUserModel.json()).map((isSuccess: boolean) => {
+                        return storedUserModel.json();
+                    });
+                });
             });
-        }).catch(error => {
-            console.log("Register UploadObservable Exception = " + JSON.stringify(error))
-            //return new Observable.of(StoredUserModel(1, '', '', '', '', '', '', '', false, ''));
-            return null;
-        });
+        } else {
+
+            var options = {
+                fileKey: "file",
+                fileName: fileName ? '' : fileName,
+                chunkedMode: false,
+                mimeType: "multipart/form-data",
+                params: { 'data': registerJson }
+            };
+
+            let url: string = this.http.getGlobalConfig().baseEndpoint + 'api/Account/Register';
+
+            return this.imageHandler.uploadImage(url, options).flatMap((storedUserModel: StoredUserModel) => {
+                //Login User && GetToken
+                return this.login(new LoginViewModel(model.userName, model.password)).flatMap((x: boolean) => {
+                    //ADD USER INTO NATIVESTORAGE
+                    return this.addUserIntoStorage(storedUserModel).map((isSuccess: boolean) => {
+                        return storedUserModel;
+                    });
+                });
+            }).catch(error => {
+                console.log("Register UploadObservable Exception = " + JSON.stringify(error))
+                return null;
+            }); 
+        }        
     }
 
     public registerExternal(model: RegisterExternalBindingModel): Observable<StoredUserModel> {
@@ -312,13 +331,11 @@ export class AccountService {
         let setUserPromise: Promise<any> = NativeStorage.setItem('user',
             new StoredUserModel(
                 storedUserModel.id,
-                storedUserModel.fullName,
                 storedUserModel.userName,
-                storedUserModel.firstName,
-                storedUserModel.lastName,
                 storedUserModel.email,
                 storedUserModel.imagePath,
                 storedUserModel.gender,
+                storedUserModel.birthdate,
                 null,
                 null
             )

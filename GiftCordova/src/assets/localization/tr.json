@@ -1,3 +1,18 @@
 ﻿{
-  "REGISTRATIONX": "Hesap Oluştur"
+  "USERNAME": "Kullanıcı Adı",
+  "PASSWORD": "Şifre",
+  "CONFIRM_PASSWORD": "Şifre Tekrar",
+  "EMAIL": "Email Adresi",
+  "BIRTHDAY": "Doğum Tarihi",
+  "GENDER": "Cinsiyet",
+  "FORGOT_YOUR_PASSWORD": "şifreni mi unuttun?",
+  "SIGNIN": "Giriş",
+  "OR": "Veya",
+  "SIGNIN_FACEBOOK": "Facebook ile Giriş",
+  "DONT_HAVE_ACCOUNT": "Henüz hesabın yok mu?",
+  "SIGNUP": "Kaydol",
+  "NEXT": "İleri",
+  "HAVE_ACCOUNT": "Hesabın var mı?",
+  "MAN": "Erkek",
+  "WOMAN": "Kadın"
 }

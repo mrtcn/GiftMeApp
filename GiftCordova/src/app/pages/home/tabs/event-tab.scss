@@ -1,40 +1,79 @@
-.event-tab-list-grid{
+.event-tab-grid{
 
 }
 
-.event-tab-list-row{
-    height: 170px;
-    display: flex;
-    flex-direction: row;
+.event-tab-row{
+    border: 0.1rem solid;
+    border-color: #e9e8eb;
+    margin: 0.7rem 1rem 0.7rem 1rem;
 }
 
-.event-tab-list-row .col {
-    
-    align-content: flex-end center;
-    padding: 2% 2% 2% 2% !important;
+.event-tab-row .col {
 }
 
-.event-tab-list-col-profile-pic {
-    flex: 4;   
-    background-image: url('./../assets/inner-pages/pic_frame.png');
+.grid[no-padding] > .row > .col.event-tab-col-profile-pic {
+    background-color: transparent;
+    /*background-image: url('./../assets/inner-pages/pic_frame.png');
     background-repeat: no-repeat;
-    background-size: contain;
-    padding: 2% 2% 2% 2%;
+    background-size: contain;*/
+    padding: 0.5rem 0.8rem 0.5rem 1.2rem
 }
 
-.event-tab-list-col-detail {
-    flex: 7;
+.event-tab-col-profile-pic img{
+    border-radius: 50%;
+    border: 0.2rem solid;
+    border-color: #d9d9d9;    
 }
 
-.event-tab-list-col-gift-count {
-    flex: 2;
+.event-tab-col-detail {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.event-tab-detail-text p span {
-    color: white;
-    display: block;
-    font-size: 1em;
-    font-weight: bold;
+.grid[no-padding] > .row > .col.event-tab-col-gift-count {
+    position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 0.8rem 1.4rem 0.8rem 0.8rem;
+    max-width: 80%;
+}
+
+.grid[no-padding] > .row > .col.event-tab-col-gift-count img{
+    max-width: 80%;
+}
+
+.grid[no-padding] > .row > .col.event-tab-col-gift-count p{
+    position: absolute;
+    top: 1.4rem;
+    left: 3.8rem;
+    font-size: 1.2rem;
+
+}
+
+.event-tab-col-detail-text p {
+    color: #777d91;
+    display: inline;
+    font-size:1.2rem;
+}
+
+.event-tab-col-detail-text p .event-tab-event-owner {
+    color: #777d91;
+    font-size: 1.8rem;
+    font-weight: 400;
+}
+
+.event-tab-col-detail-text p .event-tab-event-bought{
+    color: #58eb65;
+}
+
+.event-tab-col-detail-text p .event-tab-event-left{
+    color: #eb5858;
+}
+
+.event-tab-col-detail-text .event-tab-event-name {
+    color: #c1c5d4;
+    font-size: 1.4rem;
+    font-weight: 500;
 }
 
 .event-tab-footer{

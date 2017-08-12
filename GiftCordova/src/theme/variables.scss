@@ -28,12 +28,15 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222,
-  authHeaderColor:   #FCAA8C,
-  eventListHeaderColor:   #EA6060,
+  dark:       #222,  
+  authHeaderColor:   transparent,
+  eventListHeaderColor:   transparent,
 );
 
-
+//Main Colors
+$main-header-color: #5b5c9f;
+$red-button-color: #eb5858;
+$blue-button-color: #475993;
 
 // TAB STYLING
 $tabs-background:	#EA6060;

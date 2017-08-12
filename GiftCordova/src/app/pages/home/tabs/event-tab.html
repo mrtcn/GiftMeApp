@@ -1,20 +1,49 @@
 <ion-content scroll="false">
-    <ion-grid text-center no-padding class="event-tab-list-grid">
-        <ion-row (click)="eventClick(userEvent.id)" class="event-tab-list-row" *ngFor="let userEvent of eventList | async" [ngStyle]="{'background-image': ' url(assets/inner-pages/bg_overlay.png), url(' + userEvent.eventImagePath + ')', 'background-repeat': 'no-repeat, no-repeat', 'background-size': 'cover, cover'}" text-center bottom>
-            <ion-col class="event-tab-list-col-profile-pic">
-                <img src="{{userEvent.eventOwner.userImagePath}}" />
+    <ion-grid text-center no-padding class="event-tab-grid">
+        <!--<ion-row (click)="eventClick(userEvent.id)" class="event-tab-row" *ngFor="let userEvent of eventList | async" [ngStyle]="{'background-image': ' url(assets/inner-pages/bg_overlay.png), url(' + userEvent.eventImagePath + ')', 'background-repeat': 'no-repeat, no-repeat', 'background-size': 'cover, cover'}" text-center bottom>-->
+        <ion-row (click)="eventClick(userEvent.id)" class="event-tab-row" *ngFor="let userEvent of eventList | async" text-center bottom>
+            <ion-col class="event-tab-col-profile-pic" col-3>
+                <ion-avatar item-start>
+                    <img src="{{userEvent.eventOwner.userImagePath}}" />
+                </ion-avatar>
             </ion-col>
             <!--<ion-col class="home-list-col-detail" [ngStyle]="{'background-image': 'url(' + userEvent.eventImagePath + ')'}">-->
-            <ion-col class="event-tab-list-col-detail">
-                <ion-label text-wrap class="event-tab-detail-text" no-margin text-left>
-                    <p>
-                        <span>{{userEvent.eventOwner.fullName}}</span>
-                        <span>{{userEvent.eventName}}</span>
-                    </p>
-                </ion-label>
+            <ion-col class="event-tab-col-detail" col-6>
+                <ion-grid text-center no-padding>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-label no-padding no-margin text-wrap class="event-tab-col-detail-text" text-left>
+                                <p>
+                                    <span class="event-tab-event-owner">{{userEvent.eventOwner.userName}}</span>                                    
+                                </p>
+                                <p>
+                                    <i class="fa fa-chevron-up event-tab-event-bought" aria-hidden="true"></i>
+                                    {{userEvent.eventBoughtItemAmount}}
+                                </p>
+                                <p>
+                                    <i class="fa fa-chevron-down event-tab-event-left" aria-hidden="true"></i>
+                                    {{userEvent.eventLeftItemAmount}}
+                                </p> 
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <ion-label no-padding no-margin text-wrap class="event-tab-col-detail-text" text-left>                                
+                                <p class="event-tab-event-name">
+                                    {{userEvent.eventName}}
+                                </p>
+                            </ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                
             </ion-col>
-            <ion-col class="event-tab-list-col-gift-count">
-                <img src="./assets/inner-pages/gift_box.png" />
+            <ion-col class="event-tab-col-gift-count" col-3>
+                <img src="./assets/img/inner-pages/gift_box.png" />
+                <p>
+                    {{userEvent.eventItemAmount}}
+                </p>                
             </ion-col>
         </ion-row>
     </ion-grid>

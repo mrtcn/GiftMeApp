@@ -1,13 +1,22 @@
 .home-content{
-
+    top: -1px;
 }
 
-.home-header {
-    background-image: transparent !important;
+.home-header{
+    background-color: $main-header-color;
+}
+
+.home-header .toolbar .toolbar-background {
+    background-color: $main-header-color;
 }
 
 .home-content .tabbar{
+    /*height: 3.2rem;*/
+    background-color: $main-header-color;
+}
 
+.home-content .tabs-md .tab-button{
+    min-height: 3.2rem;
 }
 
 .home-content .tabbar .tab-button {
@@ -18,13 +27,16 @@
 
 .home-content .tabbar .tab-button .tab-button-text {
     white-space: nowrap;
+    font-size: 1.6rem;
+    font-weight: 300;
 }
 
 .home-content .tabbar .tab-button[aria-selected=true] {
-    border-bottom: 6px solid !important;
-    -webkit-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Safari 3.1-5 
-    -o-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Opera 11-12.1 
-    border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  
+    border-bottom: 4px solid !important;
+    
+    /*-webkit-border-image: url('./../assets/img/inner-pages/active-tab.png') 0 0 1 0 !important;  //Safari 3.1-5 
+    -o-border-image: url('./../assets/img/inner-pages/active-tab.png') 0 0 1 0 !important;  //Opera 11-12.1 
+    border-image: url('./../assets/img/inner-pages/active-tab.png') 0 0 1 0 !important;*/  
 }
 
 .home-event-detail-text p span {
@@ -32,14 +44,6 @@
     display: block;
     font-size: 1em;
     font-weight: bold;
-}
-
-.home-footer{
-    text-align: center;
-}
-
-.home-footer img{
-    width: 10%;
 }
 
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated, .tabbar {

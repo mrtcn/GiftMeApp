@@ -1,3 +1,18 @@
 ﻿{
-  "REGISTRATIONX": "xxxRegistration"
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
+  "CONFIRM_PASSWORD": "Confirm Password",
+  "EMAIL": "Email Address",
+  "BIRTHDAY": "Birthday",
+  "GENDER": "Gender",
+  "FORGOT_YOUR_PASSWORD": "forgot your password",
+  "SIGNIN": "Sign In",
+  "OR": "Or",
+  "SIGNIN_FACEBOOK": "Sign In with Facebook",
+  "DONT_HAVE_ACCOUNT": "Don't have an account",
+  "SIGNUP": "Sign Up",
+  "NEXT": "Next",
+  "HAVE_ACCOUNT": "Already have an account?",
+  "MAN": "Man",
+  "WOMAN": "Woman"
 }

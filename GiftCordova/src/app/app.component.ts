@@ -40,11 +40,12 @@ export class MyApp {
         public alertController: AlertController,
         public accountService: AccountService,
         public localizationService: LocalizationService) {
-
+        
         this.initializeApp();
+        
         //Facebook.browserInit(this.FB_APP_ID, "v2.8");
         // used for an example of ngFor and navigation
-        
+
         let env = this;
         //env.nav.push(Page2);
 
@@ -60,7 +61,6 @@ export class MyApp {
         //});
         this.localizationService.translateConfig();
     }
-
    
     initializeApp() {
         this.platform.ready().then(() => {
@@ -77,6 +77,7 @@ export class MyApp {
         //this.nav.setRoot(page.component);
     }
 }
+
 export class ResponseModel {
     provider: string;
     response_type: string;

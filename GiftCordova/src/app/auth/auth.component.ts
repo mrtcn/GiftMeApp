@@ -67,6 +67,10 @@ export class AuthComponent implements OnInit {
         });
     }
 
+    public redirectToRegister() {
+        this.navCtrl.push(RegisterComponent, { isAuthenticated: false });
+    }
+
     public navigate(tabIndex: Number) {
         if (tabIndex === 1) {
             this.navCtrl.push(LoginComponent, { isAuthenticated: false });
@@ -104,12 +108,10 @@ export class AuthComponent implements OnInit {
                                 let storedUserModel: StoredUserModel = new StoredUserModel(
                                     user.id,
                                     user.name,
-                                    user.name,
-                                    name.firstName,
-                                    name.lastName,
                                     user.email,
                                     user.picture,
                                     user.gender,
+                                    user.birthdate,
                                     response.authResponse.session_key,
                                     response.authResponse.secret
                                 );
@@ -119,8 +121,6 @@ export class AuthComponent implements OnInit {
                         }, error => {
                             let registerExternalBindingModel: RegisterExternalBindingModel = new
                                 RegisterExternalBindingModel(user.name,
-                                name.firstName,
-                                name.lastName,
                                 user.email,
                                 user.picture,
                                 this.externalAccessToken,

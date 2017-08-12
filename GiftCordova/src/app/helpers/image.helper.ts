@@ -118,8 +118,8 @@ export class ImageHandler {
 
     // Always get the accurate path to your apps folder
     public pathForImage(img) {
-        if (img === null) {
-            return '';
+        if (!img) {
+            return null;
         } else {
             return cordova.file.dataDirectory + img;
         }
@@ -133,37 +133,29 @@ export class ImageHandler {
         // File name only
         var filename = this.lastImage;
 
-        //var options = {
-        //    fileKey: "file",
-        //    fileName: filename,
-        //    chunkedMode: false,
-        //    mimeType: "multipart/form-data",
-        //    params: { 'fileName': filename }
-        //};
+        try{
+            const fileTransfer: TransferObject = this.transfer.create();
+            this.loading = this.loadingCtrl.create({
+                content: 'Uploading...',
+            });
+            this.loading.present();
+            let fileUploadObservable: Observable<FileUploadResult> = Observable.fromPromise(fileTransfer.upload(targetPath, url, options));
 
-        const fileTransfer: TransferObject = this.transfer.create();
+            //// Use the FileTransfer to upload the image
+            return fileUploadObservable.map((data: FileUploadResult) => {
+                this.loading.dismissAll();
+                this.presentToast('Image succesful uploaded.');
+                var responseItem: HttpResponseSuccessModel = JSON.parse(data.response);                
 
-        this.loading = this.loadingCtrl.create({
-            content: 'Uploading...',
-        });
-        this.loading.present();
-
-        let fileUploadPromise: Promise<FileUploadResult> = fileTransfer.upload(targetPath, url, options);
-        let fileUploadObservable: Observable<FileUploadResult> = Observable.fromPromise(fileUploadPromise);
-
-        //// Use the FileTransfer to upload the image
-        return fileUploadObservable.map((data: FileUploadResult) => {
-            this.loading.dismissAll();
-            this.presentToast('Image succesful uploaded.');
-            console.log("httpResponseSuccess = " + data.response);
-            var responseItem: HttpResponseSuccessModel = JSON.parse(data.response);
-            console.log("httpResponseSuccess2 = " + JSON.stringify(responseItem));
-
-            return responseItem.content;
-        }, err => {
-            this.loading.dismissAll();
-            this.presentToast('Error while uploading file.');
+                return responseItem.content;
+            }, err => {
+                this.loading.dismissAll();
+                this.presentToast('Error while uploading file.');
+                return null;
+            });
+        } catch (Error) {
+            console.log("UploadImage Exception: " + JSON.stringify(Error));
             return null;
-        });
+        }        
     }
 }

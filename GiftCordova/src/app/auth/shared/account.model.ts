@@ -1,26 +1,28 @@
 ﻿export class RegisterViewModel {
     constructor(
-        public fullName: string,
         public email: string,
         public userName: string,
         public password: string,
-        public isMale: boolean,
-        public isFemale: boolean,
-        public confirmPassword: string
+        public gender: number,
+        public confirmPassword: string,
+        public birthdate: string
     ) { }
 }
 
 export class RegisterApiModel {
     constructor(
-        public fullName: string,
-        public firstName: string,
-        public lastName: string,
         public email: string,
         public userName: string,
         public gender: number,
         public password: string,
-        public confirmPassword: string
-    ) { }
+        public confirmPassword: string,
+        public birthdate: string
+    ) { 
+        this.firstName = '';
+        this.lastName = '';
+    }
+    public firstName: string;
+    public lastName: string;
 }
 
 export class LoginViewModel {
@@ -33,8 +35,6 @@ export class LoginViewModel {
 export class UserInfo {
     constructor(
         public Id: number,
-        public FirstName: string,
-        public LastName: string,
         public UserName: string,
         public Email: string,
         public ImagePath: string,
@@ -71,8 +71,6 @@ export class EmailModel {
 export class RegisterExternalBindingModel {
     constructor(
         public userName: string,
-        public firstName: string,
-        public lastName: string,
         public email: string,
         public imagePath: string,
         public externalAccessToken: string,
@@ -84,13 +82,11 @@ export class RegisterExternalBindingModel {
 export class StoredUserModel {
     constructor(
         public id: number,
-        public fullName: string,
         public userName: string,
-        public firstName: string,
-        public lastName: string,
         public email: string,
         public imagePath: string,
         public gender: string,
+        public birthdate: Date,
         public sessionKey: boolean,
         public secret: string
     ) { }

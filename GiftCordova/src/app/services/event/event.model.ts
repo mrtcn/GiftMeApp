@@ -27,6 +27,9 @@ export class HomeEventListViewModel {
         public id: number,
         public eventDate: string,
         public eventName: string,
+        public eventBoughtItemAmount: number,
+        public eventLeftItemAmount: number,
+        public eventItemAmount: number,
         public eventImagePath: string,
         public eventTypeId: number,
         public eventOwner: User
@@ -36,7 +39,7 @@ export class HomeEventListViewModel {
 export class User {
     constructor(
         public userId: number,
-        public fullName: string,
+        public userName: string,
         public userImagePath: string
     ) { }
 }

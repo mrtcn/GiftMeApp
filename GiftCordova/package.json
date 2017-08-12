@@ -29,6 +29,7 @@
     "@ionic/storage": "2.0.0",
     "@ngx-translate/core": "^7.0.0",
     "@ngx-translate/http-loader": "^0.1.0",
+    "font-awesome": "^4.7.0",
     "ionic-angular": "2.2.0",
     "ionic-native": "2.4.1",
     "ionicons": "3.0.0",
@@ -52,6 +53,10 @@
     "cordova-plugin-globalization",
     "cordova-plugin-dialogs"
   ],
+  "config": {
+    "ionic_copy": "./config/copy.config.js",
+    "ionic_sass": "./config/sass.config.js"
+  },
   "cordovaPlatforms": [],
   "-vs-binding": {
     "BeforeBuild": [

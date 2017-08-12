@@ -4,7 +4,7 @@ import { NavController, Platform, App } from 'ionic-angular';
 import { Facebook } from "ng2-cordova-oauth/core";
 import { OauthCordova } from 'ng2-cordova-oauth/platform/cordova';
 import { AccountService } from '../shared/account.service';
-import { LoginViewModel, StoredUserModel } from '../shared/account.model';
+import { LoginViewModel } from '../shared/account.model';
 import { HomeComponent } from '../../pages/home/home.component';
 
 import {
@@ -32,17 +32,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    public loginSubmit() {
-        let loginModel = new LoginViewModel(this.login.userName, this.login.password);
-        this.accountService.login(loginModel).subscribe(x => {
-            let result: boolean = x.valueOf();
-            this._result.next(result);
-            this.app.getRootNav().setRoot(HomeComponent);
-        }, err => {
-            console.log("err = " + JSON.stringify(err));
-        });
     }
 
     public loginUser() {

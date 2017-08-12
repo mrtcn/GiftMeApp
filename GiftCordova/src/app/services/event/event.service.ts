@@ -76,7 +76,7 @@ export class EventService {
 
             const fileTransfer: TransferObject = this.transfer.create();
 
-            let url: string = 'http://192.168.0.16:52264/api/Event/CreateOrUpdateEvent';
+            let url: string = this.http.getGlobalConfig().baseEndpoint + 'api/Event/CreateOrUpdateEvent';
             // Use the FileTransfer to upload the image
             console.log("options = " + JSON.stringify(options));
             return this.imageHandler.uploadImage(url, options).map((eventId: number) => {

@@ -70,7 +70,7 @@ export class InterceptedHttp extends Http {
             console.log("AuthorizedPost Exception = " + JSON.stringify(error));
             let errorResponse: HttpResponseErrorModel = error._body;
             console.log("AuthorizedPost Exception errorResponse = " + JSON.stringify(errorResponse));
-            this.dialogs.alert(errorResponse.errorMessage)
+            this.dialogs.alert(errorResponse.errorMessage, errorResponse.errorContent)
                 .then(() => console.log('Dialog dismissed'))
                 .catch(e => console.log('Error displaying dialog', e));
 

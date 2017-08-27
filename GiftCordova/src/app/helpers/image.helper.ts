@@ -1,6 +1,6 @@
 ﻿import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading, App, ViewController } from 'ionic-angular';
 import { File, DirectoryEntry, FileEntry } from '@ionic-native/file';
-import { Transfer, TransferObject, FileUploadOptions, FileUploadResult } from '@ionic-native/transfer';
+import { FileTransfer, FileTransferObject, FileUploadOptions, FileUploadResult } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -25,7 +25,7 @@ export class ImageHandler {
         public filePath: FilePath,
         public file: File,
         public toastCtrl: ToastController,
-        public transfer: Transfer,
+        public fileTransfer: FileTransfer,
         public loadingCtrl: LoadingController,
         public actionSheetCtrl: ActionSheetController
     ) {
@@ -134,7 +134,7 @@ export class ImageHandler {
         var filename = this.lastImage;
 
         try{
-            const fileTransfer: TransferObject = this.transfer.create();
+            const fileTransfer: FileTransferObject = this.fileTransfer.create();
             this.loading = this.loadingCtrl.create({
                 content: 'Uploading...',
             });

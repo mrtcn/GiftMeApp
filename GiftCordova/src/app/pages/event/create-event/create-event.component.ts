@@ -1,11 +1,7 @@
 import { Facebook, NativeStorage } from 'ionic-native';
 import { NavParams } from 'ionic-angular';
-import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading, App, ViewController } from 'ionic-angular';
+import { NavController, LoadingController, Loading, App, ViewController } from 'ionic-angular';
 import { Component, OnInit } from '@angular/core';
-import { File, DirectoryEntry, FileEntry } from '@ionic-native/file';
-import { Transfer, TransferObject } from '@ionic-native/transfer';
-import { FilePath } from '@ionic-native/file-path';
-import { Camera } from '@ionic-native/camera';
 import { ImageHandler } from './../../../helpers/image.helper';
 import { AuthComponent } from '../../auth/auth.component';
 import { EventDetailComponent } from './../event-detail/event-detail.component';
@@ -41,14 +37,7 @@ export class CreateEventComponent implements OnInit {
         public accountService: AccountService,
         public eventService: EventService,
         public navParams: NavParams,
-        private camera: Camera,
-        private transfer: Transfer,
-        private file: File,
-        private filePath: FilePath,
         private imageHandler: ImageHandler,
-        public actionSheetCtrl: ActionSheetController,
-        public toastCtrl: ToastController,
-        public platform: Platform,
         public loadingCtrl: LoadingController,
         public navCtrl: NavController,
         private app: App)

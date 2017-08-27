@@ -5,12 +5,14 @@ import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../../interc
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { File, IFile, DirectoryEntry, FileEntry } from '@ionic-native/file';
-import { Transfer, TransferObject, FileUploadResult, FileUploadOptions } from '@ionic-native/transfer';
+import { FileTransfer, FileTransferObject, FileUploadResult, FileUploadOptions } from '@ionic-native/file-transfer';
+import { Dialogs } from '@ionic-native/dialogs';
 import { FilePath } from '@ionic-native/file-path';
 import { AccountService } from '../../auth/shared/account.service';
-import { AccessTokenModel } from '../../auth/shared/account.model';
+import { AccessTokenModel, StoredUserModel } from '../../auth/shared/account.model';
 import { HomeEventListViewModel, EventViewModel, EventListType, EventIdModel, CreateEventModel } from './event.model';
 import { ImageHandler } from './../../helpers/image.helper';
+import { TranslateService } from '@ngx-translate/core';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -26,10 +28,12 @@ export class EventService {
     constructor(
         private http: InterceptedHttp,
         private accountService: AccountService,
-        private transfer: Transfer,
+        private fileTransfer: FileTransfer,
         private file: File,
         private filePath: FilePath,
-        private imageHandler: ImageHandler) {
+        private imageHandler: ImageHandler,
+        private dialogs: Dialogs,
+        private translate: TranslateService) {
         console.log("event service constructor");
     }
 
@@ -59,6 +63,37 @@ export class EventService {
         });
     }
 
+    public addEventToFavorites(eventId: number, isFavorite: boolean): Observable<boolean> {
+
+        let favoriteText: string = isFavorite ? 'REMOVE_FROM_FAVORITES_TEXT' : 'ADD_TO_FAVORITES_TEXT';
+        let favoriteTitle: string = isFavorite ? 'REMOVE_FROM_FAVORITES_TITLE' : 'ADD_TO_FAVORITES_TITLE';
+
+        return this.translate.get(favoriteText).flatMap((favoriteText: string) => {
+            return this.translate.get(favoriteTitle).flatMap((favoriteTitle: string) => {
+                return this.translate.get('OK').flatMap((ok: string) => {
+                    return this.translate.get('CANCEL').flatMap((cancel: string) => {
+                        let dialogConfirmPromise: Promise<number> = this.dialogs.confirm(favoriteText, favoriteTitle, [ok, cancel]).then(x => x)
+                            .catch(e => console.log('Warning displaying dialog', e));
+                        let dialogConfirmObservable: Observable<number> = Observable.fromPromise(dialogConfirmPromise);
+                        return dialogConfirmObservable.flatMap((x: number) => {
+                            if (x == 1) {
+                                return this.http.authorizedPost('/api/Favorite/AddOrUpdateFavoriteEvent', JSON.stringify(new EventIdModel(eventId))).map((res: Response) => {
+                                    let httpResponse: HttpResponseSuccessModel = res.json();
+                                    return httpResponse.content;
+                                })
+                            } else if(x == 0) {
+                                return null;
+                            } else if (x == 2) {
+                                return null;
+                            }
+                                
+                        })                        
+                    })
+                })
+            })
+        });        
+    }
+
     public createEvent(eventModel: CreateEventModel, targetPath: string, fileName: string): Observable<number> {
 
         let eventJson = JSON.stringify(eventModel);
@@ -74,7 +109,7 @@ export class EventService {
                 headers: { 'Authorization': "Bearer " + x.access_token }
             };
 
-            const fileTransfer: TransferObject = this.transfer.create();
+            const fileTransfer: FileTransferObject = this.fileTransfer.create();
 
             let url: string = this.http.getGlobalConfig().baseEndpoint + 'api/Event/CreateOrUpdateEvent';
             // Use the FileTransfer to upload the image

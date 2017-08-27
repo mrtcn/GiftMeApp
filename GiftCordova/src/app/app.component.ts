@@ -1,8 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController } from 'ionic-angular';
-import { StatusBar, Splashscreen, InAppBrowser, Facebook, NativeStorage } from 'ionic-native';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { TranslatePipe } from 'ng2-translate/ng2-translate';
+import { InAppBrowser, Facebook, NativeStorage } from 'ionic-native';
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { StatusBar } from "@ionic-native/status-bar";
+import { HttpModule , Headers, RequestOptions, Response } from '@angular/http';
+import { TranslatePipe } from 'ngx-translate/ngx-translate';
 import { IName } from './auth/shared/account.model';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -36,10 +38,12 @@ export class MyApp {
 
     constructor(
         public platform: Platform,
-        private http: Http,
+        private http: HttpModule,
         public alertController: AlertController,
         public accountService: AccountService,
-        public localizationService: LocalizationService) {
+        public localizationService: LocalizationService,
+        public statusBar: StatusBar,
+        public splashScreen: SplashScreen) {
         
         this.initializeApp();
         
@@ -66,8 +70,8 @@ export class MyApp {
         this.platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
-            StatusBar.styleDefault();
-            Splashscreen.hide();
+            this.statusBar.styleDefault(); // use provided instances instead, dependency injection rules!
+            this.splashScreen.hide();
         });
     }
 

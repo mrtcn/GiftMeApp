@@ -22,6 +22,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class HomeComponent implements OnInit {
     private _userEventList = new BehaviorSubject<Array<HomeEventListViewModel>>(null);
     public userEventList = this._userEventList.asObservable();
+    searchTerm: string = '';
+    isSearchbarOn: boolean = false;
 
     EventTab: any = EventTabComponent;
 
@@ -38,5 +40,15 @@ export class HomeComponent implements OnInit {
 
     addEvent() {
         this.navCtrl.push(CreateEventComponent);
+    }
+
+    searchEvent() {
+        console.log("searchText = " + this.searchTerm);
+    }
+
+    toggleSearchbar() {
+        console.log("toggleSearchbar");
+        this.searchTerm = '';
+        this.isSearchbarOn = !this.isSearchbarOn;
     }
 }

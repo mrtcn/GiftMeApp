@@ -6,8 +6,14 @@
                     <ion-col col-3>
                         <img src="./assets/img/inner-pages/menu-icon.png" class="ion-nav-button ion-nav-menu-button" ion-button menuToggle/>
                     </ion-col>
-                    <ion-col col-3></ion-col>
-                    <ion-col col-6>
+                    <ion-col col-9 *ngIf="isSearchbarOn">
+                        <ion-searchbar [(ngModel)]="searchTerm" [showCancelButton]="true" (ionInput)="searchEvent()" (ionCancel)="toggleSearchbar()" animated="true" debounce="250" placeholder="SEARCH_PLACEHOLDER | translate">
+                        </ion-searchbar>
+                    </ion-col>
+                    <ion-col col-3 *ngIf="!isSearchbarOn">
+
+                    </ion-col>
+                    <ion-col col-6 *ngIf="!isSearchbarOn">
                         <ion-grid no-padding class="ion-nav-grid">
                             <ion-row no-padding>
                                 <ion-col  class="ion-nav-col-buttons" col-3>
@@ -20,8 +26,8 @@
                                         <img src="./assets/img/inner-pages/friends.png" />
                                     </button>
                                 </ion-col>
-                                <ion-col class="ion-nav-col-buttons" col-3>
-                                    <button class="ion-nav-button">
+                                <ion-col class="ion-nav-col-buttons" col-3>                                   
+                                    <button (click)="toggleSearchbar()" class="ion-nav-button">
                                         <img src="./assets/img/inner-pages/magnifier-icon.png" />
                                     </button>
                                 </ion-col>
@@ -41,7 +47,7 @@
 
 <ion-content no-margin no-padding class="home-content">
     <ion-tabs no-margin no-padding selectedIndex="1">
-        <ion-tab [root]="EventTab" [rootParams]="2" tabTitle="Friends"></ion-tab>
-        <ion-tab [root]="EventTab" [rootParams]="3" tabTitle="Public"></ion-tab>
+        <ion-tab [root]="EventTab" [rootParams]="2" tabTitle="{{'FRIENDS' | translate}}"></ion-tab>
+        <ion-tab [root]="EventTab" [rootParams]="3" tabTitle="{{'PUBLIC' | translate}}"></ion-tab>
     </ion-tabs>
 </ion-content>

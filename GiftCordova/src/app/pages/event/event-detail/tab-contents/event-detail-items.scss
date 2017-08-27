@@ -1,0 +1,85 @@
+#gift-list-grid{
+    background-color: #f5f5f5;
+}
+
+.gift-list-row{
+    background-color: white;
+    margin: 0.5rem;
+}
+
+.gift-item-col-item-pic{
+
+}
+
+.gift-item-col-item-pic img{
+    max-width: 75%;
+    border-radius: 50%;
+    border: 0.1rem solid #e7e7e7;
+
+}
+
+.gift-item-col-detail{
+    margin: auto;
+}
+
+.gift-item-text{    
+    text-align: left;
+}
+
+.gift-item-text span:first-child{    
+    display: block;
+    font-size: 2rem;
+    color: #777d91;
+}
+
+.gift-item-text span:last-child{
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #c1c5d4;
+}
+
+.gift-item-description{    
+    text-align: left;
+}
+
+.gift-item-description span:first-child{
+    display: block;
+    padding-left: 2.8rem;
+    font-size: 2rem;
+    color: #777d91;
+}
+
+.gift-item-description span:last-child{
+    display: block;
+    padding-left: 2.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #c1c5d4;
+}
+
+.gift-item-col-gift-count{
+    position: relative;
+}
+
+.gift-item-col-gift-count img{
+    max-width: 75%;
+}
+
+.gift-item-col-gift-count p{
+    position: absolute;
+    top: 0;
+    bottom: 1.2rem;
+    left: 0;
+    right: 0;
+    height: 0;
+    margin: auto;
+    font-size: 1.2rem;
+}
+.gift-item-col-amount{
+
+}
+
+.gift-item-col-detail{
+
+}

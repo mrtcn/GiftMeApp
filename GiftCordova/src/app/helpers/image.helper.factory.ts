@@ -1,6 +1,6 @@
 ﻿import { ActionSheetController, ToastController, Platform, LoadingController } from 'ionic-angular';
 import { File } from '@ionic-native/file';
-import { Transfer } from '@ionic-native/transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { ImageHandler } from './image.helper';
@@ -14,8 +14,8 @@ export function imageHandlerFactory(
     filePath: FilePath,
     file: File,
     toastCtrl: ToastController,
-    transfer: Transfer,
+    fileTransfer: FileTransfer,
     loadingCtrl: LoadingController,
     actionSheetController: ActionSheetController) {
-    return new ImageHandler(camera, platform, filePath, file, toastCtrl, transfer, loadingCtrl, actionSheetController);
+    return new ImageHandler(camera, platform, filePath, file, toastCtrl, fileTransfer, loadingCtrl, actionSheetController);
 }

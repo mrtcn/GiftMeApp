@@ -14,5 +14,22 @@
   "NEXT": "Next",
   "HAVE_ACCOUNT": "Already have an account?",
   "MAN": "Man",
-  "WOMAN": "Woman"
+  "WOMAN": "Woman",
+  "FRIENDS": "Friends",
+  "PUBLIC": "Public",
+  "ALL": "All Items",
+  "BOUGHT": "Bought Items",
+  "LEFT": "Left Items",
+  "AMOUNT": "Pieces",
+  "OK": "Ok",
+  "CANCEL": "Cancel",
+  "ADD_TO_FAVORITES_TEXT": "Are you sure, adding this wishlist into your favorites?",
+  "ADD_TO_FAVORITES_TITLE": "Add Wishlist Into Favorites",
+  "REMOVE_FROM_FAVORITES_TEXT": "Are you sure, removing this wishlist from your favorites?",
+  "REMOVE_FROM_FAVORITES_TITLE": "Remove Wishlist FROM Favorites",
+  "BUY_GIFT_TITLE": "Buy Item Confirmation",
+  "UNDO_BUY_GIFT_TITLE": "Releas Item Confirmation",
+  "BUY_GIFT": "Do you really want to confirm that you have bought this item?",
+  "UNDO_BUY_GIFT": "Do you want to release that item?",
+  "SEARCH_PLACEHOLDER":  "Search Wishlist"
 }

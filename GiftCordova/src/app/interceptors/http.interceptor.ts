@@ -82,6 +82,7 @@ export class InterceptedHttp extends Http {
         
         url = this.updateUrl(url);
         return this.addAuthorizationHeaders(options).flatMap((x: RequestOptionsArgs) => {
+            console.log("addAuthorizationHeaders ");
             return super.post(url, body, x).map((res: Response) => {
                 console.log("authorizedPost res = " + res.text());
 

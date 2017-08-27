@@ -6,9 +6,6 @@ import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../../interc
 import { ImageHandler } from './../../helpers/image.helper';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { File, IFile, DirectoryEntry, FileEntry } from '@ionic-native/file';
-import { Transfer, TransferObject, FileUploadResult } from '@ionic-native/transfer';
-import { FilePath } from '@ionic-native/file-path';
 import { RegisterApiModel, LoginViewModel, AccessTokenModel, UserInfo, IName, RegisterExternalBindingModel, StoredUserModel, IExternalAccessTokenBindingModel } from './account.model';
 
 import 'rxjs/add/operator/map';
@@ -22,9 +19,6 @@ export class AccountService {
     private accessToken: string;
 
     constructor(
-        private transfer: Transfer,
-        private file: File,
-        private filePath: FilePath,
         private http: InterceptedHttp,
         private imageHandler: ImageHandler) { }
 

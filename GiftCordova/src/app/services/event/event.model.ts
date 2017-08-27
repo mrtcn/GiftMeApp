@@ -4,6 +4,7 @@
         public eventDate: string,
         public eventName: string,
         public eventImagePath: string,
+        public isFavoriteEvent: boolean,
         public userId: number,
         public eventTypeId: number,
         public permission: number,
@@ -50,6 +51,9 @@ export class GiftItemList {
         public eventId: number,
         public giftItemName: string,
         public giftImagePath: string,
+        public brand: string,
+        public description: string,
+        public amount: number,
         public isBought: boolean,
         public userId: number
     ) { }

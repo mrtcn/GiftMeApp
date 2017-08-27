@@ -14,5 +14,22 @@
   "NEXT": "İleri",
   "HAVE_ACCOUNT": "Hesabın var mı?",
   "MAN": "Erkek",
-  "WOMAN": "Kadın"
+  "WOMAN": "Kadın",
+  "FRIENDS": "Arkadaşlar",
+  "PUBLIC": "Paylaşıma Açıklar",
+  "ALL": "Bütün Ürünler",
+  "BOUGHT": "Satın Alınan Ürünler",
+  "LEFT": "Kalan Ürünler",
+  "AMOUNT": "Adet",
+  "OK": "Tamam",
+  "CANCEL": "İptal",
+  "ADD_TO_FAVORITES_TEXT": "Bu wishlist'i favorilerinize eklemek istediğinize emin misiniz?",
+  "ADD_TO_FAVORITES_TITLE": "Favorilere Ekle",
+  "REMOVE_FROM_FAVORITES_TEXT": "Bu wishlist'i favorilerinizden kaldırmak istediğinize emin misiniz?",
+  "REMOVE_FROM_FAVORITES_TITLE": "Favorilerden Kaldır",
+  "BUY_GIFT_TITLE": "Ürünü Satın Al",
+  "UNDO_BUY_GIFT_TITLE": "Ürünü Geri Bırak",
+  "BUY_GIFT": "Bu ürünü satın aldı olarak bildirmek istediğinize emin misiniz?",
+  "UNDO_BUY_GIFT": "Bu ürünü geri bırakmak istediğinize emin misiniz?",
+  "SEARCH_PLACEHOLDER": "Wishlist'leri arayın"
 }

@@ -1,9 +1,41 @@
-.event-detail-content{
-
+.event-detail-header {
+    background-color: $main-header-color;
 }
 
-.event-detail-header {
-    background-image: transparent !important;
+.event-detail-header .toolbar .toolbar-background {
+    background-color: $main-header-color;
+}
+
+.event-detail-header .toolbar .toolbar-content {
+    display: block;
+}
+
+.event-detail-header .toolbar .back-button {
+    color: white;
+}
+
+.event-detail-header .toolbar .toolbar-content ion-title {
+    display: inline-block;
+    text-align: center;
+    width: 80%;
+}
+
+.event-detail-header .toolbar .toolbar-content ion-title .toolbar-title {
+    color: white;
+}
+
+.event-detail-header .toolbar .toolbar-content .ion-nav-button {
+    display: inline-block;
+    text-align: center;
+}
+
+.event-detail-header .toolbar .toolbar-content .ion-nav-button img{    
+    width: 65%
+}
+
+.event-detail-content{
+    display: block;
+    height: 100%;
 }
 
 .event-detail-content .tabbar{
@@ -14,17 +46,101 @@
     color: white;
     padding: 0;
     margin: 0;
+    min-height: 4.2rem;
 }
 
 .event-detail-content .tabbar .tab-button .tab-button-text {
     white-space: nowrap;
+    font-size: 1.6rem;
+    font-weight: 200;
 }
 
 .event-detail-content .tabbar .tab-button[aria-selected=true] {
-    border-bottom: 6px solid !important;
-    -webkit-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Safari 3.1-5 
+    border-bottom: 0.4rem solid white !important;
+    border-right: 0.1rem solid;
+    border-color: white;
+    /*-webkit-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Safari 3.1-5 
     -o-border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  //Opera 11-12.1 
-    border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;  
+    border-image: url('./../assets/inner-pages/active-tab.png') 0 0 1 0 !important;*/  
+}
+
+.event-detail-info{
+    display: inline-block;
+    height: auto;
+    width: 100%;
+    background-color: $user-info-area-color;
+}
+
+.event-detail-info-avatar img{
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+    border-radius: 50%;
+    border: 0.4rem solid;
+    border-color: #e6eaf4;  
+}
+
+.event-detail-description{
+    display: block;
+    margin: auto;
+}
+.event-detail-description p{
+    margin:0 0 0.4rem 0;
+}
+
+.event-detail-description p:first-child{
+    color: #efefef;
+    font-size: 2.6rem;
+    font-weight: 400;
+}
+
+.event-detail-description p:last-child{
+    color: #3d2d50;
+    font-size:1.7rem;
+    font-weight: 600;
+}
+
+.event-detail-fav{
+    text-align: right;
+    padding: 0 1rem 0 0;
+    margin: 0;
+}
+
+.event-detail-fav img{
+    max-width: 60%;
+    max-height: 60%;
+}
+
+.event-detail-list{
+    position: relative;
+    display: inline-block;
+    height: auto;
+    width: 100%;    
+}
+
+.event-detail-list .tabbar{
+    position: relative;
+}
+
+.event-detail-list .tabs{
+    position: relative;
+}
+
+.event-detail-list .tabs ion-tab{
+    position: relative;
+}
+
+.event-detail-list .tabs ion-tab event-detail-items{
+    position: relative;
+}
+
+.event-detail-list .tabbar a{
+    border-top: 0.1rem solid;
+    border-right: 0.1rem solid;
+    border-color: white;
+}
+
+.event-detail-list .tabs .tabbar .tab-button:last-child{    
+    border-right-style: none !important;    
 }
 
 .event-detail-event-detail-text p span {
@@ -32,14 +148,6 @@
     display: block;
     font-size: 1em;
     font-weight: bold;
-}
-
-.event-detail-footer{
-    text-align: center;
-}
-
-.event-detail-footer img{
-    width: 10%;
 }
 
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated, .tabbar {

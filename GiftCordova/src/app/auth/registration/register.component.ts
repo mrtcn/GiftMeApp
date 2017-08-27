@@ -4,8 +4,6 @@ import { NavController, ActionSheetController, ToastController, Platform, Loadin
 import { Facebook } from "ng2-cordova-oauth/core";
 import { OauthCordova } from 'ng2-cordova-oauth/platform/cordova';
 import { File, DirectoryEntry, FileEntry } from '@ionic-native/file';
-import { Transfer, TransferObject } from '@ionic-native/transfer';
-import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { ImageHandler } from './../../helpers/image.helper';
 import { AccountService } from '../shared/account.service';
@@ -47,9 +45,7 @@ export class RegisterComponent implements OnInit {
     constructor(
         public navCtrl: NavController,
         private camera: Camera,
-        private transfer: Transfer,
         private file: File,
-        private filePath: FilePath,
         private imageHandler: ImageHandler,
         public actionSheetCtrl: ActionSheetController,
         public toastCtrl: ToastController,

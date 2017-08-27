@@ -50,9 +50,12 @@
 
 }
 
+.event-tab-col-detail-text {    
+    display: block;
+}
+
 .event-tab-col-detail-text p {
-    color: #777d91;
-    display: inline;
+    display: table-cell;
     font-size:1.2rem;
 }
 
@@ -74,6 +77,22 @@
     color: #c1c5d4;
     font-size: 1.4rem;
     font-weight: 500;
+}
+
+.event-tab-col-detail-owner {    
+    width: 70%;
+}
+
+.event-tab-col-detail-bought {    
+    width: 12%;
+    vertical-align: bottom;
+    color: #58eb65;
+}
+
+.event-tab-col-detail-left {    
+    width: 12%;
+    vertical-align: bottom;
+    color: #eb5858;
 }
 
 .event-tab-footer{

@@ -18,7 +18,7 @@
 <ion-content class="register-container">
 
     
-    <form (ngSubmit)="register()" #registerForm="ngForm">
+    <form (ngSubmit)="register()" #registerForm="ngForm">        
         <ion-list>
             <ion-item class="register-form-img-item" *ngIf="lastImage !== null">
                 <ion-label center text-center (click)="presentActionSheet()">                   
@@ -51,35 +51,29 @@
                 </ion-label>
                 <ion-datetime displayFormat="DD/MM/YYYY" min="1900" max="2010-01-01" [(ngModel)]="registration.birthdate" name="birthdate"></ion-datetime>
             </ion-item>
-
-            <ion-item class="ion-input-item register-input-item-gender">
-                <ion-list class="ion-radio-list" radio-group item-content>
-                    <ion-item class="ion-radio-label ion-radio-item" left text-left>
-                        <div item-content>
-                            {{ 'GENDER' | translate }}
-                        </div>                            
-                    </ion-item>
-                    <ion-item class="ion-radio-content ion-radio-item" left text-left>
-                        <div item-content>
-                            <ion-list class="ion-radio-options" radio-group item-content [(ngModel)]="registration.gender" name="gender">
-                                <ion-row text-center center>
-                                    <ion-col id="radio-col-option" width-10>
-                                        <ion-radio value="1" checked></ion-radio>
-                                    </ion-col>
-                                    <ion-col id="radio-col-option-label" width-30>
-                                        {{ 'MAN' | translate }}
-                                    </ion-col>
-                                    <ion-col id="radio-col-option" width-10>
-                                        <ion-radio value="2"></ion-radio>
-                                    </ion-col>
-                                    <ion-col id="radio-col-option-label" width-30>
-                                        {{ 'WOMAN' | translate }}
-                                    </ion-col>
-                                </ion-row>
-                            </ion-list>
-                        </div>            
-                    </ion-item>
-                </ion-list>                            
+ 
+            <ion-item class="ion-input-item register-input-item-gender">                
+                <ion-grid class="ion-radio-grid" item-content radio-group [(ngModel)]="registration.gender" name="gender" no-lines>
+                    <ion-row class="ion-radio-grid-row">
+                        <ion-col class="ion-radio-grid-col" col-12 no-padding no-mnargin>
+                            <ion-label class="ion-input-item-label ion-radio-grid-label" >
+                                {{ 'GENDER' | translate }}
+                            </ion-label>
+                        </ion-col>
+                        <ion-col class="ion-radio-col-option" col-4 no-padding no-mnargin>
+                            <ion-item no-lines no-padding no-mnargin>
+                                <ion-label class="ion-radio-item-label" no-padding no-mnargin>{{ 'MAN' | translate }}</ion-label>
+                                <ion-radio class="ion-radio-grid-ion-radio" item-start value="1" checked no-padding no-mnargin></ion-radio>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col class="ion-radio-col-option" col-4 no-padding no-mnargin>
+                            <ion-item no-lines no-padding no-mnargin>
+                                <ion-label class="ion-radio-item-label" no-padding no-mnargin>{{ 'WOMAN' | translate }}</ion-label>
+                                <ion-radio class="ion-radio-grid-ion-radio" item-start value="2" no-padding no-mnargin> </ion-radio>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </ion-item>
 
             <ion-item class="ion-input-item register-input-item-password">
@@ -98,8 +92,8 @@
         </ion-list>
         <div padding>
             <button  block ion-button clear full 
-                    id="register-next-button" class="vertical-align-content" color="light" 
-                    center text-center type="submit" (click)="redirectToAuth()" [disabled]="!registerForm.form.valid">
+                    class="vertical-align-content default-red-submit-button" color="light" 
+                    center text-center type="submit" [disabled]="!registerForm.form.valid">
                 {{ 'NEXT' | translate }}
             </button>
         </div>        

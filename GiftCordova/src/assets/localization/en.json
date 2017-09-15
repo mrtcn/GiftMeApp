@@ -23,6 +23,7 @@
   "AMOUNT": "Pieces",
   "OK": "Ok",
   "CANCEL": "Cancel",
+  "CLOSE": "Close",
   "ADD_TO_FAVORITES_TEXT": "Are you sure, adding this wishlist into your favorites?",
   "ADD_TO_FAVORITES_TITLE": "Add Wishlist Into Favorites",
   "REMOVE_FROM_FAVORITES_TEXT": "Are you sure, removing this wishlist from your favorites?",
@@ -31,5 +32,28 @@
   "UNDO_BUY_GIFT_TITLE": "Releas Item Confirmation",
   "BUY_GIFT": "Do you really want to confirm that you have bought this item?",
   "UNDO_BUY_GIFT": "Do you want to release that item?",
-  "SEARCH_PLACEHOLDER":  "Search Wishlist"
+  "SEARCH_PLACEHOLDER": "Search Wishlist",
+  "UNSUCCESSFUL_IMAGE_UPLOAD_MESSAGE": "An error occured during image upload.",
+  "UNSUCCESSFUL_IMAGE_UPLOAD_TITLE": "Image Upload Error",
+  "UNSUCCESSFUL_REGISTRATION_MESSAGE": "An error occured during registration.",
+  "UNSUCCESSFUL_REGISTRATION_TITLE": "Registration Error",
+  "UNKNOWN_ERROR_MESSAGE": "During the process, an unknown error occured.",
+  "UNKNOWN_ERROR_TITLE": "Unknown Error",
+  "IMAGE_SELECTION_ERROR": "Error while selecting image",
+
+  "CREATE_ITEM": "Create Item",
+  "GIFT_ITEM_NAME": "Item Name",
+  "BRAND": "Brand",
+  "LINK": "Link",
+  "QUANTITY": "Amount",
+  "DESCRIPTION": "Details",
+
+  "WISHLIST": "Wishlist",
+  "WISHLIST_DETAIL": "Wishlist Detail",
+
+  "WISHLIST_CREATE": "Create Wishlist",
+  "EVENT_NAME": "Wishlist Name",
+  "EVENT_DATE": "Due Date",
+  "EVENT_PERMISSION": "Permissions",
+  "CREATE_WISHLIST": "Create Wishlist"
 }

@@ -10,7 +10,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { FilePath } from '@ionic-native/file-path';
 import { AccountService } from '../../auth/shared/account.service';
 import { AccessTokenModel, StoredUserModel } from '../../auth/shared/account.model';
-import { HomeEventListViewModel, EventViewModel, EventListType, EventIdModel, CreateEventModel } from './event.model';
+import { HomeEventListViewModel, EventViewModel, EventListType, EventIdModel, CreateEventModel, SearchEventListModel } from './event.model';
 import { ImageHandler } from './../../helpers/image.helper';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -48,6 +48,23 @@ export class EventService {
                 console.log("eventList Error StatusCode BadRequest");
                 return null;
              }).catch(x => {
+                console.log("eventList Catch StatusCode BadRequest");
+                return null;
+            });
+        });
+    }
+
+    public searchEventList(eventType: number, searchTerm: string): Observable<Array<HomeEventListViewModel>> {
+        return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
+            var model = new SearchEventListModel(eventType, searchTerm);
+            return this.http.authorizedPost('/api/Event/EventList', JSON.stringify(model), null).map((res: Response) => {
+                console.log("getEventList Status Code = " + res.status);
+                let httpResponse: HttpResponseSuccessModel = res.json();
+                return httpResponse.content;
+            }, error => {
+                console.log("eventList Error StatusCode BadRequest");
+                return null;
+            }).catch(x => {
                 console.log("eventList Catch StatusCode BadRequest");
                 return null;
             });
@@ -98,32 +115,38 @@ export class EventService {
 
         let eventJson = JSON.stringify(eventModel);
 
-        return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
-            console.log("eventJson = " + eventJson);
-            var options: FileUploadOptions = {
-                fileKey: "file",
-                fileName: fileName,
-                chunkedMode: false,
-                mimeType: "multipart/form-data",
-                params: { 'data': eventJson },
-                headers: { 'Authorization': "Bearer " + x.access_token }
-            };
+        if (!targetPath || !fileName) {
 
-            const fileTransfer: FileTransferObject = this.fileTransfer.create();
-
-            let url: string = this.http.getGlobalConfig().baseEndpoint + 'api/Event/CreateOrUpdateEvent';
+            let url: string = 'api/Event/CreateOrUpdateWithoutImage';
             // Use the FileTransfer to upload the image
-            console.log("options = " + JSON.stringify(options));
-            return this.imageHandler.uploadImage(url, options).map((eventId: number) => {
-                console.log("uploadImage");
-                
+            return this.http.authorizedPost(url, eventJson).map((res: Response) => {
+                let httpResponse: HttpResponseSuccessModel = res.json();
+                return httpResponse.content;
+            });
+        } else {
+            return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
+                var options: FileUploadOptions = {
+                    fileKey: "file",
+                    fileName: fileName ? fileName : '',
+                    chunkedMode: false,
+                    mimeType: "multipart/form-data",
+                    params: { 'data': eventJson },
+                    headers: { 'Authorization': "Bearer " + x.access_token }
+                };
+
+                let url: string = this.http.getGlobalConfig().baseEndpoint + 'api/Event/CreateOrUpdate';
+
+                return this.imageHandler.uploadImage(url, options).map((eventId: number) => {
                     return eventId;
-                },
-                error => {
-                    console.log("uploadImage error = " + JSON.stringify(error));
-                    return null;
-                }
-            );
-        });
+                }).catch(error => {
+                    return this.imageHandler.displayImageUploadError(error).flatMap(result => {                        
+                        return Observable.throw(x => "Add Event Exception");
+                    }).catch(error => {
+                        console.log("Add Event Exception");
+                        return Observable.throw(x => "Add Event Exception");
+                    });  
+                });
+            });            
+        }   
     }
 }

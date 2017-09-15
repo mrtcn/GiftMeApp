@@ -61,26 +61,13 @@
     height: 4.4em;
 }
 
-.register-input-item-gender ion-label{
-    display: none;
-}
+
 
 #register-gender-col-male-radio .radio-md.radio-checked{
     border-color: none;
     background-color: white;
 }
 
-#register-next-button{
-    width: 100%;
-    background-color: $red-button-color;
-    /*height: 90%;*/
-    border-radius: 100px;
-    -moz-border-radius: 100px;
-    -webkit-border-radius: 100px;
-    border: 0px solid #000000;
-    font-weight: 100;
-    text-transform: none;  
-}
 /*REGISTER NAV*/
 .register-nav-grid{
     color: white;

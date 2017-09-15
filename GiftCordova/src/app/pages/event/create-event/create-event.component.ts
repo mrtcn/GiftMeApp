@@ -1,14 +1,12 @@
 import { Facebook, NativeStorage } from 'ionic-native';
-import { NavParams } from 'ionic-angular';
-import { NavController, LoadingController, Loading, App, ViewController } from 'ionic-angular';
-import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams, LoadingController, Loading, App, ViewController, DateTime } from 'ionic-angular';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ImageHandler } from './../../../helpers/image.helper';
 import { AuthComponent } from '../../auth/auth.component';
 import { EventDetailComponent } from './../event-detail/event-detail.component';
 import { AccountService } from '../../../auth/shared/account.service';
 import { EventService } from '../../../services/event/event.service';
 import { CreateEventModel, EventIdModel } from '../../../services/event/event.model';
-
 import { GiftDatePickerComponent } from '../../helpers/directives/datepicker/datepicker.component';
 
 import { Observable } from 'rxjs/Observable';
@@ -24,14 +22,16 @@ declare var cordova: any;
     styleUrls: ['/create-event.scss'],
     templateUrl: 'create-event.html'
 })
-export class CreateEventComponent implements OnInit {
+export class CreateEventComponent implements OnInit, AfterViewInit {
     private _imgPath = new BehaviorSubject<string>(null);
     public imgPath = this._imgPath.asObservable();
 
     lastImage: string = null;
     loading: Loading;
 
-    createEvent: CreateEventModel = new CreateEventModel(null, null, null, null);
+    @ViewChild('datetime') datetime: DateTime;
+
+    createEvent: CreateEventModel;
 
     constructor(
         public accountService: AccountService,
@@ -41,9 +41,26 @@ export class CreateEventComponent implements OnInit {
         public loadingCtrl: LoadingController,
         public navCtrl: NavController,
         private app: App)
-    { }
+    {
+        this.setInitValues();
+    }
 
     ngOnInit() {
+    }
+
+    ngAfterViewInit() {
+        let today: Date = new Date();
+        let averageWishlistDeadline: number = 30;
+
+        this.datetime.min = today.toISOString();
+        this.datetime.max = new Date(2049, 1, 1).toISOString();        
+    }
+
+    private setInitValues() {
+        let today: Date = new Date();
+        let averageWishlistDeadline: number = 30;
+        today.setDate(today.getDate() + averageWishlistDeadline).toString();
+        this.createEvent = new CreateEventModel(0, today.toISOString(), null, null, 0);
     }
 
     submitEvent() {
@@ -51,25 +68,15 @@ export class CreateEventComponent implements OnInit {
             content: 'Submitting...',
         });
 
-        let createEventApiModel: CreateEventModel = new CreateEventModel(
-            this.createEvent.eventDate,
-            this.createEvent.eventName,
-            this.createEvent.eventImagePath,
-            this.createEvent.permission
-            );
-
-        console.log("createEventApiModel = " + JSON.stringify(createEventApiModel));
-
         // File for Upload
-        var targetPath = this.imageHandler.pathForImage(this._imgPath.valueOf().toString());
+        let imgPath = !this._imgPath.getValue() ? null : this._imgPath.getValue().toString();
+        var targetPath = this.imageHandler.pathForImage(imgPath);
 
-        this.eventService.createEvent(createEventApiModel, targetPath, this._imgPath.valueOf().toString()).subscribe(x => {
-            console.log("eventModel = " + JSON.stringify(x));
-
+        this.eventService.createEvent(this.createEvent, targetPath, imgPath).subscribe(x => {
             this.loading.dismissAll();
-
-            this.navCtrl.push(EventDetailComponent, x);
-
+            this.navCtrl.pop().then(() => {
+                this.navCtrl.popTo(EventDetailComponent, x)
+            })
         }, error => {
             this.loading.dismissAll();
             console.log("submitEvent Exception = " + JSON.stringify(error));

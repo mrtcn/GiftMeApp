@@ -144,10 +144,10 @@ export class AccountService {
                 });
             });
         } else {
-
+            console.log(" register service fileName = " + fileName);
             var options = {
                 fileKey: "file",
-                fileName: fileName ? '' : fileName,
+                fileName: fileName ? fileName : '',
                 chunkedMode: false,
                 mimeType: "multipart/form-data",
                 params: { 'data': registerJson }
@@ -157,17 +157,24 @@ export class AccountService {
 
             return this.imageHandler.uploadImage(url, options).flatMap((storedUserModel: StoredUserModel) => {
                 //Login User && GetToken
+                console.log("REGISTER SERVICE this.imageHandler.uploadImage")
                 return this.login(new LoginViewModel(model.userName, model.password)).flatMap((x: boolean) => {
+                    console.log("REGISTER SERVICE this.imageHandler.uploadImage login")
                     //ADD USER INTO NATIVESTORAGE
                     return this.addUserIntoStorage(storedUserModel).map((isSuccess: boolean) => {
                         return storedUserModel;
                     });
                 });
-            }).catch(error => {
-                console.log("Register UploadObservable Exception = " + JSON.stringify(error))
-                return null;
-            }); 
-        }        
+            }).catch(error => {                
+                return this.imageHandler.displayImageUploadError(error).flatMap(result => {
+                    console.log("Registration displayImageUploadError");
+                    return Observable.throw(x => "Registration Exception");
+                }).catch(error => {
+                    console.log("Registration Exception");
+                    return Observable.throw(x => "Registration Exception");
+                });                
+            });
+        }
     }
 
     public registerExternal(model: RegisterExternalBindingModel): Observable<StoredUserModel> {

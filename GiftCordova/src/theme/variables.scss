@@ -35,6 +35,7 @@ $colors: (
 
 //Main Colors
 $main-header-color: #5b5c9f;
+$main-header-tabbar-color: #565694;
 $user-info-area-color: #8b9dc9;
 $red-button-color: #eb5858;
 $blue-button-color: #475993;
@@ -46,7 +47,20 @@ $tabs-tab-color-active:	#fff;
 $tabs-tab-color-inactive:	#fff;
 $tabs-md-tab-font-size-active: 1.5em;
 $tabs-md-tab-font-size: 1.4em;
+$tabs-ios-tab-font-size-active: 1.5em;
+$tabs-ios-tab-font-size: 1.4em;
 
+// Searchbox
+//-----------------
+// Search Icon
+$searchbar-md-input-search-icon-color: #ffffff;
+$searchbar-ios-input-search-icon-color: #ffffff;
+// Clear Icon
+$searchbar-md-input-clear-icon-color: #ffffff;
+$searchbar-ios-input-clear-icon-color: #ffffff;
+// Placeholder Color
+$searchbar-md-input-placeholder-color: #ffffff;
+$searchbar-ios-input-placeholder-color: #ffffff;
 
 // App iOS Variables
 // --------------------------------------------------

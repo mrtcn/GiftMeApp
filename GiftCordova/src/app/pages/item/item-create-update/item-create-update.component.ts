@@ -4,7 +4,7 @@ import { NavController, LoadingController, Loading, App, ViewController } from '
 import { Component, OnInit } from '@angular/core';
 import { ImageHandler } from './../../../helpers/image.helper';
 import { AuthComponent } from '../../../auth/auth.component';
-import { ItemDetailComponent } from './../item-detail/item-detail.component';
+import { EventDetailComponent } from './../../event/event-detail/event-detail.component';
 import { AccountService } from '../../../auth/shared/account.service';
 import { ItemService } from '../../../services/item/item.service';
 import { CreateUpdateItemModel, ItemIdModel, ItemViewModel, GiftItemCreateUpdateNavParams } from '../../../services/item/item.model';
@@ -31,7 +31,7 @@ export class CreateUpdateItemComponent implements OnInit {
     lastImage: string = null;
     loading: Loading;
 
-    createUpdateItem: CreateUpdateItemModel = new CreateUpdateItemModel(null, null, null, null, null, null, null, null);
+    createUpdateItem: CreateUpdateItemModel = new CreateUpdateItemModel(0, null, null, null, null, null, null, null, null);
 
     constructor(
         public accountService: AccountService,
@@ -45,8 +45,8 @@ export class CreateUpdateItemComponent implements OnInit {
         if (itemIdModel.giftItemId) {
             itemService.getItemById(itemIdModel.giftItemId).subscribe((item: ItemViewModel) => {
                 this.createUpdateItem.id = item.id;
-                this.createUpdateItem.itemImagePath = item.itemImagePath;
-                this.createUpdateItem.itemName = item.itemName;                
+                this.createUpdateItem.giftItemImagePath = item.giftItemImagePath;
+                this.createUpdateItem.giftItemName = item.giftItemName;                
             });
         }
         
@@ -67,26 +67,17 @@ export class CreateUpdateItemComponent implements OnInit {
             content: 'Submitting...'
         });
 
-        let createUpdateItemApiModel: CreateUpdateItemModel = new CreateUpdateItemModel(
-            this.createUpdateItem.id,
-            this.createUpdateItem.eventId,
-            this.createUpdateItem.itemName,
-            this.createUpdateItem.itemImagePath,
-            this.createUpdateItem.brand,
-            this.createUpdateItem.description,
-            this.createUpdateItem.amount,
-            this.createUpdateItem.userId
-            );
+        // File for Upload
+        let imgPath = !this._imgPath.getValue() ? null : this._imgPath.getValue().toString();
+        var targetPath = this.imageHandler.pathForImage(imgPath);
 
-        var targetPath = this.imageHandler.pathForImage(this._imgPath.valueOf().toString());
-        this.itemService.createUpdateItem(createUpdateItemApiModel, targetPath, this.lastImage).subscribe(x => {
+        this.itemService.createUpdateItem(this.createUpdateItem, targetPath, imgPath).subscribe(x => {
             this.loading.dismissAll();
-       
-
             var itemIdModel = new ItemIdModel(x);
 
-            this.navCtrl.push(ItemDetailComponent, JSON.stringify(itemIdModel));
-
+            this.navCtrl.pop().then(() => {
+                this.navCtrl.popTo(EventDetailComponent, x)
+            })
         }, error => console.log("error = " + JSON.stringify(error)));
     }
 

@@ -6,10 +6,9 @@ export interface IAppConfig {
     apiEndpoint: string;
 }
 
-export const AppConfig: IAppConfig = {
-    //apiEndpoint: "http://api.movieconnections.huretsucuklari.com/api/",
-    //baseEndpoint: "https://192.168.0.32:44302/",
-    //apiEndpoint: "https://192.168.0.32:44302/api/"
+export const AppConfig: IAppConfig = {    
+    //baseEndpoint: "http://api.movieconnections.huretsucuklari.com/",
+    //apiEndpoint: "http://api.movieconnections.huretsucuklari.com/api/"
     baseEndpoint: "http://192.168.0.16:52264/",
     apiEndpoint: "http://192.168.0.16:52264/api/"
     //baseEndpoint: "https://localhost:44302/",

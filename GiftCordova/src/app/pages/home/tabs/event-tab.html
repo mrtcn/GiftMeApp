@@ -12,39 +12,67 @@
                 <ion-grid text-center no-padding>
                     <ion-row>
                         <ion-col col-12>
-                            <ion-label no-padding no-margin text-wrap class="event-tab-col-detail-text" text-left>
-                                <p class="event-tab-col-detail-owner" >
-                                    <span class="event-tab-event-owner">{{userEvent.eventOwner.userName}}</span>                                    
-                                </p>
-                                <p class="event-tab-col-detail-bought" >
+                            <div class="event-tab-col-detail-text" text-left>
+                                <span class="event-tab-col-detail-text-owner">
+                                    {{userEvent.eventOwner.userName}}
+                                </span>
+                                <!--<span class="event-tab-col-detail-bought">
                                     <i class="fa fa-chevron-up event-tab-event-bought" aria-hidden="true"></i>
                                     {{userEvent.eventBoughtItemAmount}}
-                                </p>
-                                <p class="event-tab-col-detail-left" >
+                                </span>
+                                <span class="event-tab-col-detail-left">
                                     <i class="fa fa-chevron-down event-tab-event-left" aria-hidden="true"></i>
                                     {{userEvent.eventLeftItemAmount}}
-                                </p> 
-                            </ion-label>
+                                </span>-->
+                            </div>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col col-12>
-                            <ion-label no-padding no-margin text-wrap class="event-tab-col-detail-text" text-left>                                
-                                <p class="event-tab-event-name">
+                            <div text-wrap class="event-tab-col-detail-text" text-left>                                
+                                <span class="event-tab-col-detail-text-name">
                                     {{userEvent.eventName}}
-                                </p>
-                            </ion-label>
+                                </span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <div text-wrap class="event-tab-col-detail-text" text-left>
+                                <span text-wrap class="event-tab-col-detail-text-date" text-left>
+                                    {{userEvent.eventDate | date: 'dd.MM.yyyy'}}
+                                </span>
+                            </div>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
                 
             </ion-col>
-            <ion-col class="event-tab-col-gift-count" col-3>
-                <img src="./assets/img/inner-pages/gift_box.png" />
-                <p>
-                    {{userEvent.eventItemAmount}}
-                </p>                
+            <ion-col col-3 class="event-tab-col-count">
+                <div class="event-tab-col-count-container">
+                    <div class="event-tab-col-count-left">
+                        <div class="event-tab-col-count-left-wrapper">
+                            <span class="event-tab-col-count-left-text">
+                                {{userEvent.eventLeftItemAmount}}
+                            </span>
+                            <span class="event-tab-col-count-img-wrapper">
+                                <img src="./assets/img/inner-pages/left-gifts.png" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="event-tab-col-count-right">
+                        <div class="event-tab-col-count-right-container">
+                            <img src="./assets/img/inner-pages/gift_box.png" />
+                            <div class="event-tab-col-count-right-text">
+                                <span>
+                                    {{userEvent.eventBoughtItemAmount}}
+                                </span>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>                
             </ion-col>
+            
         </ion-row>
     </ion-grid>
 </ion-content>

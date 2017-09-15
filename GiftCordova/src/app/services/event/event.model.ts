@@ -16,6 +16,7 @@
 
 export class CreateEventModel {
     constructor(
+        public id: number,
         public eventDate: string,
         public eventName: string,
         public eventImagePath: string,
@@ -61,6 +62,13 @@ export class GiftItemList {
 
 export class EventListType{
     constructor(public eventListType: number) { }
+}
+
+export class SearchEventListModel {
+    constructor(
+        public eventListType: number,
+        public searchTerm: string
+    ) { }
 }
 
 export class EventIdModel {

@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading, App, ViewController } from 'ionic-angular';
 import { Facebook } from "ng2-cordova-oauth/core";
 import { OauthCordova } from 'ng2-cordova-oauth/platform/cordova';
+import { Dialogs } from '@ionic-native/dialogs';
 import { File, DirectoryEntry, FileEntry } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 import { ImageHandler } from './../../helpers/image.helper';
@@ -53,7 +54,8 @@ export class RegisterComponent implements OnInit {
         public loadingCtrl: LoadingController,
         public accountService: AccountService,
         private app: App,
-        public viewCtrl: ViewController) {
+        public viewCtrl: ViewController,
+        private dialogs: Dialogs) {
 
         let birthdate = new Date();
         birthdate.setFullYear(birthdate.getFullYear() - 10);
@@ -79,25 +81,15 @@ export class RegisterComponent implements OnInit {
                                                                             this.registration.confirmPassword,
                                                                             this.registration.birthdate);
 
-        console.log("_imgPath = " + this._imgPath);
-        console.log("imgPath = " + this._imgPath.valueOf().toString());
         // File for Upload
-        let imgPath = !this._imgPath ? null : this._imgPath.valueOf().toString();
-        console.log("2imgPath = " + imgPath);
+        let imgPath = !this._imgPath.getValue() ? null : this._imgPath.getValue().toString();
         var targetPath = this.imageHandler.pathForImage(imgPath);
-        var _targetPath = this.imageHandler.pathForImage(this._imgPath.valueOf().toString());
-
-        console.log("targetPath = " + targetPath);
-        console.log("_targetPath = " + _targetPath);
 
         this.accountService.register(registrationApiModel, targetPath, imgPath).subscribe(x => {
-
                 this.loading.dismissAll()
                 this.app.getRootNav().setRoot(HomeComponent);
-            
         }, error => console.log("error = " + JSON.stringify(error)));
     }
-
 
     public presentActionSheet() {
         this.lastImage = this.imageHandler.presentActionSheet(this._imgPath);

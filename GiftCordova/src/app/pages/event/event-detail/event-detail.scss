@@ -16,8 +16,6 @@
 
 .event-detail-header .toolbar .toolbar-content ion-title {
     display: inline-block;
-    text-align: center;
-    width: 80%;
 }
 
 .event-detail-header .toolbar .toolbar-content ion-title .toolbar-title {
@@ -26,7 +24,7 @@
 
 .event-detail-header .toolbar .toolbar-content .ion-nav-button {
     display: inline-block;
-    text-align: center;
+    float: right;
 }
 
 .event-detail-header .toolbar .toolbar-content .ion-nav-button img{    
@@ -152,4 +150,8 @@
 
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated, .tabbar {
     opacity: 1;
+}
+
+.event-detail-footer{
+    text-align: center;
 }

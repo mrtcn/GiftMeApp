@@ -1,8 +1,8 @@
 <ion-header class="event-detail-header" no-border>
     <ion-navbar no-padding>
-        <ion-toolbar>
-            <ion-title>WISHLIST</ion-title>
-            <button left class="ion-nav-button" (click)="addEvent()">
+        <ion-toolbar text-center>
+            <ion-title>{{'WISHLIST | translate'}}</ion-title>
+            <button right class="ion-nav-button" (click)="addEvent()">
                 <img src="./assets/img/inner-pages/plus-icon.png" />
             </button>
         </ion-toolbar>
@@ -21,7 +21,8 @@
                 <p>{{(eventDetail | async)?.eventOwner.userName}}</p>
                 <p>{{(eventDetail | async)?.eventName}}</p>
             </ion-col>
-            <ion-col class="event-detail-fav" col-2>                
+            <ion-col class="event-detail-fav" col-2>
+                <input type="hidden" #idControl [value]="(eventDetail | async)?.id" />
                 <img  *ngIf="(isFavorite | async)" (click)="addToFavorites(idControl.value)" src="./assets/img/inner-pages/event-detail/favori/favori-active.png" />
                 <img  *ngIf="!(isFavorite | async)" (click)="addToFavorites(idControl.value)" src="./assets/img/inner-pages/event-detail/favori/favori-inactive.png" />
             </ion-col>            
@@ -35,3 +36,12 @@
         </ion-tabs>
     </div>
 </ion-content>
+<ion-footer class="event-detail-footer">
+    <div padding>
+        <button block ion-button clear full
+                class="vertical-align-content default-red-submit-button" color="light"
+                center text-center (click)="createItem()">
+            {{'CREATE_ITEM' | translate}}
+        </button>
+    </div> 
+</ion-footer>

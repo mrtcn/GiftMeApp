@@ -11,6 +11,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { AccountService } from '../../auth/shared/account.service';
 import { AccessTokenModel } from '../../auth/shared/account.model';
 import { ItemViewModel, ItemListType, EventIdModel, ItemIdModel, CreateUpdateItemModel, ToggleBuyStatusModel } from './item.model';
+import { ImageHandler } from './../../helpers/image.helper';
 import { TranslateService } from '@ngx-translate/core';
 
 import 'rxjs/add/operator/map';
@@ -31,6 +32,7 @@ export class ItemService {
         private file: File,
         private filePath: FilePath,
         private translate: TranslateService,
+        private imageHandler: ImageHandler,
         private dialogs: Dialogs) { }
 
     /* Get Items depends on itemTypeId; 1: All, 2: Bought, 3: Left */
@@ -67,37 +69,44 @@ export class ItemService {
     }
 
     public createUpdateItem(itemModel: CreateUpdateItemModel, targetPath: string, fileName: string): Observable<number> {
-
         let itemJson = JSON.stringify(itemModel);
-        return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
 
-            var options: FileUploadOptions = {
-                fileKey: "file",
-                fileName: fileName,
-                chunkedMode: false,
-                mimeType: "multipart/form-data",
-                params: { 'data': itemJson },
-                headers: { 'Authorization': "Bearer " + x.access_token }
-            };
+        console.log("createUpdateItem targetPath = " + targetPath);
+        console.log("createUpdateItem fileName = " + fileName);
 
-            const fileTransfer: FileTransferObject = this.fileTransfer.create();
+        if (!targetPath || !fileName) {
 
-            let url: string = '/api/GiftItem/CreateOrUpdateGiftItem';
+            let url: string = 'api/GiftItem/CreateOrUpdateWithoutImage';
             // Use the FileTransfer to upload the image
-            let uploadThen = fileTransfer.upload(targetPath, url, options).then();
-            let uploadObservable: Observable<FileUploadResult> = Observable.fromPromise(uploadThen);
+            return this.http.authorizedPost(url, itemJson).map((res: Response) => {
+                let httpResponse: HttpResponseSuccessModel = res.json();
+                return httpResponse.content;
+            });
+        } else {
+            return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
+                var options: FileUploadOptions = {
+                    fileKey: "file",
+                    fileName: fileName,
+                    chunkedMode: false,
+                    mimeType: "multipart/form-data",
+                    params: { 'data': itemJson },
+                    headers: { 'Authorization': "Bearer " + x.access_token }
+                };
 
-            return uploadObservable.map((fileUploadResult: FileUploadResult) => {
-                    //Login User && GetToken
+                let url: string = this.http.getGlobalConfig().baseEndpoint + 'api/GiftItem/CreateOrUpdate';
 
-                let itemId = JSON.parse(fileUploadResult.response);
-                    return itemId;
-                },
-                error => {
-                    return null;
-                }
-            );
-        });
+                return this.imageHandler.uploadImage(url, options).map((eventId: number) => {
+                    return eventId;
+                }).catch(error => {
+                    return this.imageHandler.displayImageUploadError(error).flatMap(result => {
+                        return Observable.throw(x => "Add Item Exception");
+                    }).catch(error => {
+                        console.log("Add Item Exception");
+                        return Observable.throw(x => "Add Item Exception");
+                    });
+                });
+            });
+        }
     }
 
     public toggleItemBuyStatus(id: number, isBought: boolean, giftStatus: number): Observable<ItemViewModel> {

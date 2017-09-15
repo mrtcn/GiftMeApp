@@ -1,6 +1,6 @@
 import { Facebook, NativeStorage } from 'ionic-native';
 import { Component, OnInit } from '@angular/core';
-import { NavParams, NavController, App } from 'ionic-angular';
+import { NavParams, NavController, App, Events } from 'ionic-angular';
 import { AccountService } from '../../../auth/shared/account.service';
 import { EventService } from '../../../services/event/event.service';
 import { HomeEventListViewModel } from '../../../services/event/event.model';
@@ -21,7 +21,21 @@ export class EventTabComponent implements OnInit {
     private _eventList = new BehaviorSubject<Array<HomeEventListViewModel>>(null);
     public eventList = this._eventList.asObservable();
 
-    constructor(public accountService: AccountService, public eventService: EventService, public navParams: NavParams, public navCtrl: NavController, public app: App) {
+    constructor(
+        private accountService: AccountService,
+        private eventService: EventService,
+        private navParams: NavParams,
+        private navCtrl: NavController,
+        private events: Events,
+        private app: App) {
+        this.events.subscribe('searchbarInput', (searchTerm) => {
+            this.eventService.searchEventList(this.navParams.data, searchTerm).subscribe((x: Array<HomeEventListViewModel>) => {
+                console.log("toggleSearchbar subscribe works");
+                this._eventList.next(x);
+            }, error => {
+                console.log("toggleSearchbar subscribe errors");
+            });
+        })
     }
 
     ngOnInit()
@@ -43,4 +57,5 @@ export class EventTabComponent implements OnInit {
     public eventClick(eventId: number) {
         this.app.getRootNav().push(EventDetailComponent, eventId);
     }
+
 }

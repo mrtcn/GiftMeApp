@@ -1,11 +1,12 @@
 ﻿export class ItemViewModel {
     constructor(
         public id: number,
-        public itemName: string,
-        public itemImagePath: string,
+        public giftItemImagePath: string,
+        public giftItemName: string,        
         public brand: string,
-        public description: string,
+        public link: string,
         public amount: number,
+        public description: string,        
         public userId: number,
         public isBought: boolean,
         public giftStatus: number,
@@ -17,11 +18,12 @@ export class CreateUpdateItemModel {
     constructor(
         public id: number,
         public eventId: number,
-        public itemName: string,
-        public itemImagePath: string,
+        public giftItemImagePath: string,
+        public giftItemName: string,        
         public brand: string,
-        public description: string,
+        public link: string,
         public amount: number,
+        public description: string,        
         public userId: number
     ) { }
 }

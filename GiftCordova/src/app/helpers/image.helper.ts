@@ -1,10 +1,12 @@
 ﻿import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading, App, ViewController } from 'ionic-angular';
-import { File, DirectoryEntry, FileEntry } from '@ionic-native/file';
+import { Dialogs } from '@ionic-native/dialogs';
+import { File } from '@ionic-native/file';
 import { FileTransfer, FileTransferObject, FileUploadOptions, FileUploadResult } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Camera } from '@ionic-native/camera';
+import { TranslateService } from '@ngx-translate/core';
 
 import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../interceptors/http.model'
 
@@ -20,19 +22,21 @@ export class ImageHandler {
     public loading: Loading;
 
     public constructor(
-        public camera: Camera,
-        public platform: Platform,
-        public filePath: FilePath,
-        public file: File,
-        public toastCtrl: ToastController,
-        public fileTransfer: FileTransfer,
-        public loadingCtrl: LoadingController,
-        public actionSheetCtrl: ActionSheetController
-    ) {
-        
+        private camera: Camera,
+        private platform: Platform,
+        private filePath: FilePath,
+        private file: File,
+        private toastCtrl: ToastController,
+        private fileTransfer: FileTransfer,
+        private loadingCtrl: LoadingController,
+        private actionSheetCtrl: ActionSheetController,
+        private dialogs: Dialogs,
+        private translate: TranslateService
+    ) {        
     }
 
     public presentActionSheet(imgPath: BehaviorSubject<string>): string {
+        console.log("presentActionSheet = " + imgPath.getValue());
         let actionSheet = this.actionSheetCtrl.create({
             title: 'Select Image Source',
             buttons: [
@@ -73,7 +77,6 @@ export class ImageHandler {
                     .then(filePath => {
                         let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
                         let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-
                         this.copyFileToLocalDir(correctPath, currentName, this.createFileName(), imgPath);                        
 
                     });
@@ -85,7 +88,9 @@ export class ImageHandler {
             }
             
         }, (err) => {
-            this.presentToast('Error while selecting image.');
+            this.translate.get('IMAGE_SELECTION_ERROR').map((errorTitle: string) => {
+                this.presentToast(errorTitle);
+            })
         });
     }
 
@@ -99,11 +104,14 @@ export class ImageHandler {
 
     // Copy the image to a local folder
     private copyFileToLocalDir(namePath, currentName, newFileName, imgPath: BehaviorSubject<string>) {
-    this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(success => {
+        this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
         this.lastImage = newFileName;
         imgPath.next(newFileName);
-    }, error => {
-        this.presentToast('Error while storing file.');
+        }, error => {
+            console.log(" Error while storing file.");
+            this.translate.get('UNSUCCESSFUL_IMAGE_UPLOAD_TITLE').map((favoriteTitle: string) => {
+                this.presentToast(favoriteTitle);
+            })
     });
 }
 
@@ -120,8 +128,8 @@ export class ImageHandler {
     public pathForImage(img) {
         if (!img) {
             return null;
-        } else {
-            return cordova.file.dataDirectory + img;
+        } else {            
+            return this.file.dataDirectory + img
         }
     }
 
@@ -133,29 +141,49 @@ export class ImageHandler {
         // File name only
         var filename = this.lastImage;
 
-        try{
+        try {
             const fileTransfer: FileTransferObject = this.fileTransfer.create();
+
             this.loading = this.loadingCtrl.create({
                 content: 'Uploading...',
             });
             this.loading.present();
-            let fileUploadObservable: Observable<FileUploadResult> = Observable.fromPromise(fileTransfer.upload(targetPath, url, options));
-
+            let fileUploadPromise: Promise<FileUploadResult> = fileTransfer.upload(targetPath, url, options).then(x => x);
+            let fileUploadObservable: Observable<FileUploadResult> = Observable.fromPromise(fileUploadPromise);
             //// Use the FileTransfer to upload the image
             return fileUploadObservable.map((data: FileUploadResult) => {
+                let responseItem: HttpResponseSuccessModel = JSON.parse(data.response);
                 this.loading.dismissAll();
-                this.presentToast('Image succesful uploaded.');
-                var responseItem: HttpResponseSuccessModel = JSON.parse(data.response);                
-
                 return responseItem.content;
             }, err => {
-                this.loading.dismissAll();
-                this.presentToast('Error while uploading file.');
-                return null;
+                return Observable.throw(1);
+
+            }).catch(error => {                    
+                return Observable.throw(2);
             });
-        } catch (Error) {
-            console.log("UploadImage Exception: " + JSON.stringify(Error));
-            return null;
+        } catch (error) {            
+            return Observable.throw(3);
         }        
+    }
+
+    public displayImageUploadError(errorType: number): Observable<any> {
+
+        //this.displayImageUploadError(error, 'UNSUCCESSFUL_IMAGE_UPLOAD_TITLE', 'UNSUCCESSFUL_IMAGE_UPLOAD_MESSAGE').map(x => x)
+        let uploadErrorTitle: string = errorType == 1 ? 'UNSUCCESSFUL_REGISTRATION_TITLE' : errorType == 2 ? 'UNSUCCESSFUL_IMAGE_UPLOAD_TITLE' : errorType == 3 ? 'UNSUCCESSFUL_IMAGE_UPLOAD_TITLE' : 'UNKNOWN_ERROR_TITLE'
+        let uploadErrorMessage: string = errorType == 1 ? 'UNSUCCESSFUL_REGISTRATION_MESSAGE' : errorType == 2 ? 'UNSUCCESSFUL_IMAGE_UPLOAD_MESSAGE' : errorType == 3 ? 'UNSUCCESSFUL_IMAGE_UPLOAD_MESSAGE' : 'UNKNOWN_ERROR_MESSAGE'
+        console.log("UploadImage Exception: ");
+        this.loading.dismissAll();
+
+        return this.translate.get(uploadErrorTitle).flatMap((favoriteTitle: string) => {
+            return this.translate.get(uploadErrorMessage).flatMap((favoriteText: string) => {
+                return this.dialogs.alert(favoriteText, favoriteTitle).then(x => {
+                    console.log("Dialog Dismissed");
+                    return null;
+                }).catch(x => {
+                    console.log("Dialog Exception");
+                    return Observable.throw(null);
+                });
+            });
+        });        
     }
 }

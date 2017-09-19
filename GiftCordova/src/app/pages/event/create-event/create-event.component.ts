@@ -72,6 +72,9 @@ export class CreateEventComponent implements OnInit, AfterViewInit {
         let imgPath = !this._imgPath.getValue() ? null : this._imgPath.getValue().toString();
         var targetPath = this.imageHandler.pathForImage(imgPath);
 
+        console.log("submitEvent imgPath = " + imgPath);
+        console.log("submitEvent targetPath = " + targetPath);
+
         this.eventService.createEvent(this.createEvent, targetPath, imgPath).subscribe(x => {
             this.loading.dismissAll();
             this.navCtrl.pop().then(() => {

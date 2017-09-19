@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^4.3.0",
     "@ionic-native/camera": "^4.2.0",
     "@ionic-native/core": "^4.1.0",
+    "@ionic-native/crop": "^4.2.1",
     "@ionic-native/dialogs": "^4.2.0",
     "@ionic-native/file": "^4.2.0",
     "@ionic-native/file-path": "^4.2.0",
@@ -45,6 +46,7 @@
     "typescript": "2.3.4"
   },
   "cordovaPlugins": [
+    "cordova-plugin-crop",
     "cordova-plugin-whitelist",
     "cordova-plugin-console",
     "cordova-plugin-statusbar",

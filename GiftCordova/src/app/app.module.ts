@@ -34,6 +34,7 @@ import { GiftDatePickerComponent } from './helpers/directives/datepicker/datepic
 import { ActionSheetController, ToastController, Platform, LoadingController } from 'ionic-angular';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import { Crop } from '@ionic-native/crop';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 
@@ -92,7 +93,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       {
           provide: ImageHandler,
           useFactory: imageHandlerFactory,
-          deps: [Camera, Platform, FilePath, File, ToastController, FileTransfer, LoadingController, ActionSheetController, Dialogs, TranslateService]
+          deps: [Camera, Platform, FilePath, File, Crop, ToastController, FileTransfer, LoadingController, ActionSheetController, Dialogs, TranslateService]
       },      
       Dialogs,
       EventService,

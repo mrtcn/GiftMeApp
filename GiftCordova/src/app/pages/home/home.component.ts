@@ -69,8 +69,6 @@ export class HomeComponent implements OnInit {
             }, 250)
             
             Keyboard.show();
-        }
-
-        
+        }   
     }
 }

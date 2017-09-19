@@ -58,4 +58,14 @@ export class EventTabComponent implements OnInit {
         this.app.getRootNav().push(EventDetailComponent, eventId);
     }
 
+    doRefresh(refresher) {
+        setTimeout(() => {
+            this.eventService.getEventList(this.navParams.data).subscribe((x: Array<HomeEventListViewModel>) => {
+                this._eventList.next(x);
+                refresher.complete();
+            }, error => {
+                console.log("Event Tab Refresher Error = " + JSON.stringify(error));
+            });
+        }, 500);
+    }
 }

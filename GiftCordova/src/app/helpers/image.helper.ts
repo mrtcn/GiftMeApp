@@ -1,11 +1,12 @@
 ﻿import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading, App, ViewController } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { File } from '@ionic-native/file';
+import { Crop } from '@ionic-native/crop';
 import { FileTransfer, FileTransferObject, FileUploadOptions, FileUploadResult } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { TranslateService } from '@ngx-translate/core';
 
 import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../interceptors/http.model'
@@ -26,13 +27,14 @@ export class ImageHandler {
         private platform: Platform,
         private filePath: FilePath,
         private file: File,
+        private crop: Crop,
         private toastCtrl: ToastController,
         private fileTransfer: FileTransfer,
         private loadingCtrl: LoadingController,
         private actionSheetCtrl: ActionSheetController,
         private dialogs: Dialogs,
         private translate: TranslateService
-    ) {        
+    ) {
     }
 
     public presentActionSheet(imgPath: BehaviorSubject<string>): string {
@@ -62,31 +64,44 @@ export class ImageHandler {
 
     public takePicture(sourceType, imgPath: BehaviorSubject<string>) {
         // Create options for the Camera Dialog
-        var options = {
+        var options: CameraOptions = {
             quality: 100,
             sourceType: sourceType,
+            destinationType: this.camera.DestinationType.FILE_URI,
             saveToPhotoAlbum: false,
-            correctOrientation: true
+            correctOrientation: true            
         };
 
         // Get the data of an image
-        this.camera.getPicture(options).then((imagePath) => {
+        this.camera.getPicture(options).then((fileUri) => {
             // Special handling for Android library
             if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-                this.filePath.resolveNativePath(imagePath)
-                    .then(filePath => {
-                        let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-                        let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                        this.copyFileToLocalDir(correctPath, currentName, this.createFileName(), imgPath);                        
-
-                    });
+                console.log("getPicture fileUri = " + fileUri);
+                //this.filePath.resolveNativePath(fileUri)
+                //    .then(filePath => {
+                //        let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+                //        let currentName = fileUri.substring(fileUri.lastIndexOf('/') + 1, fileUri.lastIndexOf('?'));
+                //        this.copyFileToLocalDir(correctPath, currentName, this.createFileName(), imgPath);                        
+                //    });
             } else {
-                var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-                var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+                console.log("IOS getPicture fileUri = " + fileUri);
+                //var currentName = fileUri.substr(fileUri.lastIndexOf('/') + 1);
+                //var correctPath = fileUri.substr(0, fileUri.lastIndexOf('/') + 1);
 
-                this.copyFileToLocalDir(correctPath, currentName, this.createFileName(), imgPath);
+                //this.copyFileToLocalDir(correctPath, currentName, this.createFileName(), imgPath);                
             }
-            
+
+            this.crop.crop(fileUri, { quality: 75,   }).then(
+                newImage => {
+                    console.log('new image path is: ' + newImage);
+                    var imageName = newImage.split("/")[(newImage.split("/").length) - 1];
+                    var imageNameWithoutQuestionMark = imageName.split("?")[0];
+                    this.lastImage = imageNameWithoutQuestionMark;
+                    imgPath.next(imageNameWithoutQuestionMark);
+                },
+                error => console.error('Error cropping image', error)
+            ); 
+
         }, (err) => {
             this.translate.get('IMAGE_SELECTION_ERROR').map((errorTitle: string) => {
                 this.presentToast(errorTitle);
@@ -103,40 +118,54 @@ export class ImageHandler {
     }
 
     // Copy the image to a local folder
-    private copyFileToLocalDir(namePath, currentName, newFileName, imgPath: BehaviorSubject<string>) {
-        this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
-        this.lastImage = newFileName;
-        imgPath.next(newFileName);
-        }, error => {
-            console.log(" Error while storing file.");
-            this.translate.get('UNSUCCESSFUL_IMAGE_UPLOAD_TITLE').map((favoriteTitle: string) => {
-                this.presentToast(favoriteTitle);
-            })
-    });
-}
+    //private copyFileToLocalDir(namePath, currentName, newFileName, imgPath: BehaviorSubject<string>) {
+    //    this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
+    //        this.lastImage = newFileName;
+    //        imgPath.next(newFileName);
+    //    }, error => {
+    //        console.log(" Error while storing file.");
+    //        this.translate.get('UNSUCCESSFUL_IMAGE_UPLOAD_TITLE').map((favoriteTitle: string) => {
+    //            this.presentToast(favoriteTitle);
+    //        })
+    //    });
+    //}
 
     private presentToast(text) {
         let toast = this.toastCtrl.create({
-                message: text,
-                duration: 3000,
-                position: 'top'
-            });
-            toast.present();
+            message: text,
+            duration: 3000,
+            position: 'top'
+        });
+        toast.present();
     }
 
     // Always get the accurate path to your apps folder
     public pathForImage(img) {
         if (!img) {
             return null;
-        } else {            
-            return this.file.dataDirectory + img
+        } else {
+            //console.log("pathForImage cacheDirectory = " + this.file.cacheDirectory + img);
+            //console.log("pathForImage applicationStorageDirectory = " + this.file.applicationStorageDirectory + img);
+            //console.log("pathForImage dataDirectory = " + this.file.dataDirectory + img);
+            //console.log("pathForImage applicationDirectory = " + this.file.applicationDirectory + img);
+            //console.log("pathForImage cacheDirectory tempDirectory= " + this.file.tempDirectory + img);
+
+            //console.log("pathForImage externalApplicationStorageDirectory = " + this.file.externalApplicationStorageDirectory + img);
+            //console.log("pathForImage externalCacheDirectory = " + this.file.externalCacheDirectory + img);
+            //console.log("pathForImage externalDataDirectory = " + this.file.externalDataDirectory + img);
+            //console.log("pathForImage externalRootDirectory = " + this.file.externalRootDirectory + img);
+
+            return this.file.externalCacheDirectory + img;
         }
     }
 
     public uploadImage(url, options: FileUploadOptions): Observable<any> {
 
         // File for Upload
+        console.log("this.lastImage = " + this.lastImage);
+        
         var targetPath = this.pathForImage(this.lastImage);
+        console.log("targetPath = " + targetPath);
 
         // File name only
         var filename = this.lastImage;
@@ -156,14 +185,17 @@ export class ImageHandler {
                 this.loading.dismissAll();
                 return responseItem.content;
             }, err => {
+                console.log("err = " + err);
                 return Observable.throw(1);
 
-            }).catch(error => {                    
+                }).catch(error => {
+                    console.log("error = " + JSON.stringify(error));
                 return Observable.throw(2);
             });
-        } catch (error) {            
+        } catch (error) {
+            console.log("error 3 = " + error);
             return Observable.throw(3);
-        }        
+        }
     }
 
     public displayImageUploadError(errorType: number): Observable<any> {
@@ -184,6 +216,6 @@ export class ImageHandler {
                     return Observable.throw(null);
                 });
             });
-        });        
+        });
     }
 }

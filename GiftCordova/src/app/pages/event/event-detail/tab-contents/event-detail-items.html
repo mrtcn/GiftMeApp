@@ -1,43 +1,54 @@
-<ion-grid id="gift-list-grid">                
-    <ion-row class="gift-list-row" *ngFor="let giftItem of (itemDetail | async)" text-center bottom>
-        <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-item-pic" col-3>
-            <img src="{{giftItem.giftItemImagePath}}" />
-        </ion-col>
-        <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-detail" col-6>
-            <ion-label text-wrap class="gift-item-text" no-margin text-left>
-                <span>
-                    {{giftItem.giftItemName}}
-                </span>
-                <span>
-                    {{giftItem.brand}}
-                </span>
-            </ion-label>
-        </ion-col>
-        <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-gift-count" col-3>
-            <img src="./assets/img/inner-pages/gift_box.png" />
-            <div>
-                <span>
-                    {{giftItem.amount}}
-                </span>
-            </div>
-        </ion-col>
-        <ion-col (click)="toggleItemDescription(giftItem.id)" *ngIf="itemToggle == giftItem.id" col-9>
-            <ion-label text-wrap class="gift-item-description" no-margin text-left>
-                <span>
-                    {{giftItem.amount}} {{'AMOUNT' | translate}}
-                </span>
-                <span>
-                    {{giftItem.description}}
-                </span>
-            </ion-label>
-        </ion-col>
-        <ion-col (click)="toggleBuyStatus(giftItem.id, giftItem.isBought, giftItem.giftStatus)" *ngIf="itemToggle == giftItem.id" class="gift-item-col-detail"  col-3>
-            <!--RESERVABLE ITEM-->
-            <img *ngIf="giftItem.giftStatus == 0" src="./assets/img/inner-pages/free.png" />
-            <!--CAN BE UNRESERVED-->
-            <img *ngIf="giftItem.giftStatus == 1" src="./assets/img/inner-pages/unreservable.png" />
-            <!--CAN NOT BE UNRESERVED-->
-            <img *ngIf="giftItem.giftStatus == 2" src="./assets/img/inner-pages/not-unreservable.png" />
-        </ion-col>
-    </ion-row>
-</ion-grid>
+<ion-content id="event-detail-items-content"  scroll="false">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown"
+                               pullingText="Pull to refresh"
+                               refreshingSpinner="circles"
+                               refreshingText="Refreshing...">
+
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-grid id="gift-list-grid">
+
+        <ion-row class="gift-list-row" *ngFor="let giftItem of (itemDetail | async)" text-center bottom>
+            <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-item-pic" col-3>
+                <img src="{{giftItem.giftItemImagePath}}" />
+            </ion-col>
+            <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-detail" col-6>
+                <ion-label text-wrap class="gift-item-text" no-margin text-left>
+                    <span>
+                        {{giftItem.giftItemName}}
+                    </span>
+                    <span>
+                        {{giftItem.brand}}
+                    </span>
+                </ion-label>
+            </ion-col>
+            <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-gift-count" col-3>
+                <img src="./assets/img/inner-pages/gift_box.png" />
+                <div>
+                    <span>
+                        {{giftItem.amount}}
+                    </span>
+                </div>
+            </ion-col>
+            <ion-col (click)="toggleItemDescription(giftItem.id)" *ngIf="itemToggle == giftItem.id" col-9>
+                <ion-label text-wrap class="gift-item-description" no-margin text-left>
+                    <span>
+                        {{giftItem.amount}} {{'AMOUNT' | translate}}
+                    </span>
+                    <span>
+                        {{giftItem.description}}
+                    </span>
+                </ion-label>
+            </ion-col>
+            <ion-col (click)="toggleBuyStatus(giftItem.id, giftItem.isBought, giftItem.giftStatus)" *ngIf="itemToggle == giftItem.id" class="gift-item-col-detail" col-3>
+                <!--RESERVABLE ITEM-->
+                <img *ngIf="giftItem.giftStatus == 0" src="./assets/img/inner-pages/free.png" />
+                <!--CAN BE UNRESERVED-->
+                <img *ngIf="giftItem.giftStatus == 1" src="./assets/img/inner-pages/unreservable.png" />
+                <!--CAN NOT BE UNRESERVED-->
+                <img *ngIf="giftItem.giftStatus == 2" src="./assets/img/inner-pages/not-unreservable.png" />
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './registration/register.component';
 
 import { File } from '@ionic-native/file';
+import { Crop } from '@ionic-native/crop';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
@@ -39,6 +40,7 @@ import { Dialogs } from '@ionic-native/dialogs';
             useClass: IonicErrorHandler
         },
         File,
+        Crop,
         FilePath,
         FileTransfer,
         Camera,

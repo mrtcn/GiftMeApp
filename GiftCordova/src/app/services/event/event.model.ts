@@ -42,7 +42,8 @@ export class User {
     constructor(
         public userId: number,
         public userName: string,
-        public userImagePath: string
+        public userImagePath: string,
+        public userThumbnailPath: string,
     ) { }
 }
 

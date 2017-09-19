@@ -1,3 +1,16 @@
+#event-detail-items-content{
+    position: relative;
+}
+
+#event-detail-items-content .scroll-content{
+    position: relative;
+    margin-top: 0 !important;
+}
+
+#event-detail-items-content ion-refresher {    
+    top: 0 !important;
+}
+
 #gift-list-grid{
     background-color: #f5f5f5;
 }

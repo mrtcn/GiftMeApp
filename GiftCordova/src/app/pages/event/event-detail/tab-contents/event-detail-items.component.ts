@@ -45,10 +45,7 @@ export class EventDetailItemsComponent implements OnInit  {
     }
 
     ngOnInit() {
-        console.log("navParams.data = " + JSON.stringify(this.navParams.data));
         let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
-        console.log("itemParams eventId = " + itemParams.eventId);
-        console.log("itemParams itemTypeId = " + itemParams.itemTypeId);
         this.itemService.getItemList(itemParams.eventId, itemParams.itemTypeId).subscribe(x => {
             this._itemDetail.next(x);
         });
@@ -74,5 +71,18 @@ export class EventDetailItemsComponent implements OnInit  {
                 this._itemDetail.next(itemDetail);
             });
         });
+    }
+
+    doRefresh(refresher) {
+
+        setTimeout(() => {
+            let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
+            this.itemService.getItemList(itemParams.eventId, itemParams.itemTypeId).subscribe(x => {
+                refresher.complete();
+                this._itemDetail.next(x);
+            }, error => {
+                console.log("Event Tab Refresher Error = " + JSON.stringify(error));
+            });
+        }, 500);
     }
 }

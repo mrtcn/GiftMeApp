@@ -1,4 +1,4 @@
-﻿export class EventViewModel {
+export class EventViewModel {
     constructor(
         public id: number,
         public eventDate: string,
@@ -33,6 +33,7 @@ export class HomeEventListViewModel {
         public eventLeftItemAmount: number,
         public eventItemAmount: number,
         public eventImagePath: string,
+        public eventThumbnailPath: string,
         public eventTypeId: number,
         public eventOwner: User
     ) { }

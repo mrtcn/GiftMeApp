@@ -1,4 +1,4 @@
-﻿import { Injector } from "@angular/core";
+import { Injector } from "@angular/core";
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { AuthenticationTabComponent } from './authentication-tab/authentication-tab.component.ts'
@@ -18,6 +18,7 @@ import { IAppConfig, AppConfig, APP_CONFIG } from '../app.config';
 import { httpFactory } from './../interceptors/http.factory';
 import { AccountService } from './shared/account.service';
 import { Dialogs } from '@ionic-native/dialogs';
+import { LocalizationService } from './../services/localization/localization.service';
 
 @NgModule({
     declarations: [
@@ -53,7 +54,7 @@ import { Dialogs } from '@ionic-native/dialogs';
         {
             provide: InterceptedHttp,
             useFactory: httpFactory,
-            deps: [XHRBackend, RequestOptions, Injector, Dialogs]
+            deps: [XHRBackend, RequestOptions, Injector, LocalizationService]
         }]
     })
 export class AuthModule { }

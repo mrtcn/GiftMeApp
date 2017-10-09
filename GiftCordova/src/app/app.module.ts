@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, Injector } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { APP_CONFIG, AppConfig } from './app.config';
@@ -16,6 +16,7 @@ import { EventService } from './services/event/event.service';
 import { ItemService } from './services/item/item.service';
 import { AuthModule } from './auth/auth.module';
 import { LocalizationService } from './services/localization/localization.service';
+import { DialogService } from './services/dialog/dialog.service';
 import { Http, RequestOptions, XHRBackend, HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -23,13 +24,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { AppComponent } from './app';
 import { ImageHandler } from './helpers/image.helper';
 import { imageHandlerFactory } from './helpers/image.helper.factory';
+import { dialogFactory } from './services/dialog/dialog.factory';
 
 import { GiftDatePickerComponent } from './helpers/directives/datepicker/datepicker.component';
 
-
+import { AccountService } from './auth/shared/account.service';
+import { AuthComponent } from './auth/auth.component';
 
 import { ActionSheetController, ToastController, Platform, LoadingController } from 'ionic-angular';
 import { FileTransfer } from '@ionic-native/file-transfer';
@@ -37,7 +41,7 @@ import { File } from '@ionic-native/file';
 import { Crop } from '@ionic-native/crop';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
-
+import { NavController } from 'ionic-angular';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -78,6 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    AuthComponent,
     HomeComponent,
     EventTabComponent,
     EventDetailComponent,
@@ -98,6 +103,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       Dialogs,
       EventService,
       ItemService,      
-      LocalizationService]
+      LocalizationService,
+      {
+          provide: DialogService,
+          useFactory: dialogFactory,
+          deps: [TranslateService, Dialogs, AccountService, Injector, NavController]
+      }]
 })
 export class AppModule {}

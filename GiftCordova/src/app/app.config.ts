@@ -1,4 +1,4 @@
-﻿import { OpaqueToken } from "@angular/core";
+import { OpaqueToken } from "@angular/core";
 export let APP_CONFIG = new OpaqueToken("app.config");
 
 export interface IAppConfig {
@@ -7,10 +7,8 @@ export interface IAppConfig {
 }
 
 export const AppConfig: IAppConfig = {    
-    baseEndpoint: "http://api.movieconnections.huretsucuklari.com/",
-    apiEndpoint: "http://api.movieconnections.huretsucuklari.com/api/"
-    //baseEndpoint: "http://192.168.0.16:52264/",
-    //apiEndpoint: "http://192.168.0.16:52264/api/"
-    //baseEndpoint: "https://localhost:44302/",
-    //apiEndpoint: "https://localhost:44302/api/"
+    baseEndpoint: "http://192.168.0.13:52264/",
+    apiEndpoint: "http://192.168.0.13:52264/api/"
+    //baseEndpoint: "http://api.movieconnections.huretsucuklari.com/",
+    //apiEndpoint: "http://api.movieconnections.huretsucuklari.com/"    
 };

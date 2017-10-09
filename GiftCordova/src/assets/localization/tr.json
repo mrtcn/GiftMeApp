@@ -1,4 +1,6 @@
-﻿{
+{
+  "ERROR": "Hata",
+  "INFO": "Bilgi",
   "USERNAME": "Kullanıcı Adı",
   "PASSWORD": "Şifre",
   "CONFIRM_PASSWORD": "Şifre Tekrar",

@@ -1,4 +1,4 @@
-﻿import { Facebook, NativeStorage } from 'ionic-native';
+import { Facebook, NativeStorage } from 'ionic-native';
 import { Injectable, Inject } from '@angular/core';
 import { Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { InterceptedHttp } from './../../interceptors/http.interceptor'
@@ -294,9 +294,10 @@ export class AccountService {
         let accessTokenPromise: Promise<any> = NativeStorage.getItem('accessToken');
         let getAccessTokenFromStorage: Observable<AccessTokenModel> = Observable.fromPromise(accessTokenPromise);
         return getAccessTokenFromStorage.map(x => {
+            console.log("GetAccessTokenFromStorage Invoked");
             return x;
         }).catch(x => {
-                console.log("GetAccessTokenFromStorage Exception");
+            console.log("GetAccessTokenFromStorage Exception");
             return null;
         });
     }

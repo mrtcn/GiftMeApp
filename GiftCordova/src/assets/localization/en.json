@@ -1,4 +1,6 @@
-﻿{
+{
+  "ERROR": "Error",
+  "INFO": "Information",
   "USERNAME": "Username",
   "PASSWORD": "Password",
   "CONFIRM_PASSWORD": "Confirm Password",

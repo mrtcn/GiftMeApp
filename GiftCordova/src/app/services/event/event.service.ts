@@ -1,4 +1,4 @@
-﻿import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { InterceptedHttp } from './../../interceptors/http.interceptor';
 import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../../interceptors/http.model';
@@ -38,7 +38,8 @@ export class EventService {
     }
 
     public getEventList(eventType: number): Observable<Array<HomeEventListViewModel>> {
-        return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
+        console.log("getEventList Invoked");
+            console.log("GetAccessTokenFromStorage Success");
             var model = new EventListType(eventType);
             return this.http.authorizedPost('/api/Event/EventList', JSON.stringify(model), null).map((res: Response) => {
                 console.log("getEventList Status Code = " + res.status);
@@ -51,7 +52,6 @@ export class EventService {
                 console.log("eventList Catch StatusCode BadRequest");
                 return null;
             });
-        });
     }
 
     public searchEventList(eventType: number, searchTerm: string): Observable<Array<HomeEventListViewModel>> {

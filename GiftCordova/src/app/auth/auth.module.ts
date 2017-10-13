@@ -1,6 +1,6 @@
 import { Injector } from "@angular/core";
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, App } from 'ionic-angular';
 import { AuthenticationTabComponent } from './authentication-tab/authentication-tab.component.ts'
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
@@ -54,7 +54,7 @@ import { LocalizationService } from './../services/localization/localization.ser
         {
             provide: InterceptedHttp,
             useFactory: httpFactory,
-            deps: [XHRBackend, RequestOptions, Injector, LocalizationService]
+            deps: [XHRBackend, RequestOptions, Injector, LocalizationService, App]
         }]
     })
 export class AuthModule { }

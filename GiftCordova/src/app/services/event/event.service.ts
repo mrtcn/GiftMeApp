@@ -49,7 +49,8 @@ export class EventService {
                 console.log("eventList Error StatusCode BadRequest");
                 return null;
              }).catch(x => {
-                console.log("eventList Catch StatusCode BadRequest");
+                 console.log("eventList Catch StatusCode BadRequest = " + x);
+                 console.log("eventList Catch StatusCode BadRequest = " + JSON.stringify(x));
                 return null;
             });
     }

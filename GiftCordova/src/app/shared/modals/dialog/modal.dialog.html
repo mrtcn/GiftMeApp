@@ -1,0 +1,16 @@
+<ion-content id="modal-dialog" padding scroll="false">
+
+</ion-content>
+<div id="modal-dialog-content">
+  <h1>A Custom Modal!</h1>
+  <p>
+    Dialog Title: {{dialogTitle | async}}/>
+    Dialog Message: {{dialogMessage | async}}/>
+  </p>
+  <button ion-button class="vertical-align-content" icon-left center text-center (click)="ok()" width-80>
+    {{ dialogFirstButton | async }}
+  </button>
+  <button ion-button class="vertical-align-content" icon-left center text-center (click)="cancel()" width-80>
+    {{ dialogSecondButton | async }}
+  </button>
+</div>

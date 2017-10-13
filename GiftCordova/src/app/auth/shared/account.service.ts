@@ -230,23 +230,37 @@ export class AccountService {
     }
 
     public logout(): Observable<boolean> {
+        console.log("logout");
+        let facebookStatusPromise: Promise<any> = Facebook.getLoginStatus().then(x => x);
+        let facebookStatusObservable: Observable<any> = Observable.fromPromise(facebookStatusPromise);
 
-        let facebookLogoutPromise: Promise<any> = Facebook.logout();
+        let facebookLogoutPromise: Promise<any> = Facebook.logout().then(x => x);
         let facebookLogout: Observable<any> = Observable.fromPromise(facebookLogoutPromise);
 
-        let removeAccountCachesPromise: Promise<any> = this.removeAccountCaches();
+        let removeAccountCachesPromise: Promise<any> = this.removeAccountCaches().then(x => x);
         let removeAccountCaches: Observable<any> = Observable.fromPromise(removeAccountCachesPromise);
-
+        console.log("logout 2");
         return this.getExternalAccessTokenFromStorage().flatMap((externalAccessToken: IExternalAccessTokenBindingModel) => {
-                return Observable.of(true);
-        }).flatMap(x => {
-            return facebookLogout.map(logout => {
-                return Observable.of(true);
-                })
-        }).flatMap(x => {
-            return removeAccountCaches.map(x => {
-                return x;
-            });
+            console.log("logout 3");
+            return facebookStatusObservable.flatMap(response => {
+                console.log("response.status = " + response.status);
+                if (response.status === 'connected') {
+                    return facebookLogout.map(logout => {
+                        return removeAccountCaches.map(x => {
+                            return x;
+                        });
+                    });
+                } else {
+                    return removeAccountCaches.map(x => {
+                        return x;
+                    });
+                }
+            }).catch(err => {
+                console.log("Facebook Status Exception");
+                return removeAccountCaches.map(x => {
+                    return x;
+                }); 
+            })
         }).catch(error => {
             console.log("External Logout Exception");
             return removeAccountCaches.map(x => {

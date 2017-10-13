@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler, Injector } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
+import { ModalController } from 'ionic-angular';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -16,7 +17,8 @@ import { EventService } from './services/event/event.service';
 import { ItemService } from './services/item/item.service';
 import { AuthModule } from './auth/auth.module';
 import { LocalizationService } from './services/localization/localization.service';
-import { DialogService } from './services/dialog/dialog.service';
+import { DialogModalService } from './shared/modals/dialog/modal.dialog.service';
+import { DialogComponent } from './shared/modals/dialog/modal.dialog.component';
 import { Http, RequestOptions, XHRBackend, HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -28,7 +30,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app';
 import { ImageHandler } from './helpers/image.helper';
 import { imageHandlerFactory } from './helpers/image.helper.factory';
-import { dialogFactory } from './services/dialog/dialog.factory';
+import { dialogModalFactory } from './shared/modals/dialog/modal.dialog.factory';
 
 import { GiftDatePickerComponent } from './helpers/directives/datepicker/datepicker.component';
 
@@ -41,7 +43,6 @@ import { File } from '@ionic-native/file';
 import { Crop } from '@ionic-native/crop';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
-import { NavController } from 'ionic-angular';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -53,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       TranslateModule
   ],
   declarations: [
-    MyApp,
+    MyApp,    
     HomeComponent,
     EventTabComponent,
     EventDetailComponent,
@@ -61,10 +62,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     CreateUpdateItemComponent,
     EventDetailItemsComponent,
     MenuComponent,
-    GiftDatePickerComponent
+    GiftDatePickerComponent,
+    DialogComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,    
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -83,13 +85,14 @@ export function HttpLoaderFactory(http: HttpClient) {
   entryComponents: [
     MyApp,
     AuthComponent,
-    HomeComponent,
+    HomeComponent,    
     EventTabComponent,
     EventDetailComponent,
     CreateEventComponent,
     CreateUpdateItemComponent,
     EventDetailItemsComponent,
-    MenuComponent
+    MenuComponent,
+    DialogComponent
   ],
   providers: [
       StatusBar,
@@ -102,12 +105,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       },      
       Dialogs,
       EventService,
-      ItemService,      
+      ItemService,
       LocalizationService,
       {
-          provide: DialogService,
-          useFactory: dialogFactory,
-          deps: [TranslateService, Dialogs, AccountService, Injector, NavController]
+          provide: DialogModalService,
+          useFactory: dialogModalFactory,
+          deps: [TranslateService, ModalController, AccountService, Injector]
       }]
 })
 export class AppModule {}

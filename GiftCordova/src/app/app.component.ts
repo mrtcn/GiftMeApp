@@ -18,12 +18,16 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+
+
 @Component({
     templateUrl: 'app.html'
 })
-export class MyApp {
-    @ViewChild(Nav) nav: Nav;
 
+export class MyApp {
+    window: any;    
+    @ViewChild(Nav) nav: Nav;
+    
     //FB_APP_ID: number = 122245798322606;
 
     private _response = new BehaviorSubject<Response>(null);
@@ -43,14 +47,16 @@ export class MyApp {
         public accountService: AccountService,
         public localizationService: LocalizationService,
         public statusBar: StatusBar,
-        public splashScreen: SplashScreen) {
+        public splashScreen: SplashScreen
+    ) {
         
         this.initializeApp();
-        
+      
         //Facebook.browserInit(this.FB_APP_ID, "v2.8");
         // used for an example of ngFor and navigation
 
         let env = this;
+      
         //env.nav.push(Page2);
 
         //this.accountService.isAuthenticated().subscribe(x => {

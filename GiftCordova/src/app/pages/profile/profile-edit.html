@@ -1,0 +1,110 @@
+﻿<ion-header class="register-header">
+    <ion-toolbar color="authHeaderColor">
+        <ion-grid class="register-nav-grid">
+            <ion-row>
+                <ion-col col-3>
+                    <img class="register-nav-custom-close-button" src="assets/img/shared/Close.png" (click)="redirectToAuth()"/>
+                </ion-col>
+                <ion-col class="register-nav-custom-title" col-6 text-center>
+                    {{ 'SIGNUP' | translate }}
+                </ion-col>
+                <ion-col col-3>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>       
+    </ion-toolbar>
+</ion-header>
+<ion-content class="register-container">
+
+    
+    <form (ngSubmit)="register()" #registerForm="ngForm">        
+        <ion-list>
+            <ion-item class="register-form-img-item" *ngIf="lastImage !== null">
+                <ion-label center text-center (click)="presentActionSheet()">                   
+                    <img src="{{pathForImage(imgPath | async)}}">
+                </ion-label>
+            </ion-item>
+            <ion-item class="register-form-img-item" *ngIf="lastImage === null">
+                <ion-label center text-center (click)="presentActionSheet()">
+                    <img src="./assets/img/shared/Add_Photo.png"/>
+                </ion-label>
+            </ion-item>
+
+            <ion-item class="ion-input-item register-input-item-username">
+                <ion-label class="ion-input-item-label" floating>
+                    {{ 'USERNAME' | translate }}
+                </ion-label>
+                <ion-input class="ion-form-text-input" type="text" [(ngModel)]="registration.userName" name="userName" required></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-input-item register-input-item-email">
+                <ion-label class="ion-input-item-label" floating>
+                    {{ 'EMAIL' | translate }}
+                </ion-label>
+                <ion-input class="ion-form-text-input" type="text" [(ngModel)]="registration.email" name="email" required></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-input-item register-input-item-birthday">   
+                <ion-label class="ion-input-item-label" floating>
+                    {{ 'BIRTHDAY' | translate }}
+                </ion-label>
+                <ion-datetime displayFormat="DD/MM/YYYY" min="1900" max="2010-01-01" [(ngModel)]="registration.birthdate" name="birthdate"></ion-datetime>
+            </ion-item>
+ 
+            <ion-item class="ion-input-item register-input-item-gender">                
+                <ion-grid class="ion-radio-grid" item-content radio-group [(ngModel)]="registration.gender" name="gender" no-lines>
+                    <ion-row class="ion-radio-grid-row">
+                        <ion-col class="ion-radio-grid-col" col-12 no-padding no-mnargin>
+                            <ion-label class="ion-input-item-label ion-radio-grid-label" >
+                                {{ 'GENDER' | translate }}
+                            </ion-label>
+                        </ion-col>
+                        <ion-col class="ion-radio-col-option" col-4 no-padding no-mnargin>
+                            <ion-item no-lines no-padding no-mnargin>
+                                <ion-label class="ion-radio-item-label" no-padding no-mnargin>{{ 'MAN' | translate }}</ion-label>
+                                <ion-radio class="ion-radio-grid-ion-radio" item-start value="1" checked no-padding no-mnargin></ion-radio>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col class="ion-radio-col-option" col-4 no-padding no-mnargin>
+                            <ion-item no-lines no-padding no-mnargin>
+                                <ion-label class="ion-radio-item-label" no-padding no-mnargin>{{ 'WOMAN' | translate }}</ion-label>
+                                <ion-radio class="ion-radio-grid-ion-radio" item-start value="2" no-padding no-mnargin> </ion-radio>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+
+            <ion-item class="ion-input-item register-input-item-password">
+                <ion-label class="ion-input-item-label" floating>
+                    {{ 'PASSWORD' | translate }}
+                </ion-label>
+                <ion-input class="ion-form-text-input" type="password" [(ngModel)]="registration.password" name="password" required></ion-input>
+            </ion-item>          
+
+            <ion-item class="ion-input-item register-input-item-password">
+                <ion-label class="ion-input-item-label" floating>
+                    {{ 'CONFIRM_PASSWORD' | translate }}
+                </ion-label>
+                <ion-input class="ion-form-text-input" type="password" [(ngModel)]="registration.confirmPassword" name="confirmPassword" required></ion-input>
+            </ion-item>  
+        </ion-list>
+        <div padding>
+            <button  block ion-button clear full 
+                    class="vertical-align-content default-red-submit-button" color="light" 
+                    center text-center type="submit" [disabled]="!registerForm.form.valid">
+                {{ 'NEXT' | translate }}
+            </button>
+        </div>        
+    </form>
+</ion-content>
+<ion-footer class="register-footer">
+    <ion-toolbar color="authHeaderColor">
+        <div id="signin-button-section" center text-center text-wrap>
+            <button (click)="redirectToAuth()">
+                <span id="signin-button-first-text">{{ 'HAVE_ACCOUNT' | translate }}</span> <span id="signin-button-second-text">{{ 'SIGNIN' | translate }}</span>
+            </button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

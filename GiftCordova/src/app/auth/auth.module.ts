@@ -12,8 +12,6 @@ import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { TranslateModule } from '@ngx-translate/core';
-import { Http, RequestOptions, XHRBackend, HttpModule } from '@angular/http';
-import { InterceptedHttp } from './../interceptors/http.interceptor';
 import { IAppConfig, AppConfig, APP_CONFIG } from '../app.config';
 import { httpFactory } from './../interceptors/http.factory';
 import { AccountService } from './shared/account.service';
@@ -50,11 +48,6 @@ import { LocalizationService } from './../services/localization/localization.ser
         {
             provide: APP_CONFIG,
             useValue: AppConfig
-        },
-        {
-            provide: InterceptedHttp,
-            useFactory: httpFactory,
-            deps: [XHRBackend, RequestOptions, Injector, LocalizationService, App]
         }]
     })
 export class AuthModule { }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "601499812904",
+    "firebase_url": "https://giftify-d3d28.firebaseio.com",
+    "project_id": "giftify-d3d28",
+    "storage_bucket": "giftify-d3d28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601499812904:android:fe6644e1a861dd77",
+        "android_client_info": {
+          "package_name": "io.cordova.myappa6f05a"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601499812904-c4dkq1vmcj5uqvv2tmodniajcof4d1io.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqlbpzDoGWrZY3jaTHP-50yStT-uEnQ6I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

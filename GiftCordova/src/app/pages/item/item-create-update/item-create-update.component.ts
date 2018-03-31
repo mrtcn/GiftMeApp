@@ -7,6 +7,7 @@ import { AuthComponent } from '../../../auth/auth.component';
 import { EventDetailComponent } from './../../event/event-detail/event-detail.component';
 import { AccountService } from '../../../auth/shared/account.service';
 import { ItemService } from '../../../services/item/item.service';
+import { EventDetailModel } from '../../../services/event/event.model';
 import { CreateUpdateItemModel, ItemIdModel, ItemViewModel, GiftItemCreateUpdateNavParams } from '../../../services/item/item.model';
 import { StoredUserModel } from './../../../auth/shared/account.model';
 import { GiftDatePickerComponent } from '../../helpers/directives/datepicker/datepicker.component';
@@ -76,7 +77,7 @@ export class CreateUpdateItemComponent implements OnInit {
             var itemIdModel = new ItemIdModel(x);
 
             this.navCtrl.pop().then(() => {
-                this.navCtrl.popTo(EventDetailComponent, x)
+              this.navCtrl.popTo(EventDetailComponent, new EventDetailModel(2, x))
             })
         }, error => console.log("error = " + JSON.stringify(error)));
     }

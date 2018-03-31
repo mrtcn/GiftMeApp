@@ -1,4 +1,4 @@
-﻿export class RegisterViewModel {
+export class RegisterViewModel {
     constructor(
         public email: string,
         public userName: string,
@@ -34,13 +34,30 @@ export class LoginViewModel {
 
 export class UserInfo {
     constructor(
-        public Id: number,
-        public UserName: string,
-        public Email: string,
-        public ImagePath: string,
-        public HasRegistered: boolean,
-        public LoginProvider: string
+        public id: number,
+        public userName: string,
+        public fullName: string,
+        public email: string,
+        public birthdate: Date,
+        public imagePath: string,
+        public aboutMe: string,
+        public address: string,
+        public tshirtSize: ClothSizeType,
+        public shoeSize: number,
+        public clothSize: string,
+        public jeanSize: string,        
+        public hasRegistered: boolean,
+        public loginProvider: string
     ) { }      
+}
+
+export enum ClothSizeType {
+  XS = 1,
+  S = 2,
+  M = 3,
+  L = 4,
+  XL = 5,
+  XXL = 6
 }
 
 export class AccessTokenModel
@@ -64,8 +81,10 @@ export interface IExternalAccessTokenBindingModel {
     externalAccessToken: string;
 }
 
-export class EmailModel {
-    email: string;
+export class UserIdModel {
+  constructor(
+    public userId: number
+  ) {  }  
 }
 
 export class RegisterExternalBindingModel {
@@ -90,4 +109,16 @@ export class StoredUserModel {
         public sessionKey: boolean,
         public secret: string
     ) { }
+}
+
+export class EmailModel {
+  email: string;
+}
+
+export class EmailList {
+  constructor(public emails: string[]){}
+}
+
+export class RegistrationIdModel {
+  constructor(public registrationId: string) { }
 }

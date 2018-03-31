@@ -9,7 +9,7 @@ import { CreateUpdateItemComponent } from '../../item/item-create-update/item-cr
 import { CreateEventComponent } from '../../event/create-event/create-event.component';
 import { EventDetailItemsComponent } from '../../event/event-detail/tab-contents/event-detail-items.component';
 import { EventService } from '../../../services/event/event.service';
-import { EventViewModel } from '../../../services/event/event.model';
+import { EventViewModel, EventIdModel } from '../../../services/event/event.model';
 import { GiftItemCreateUpdateNavParams } from '../../../services/item/item.model';
 
 import { Observable } from 'rxjs/Observable';
@@ -52,9 +52,13 @@ export class EventDetailComponent implements OnInit {
     { }
 
     ngOnInit() {
-        let eventId = JSON.parse(this.navParams.data);
+      console.log("EventDetail this.navParams.data  = " + this.navParams.data);
+      console.log("EventDetail this.navParams.data JSON.stringify = " + JSON.stringify(this.navParams.data));
+      let eventIdModel: EventIdModel = JSON.parse(JSON.stringify(this.navParams.data));
 
-        this.eventService.getEventById(eventId).subscribe(x => {
+      console.log("EventDetail eventIdModel = " + JSON.stringify(eventIdModel));
+
+        this.eventService.getEventById(eventIdModel).subscribe(x => {
             this._eventDetail.next(x);
             console.log("isFavoriteEvent = " + JSON.stringify(x.isFavoriteEvent));
             this._isFavorite.next(x.isFavoriteEvent);

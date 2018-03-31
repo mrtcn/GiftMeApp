@@ -1,4 +1,4 @@
-﻿<ion-content padding center text-center class="auth-container">
+<ion-content padding center text-center class="auth-container">
     <ion-grid id="auth-grid" no-padding>
         <ion-row class="auth-row" id="auth-row-logo">
             <img src="assets/img/shared/GiftIcon.png" />
@@ -8,7 +8,7 @@
                 <form #loginForm="ngForm" class="auth-login-container">
                     <ion-item class="ion-input-item auth-input-item-username">
                         <ion-label class="ion-input-item-label" floating>
-                            {{ 'USERNAME' | translate }}
+                            {{ 'USERNAMEORPASSWORD' | translate }}
                         </ion-label>
                         <ion-input type="text" [(ngModel)]="login.userName" name="userName" required></ion-input>
                     </ion-item>
@@ -22,7 +22,7 @@
                 </form>
                 <div class="auth-input-item-forgot-password">
                     <div id="auth-login-forgot-password">
-                        <button>
+                        <button (click)="navToForgotPassword()">
                             {{ 'FORGOT_YOUR_PASSWORD' | translate }}
                         </button>
                     </div>

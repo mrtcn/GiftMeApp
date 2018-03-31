@@ -1,0 +1,55 @@
+<ion-header class="toolbar-header" no-border>
+  <ion-navbar no-padding>
+    <ion-toolbar color="eventListHeaderColor" no-padding>
+      <ion-grid no-padding>
+        <ion-row no-padding>
+          <ion-col class="toolbar-header-searchbar" col-9 [hidden]="isSearchbarOn">
+            <ion-searchbar #searchbar [hidden]="isSearchbarOn" [(ngModel)]="searchTerm" (ionInput)="searchActionEventEmitter()" animated="true" debounce="250" placeholder="{{'SEARCH_PLACEHOLDER' | translate}}">
+            </ion-searchbar>
+          </ion-col>
+          <ion-col [hidden]="isSearchbarOn" class="toolbar-header-searchbar-title" col-3 (click)="toggleSearchbar()">
+            <span>
+              {{'CLOSE' | translate}}
+            </span>
+          </ion-col>
+
+          <ion-col col-2 [hidden]="!isSearchbarOn">
+            <img src="./assets/img/inner-pages/menu-icon.png" class="ion-nav-button ion-nav-toolbar-menu-button" ion-button menuToggle />
+          </ion-col>
+          <ion-col col-4 [hidden]="!isSearchbarOn">
+
+          </ion-col>
+          <ion-col col-6 [hidden]="!isSearchbarOn">
+            <ion-grid no-padding class="ion-nav-toolbar-grid">
+              <ion-row no-padding>
+                <ion-col class="ion-nav-col-buttons" col-3 [hidden]="isNotificationIconHidden">
+                  <button class="ion-nav-button" (click)="navigateToNotifications()">
+                    <img src="./assets/img/inner-pages/notification.png"  class="toolbar-icon-img"/>
+
+                    <ion-badge class="toolbar-badge" *ngIf="unreadNotificationCount | async">{{unreadNotificationCount | async}}</ion-badge>
+                  </button>                  
+                </ion-col>
+                <ion-col class="ion-nav-col-buttons" col-3 [hidden]="isAddFriendIconHidden">
+                  <button class="ion-nav-button" (click)="navigateToFriendManagement()">
+                    <img src="./assets/img/inner-pages/friends.png" class="toolbar-icon-img"/>
+                    <ion-badge class="toolbar-badge" *ngIf="friendshipRequestCount | async">{{friendshipRequestCount | async}}</ion-badge>
+                  </button>                  
+                </ion-col>
+                <ion-col class="ion-nav-col-buttons" col-3 [hidden]="isSearchIconHidden">
+                  <button class="ion-nav-button" (click)="toggleSearchbar()">
+                    <img src="./assets/img/inner-pages/magnifier-icon.png"  class="toolbar-icon-img"/>
+                  </button>
+                </ion-col>
+                <ion-col class="ion-nav-col-buttons" col-3 [hidden]="isAddIconHidden">
+                  <button class="ion-nav-button" (click)="addEvent()">
+                    <img src="./assets/img/inner-pages/plus-icon.png"  class="toolbar-icon-img"/>
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-navbar>
+</ion-header>

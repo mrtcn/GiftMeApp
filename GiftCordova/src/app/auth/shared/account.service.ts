@@ -1,12 +1,14 @@
 import { Facebook, NativeStorage } from 'ionic-native';
 import { Injectable, Inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { InterceptedHttp } from './../../interceptors/http.interceptor'
 import { HttpResponseSuccessModel, HttpResponseErrorModel } from './../../interceptors/http.model'
 import { ImageHandler } from './../../helpers/image.helper';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { RegisterApiModel, LoginViewModel, AccessTokenModel, UserInfo, IName, RegisterExternalBindingModel, StoredUserModel, IExternalAccessTokenBindingModel } from './account.model';
+import { RegistrationIdModel, RegisterApiModel, LoginViewModel, AccessTokenModel, UserInfo, IName, RegisterExternalBindingModel, StoredUserModel, IExternalAccessTokenBindingModel, UserIdModel, EmailModel } from './account.model';
+import { DialogModalService } from './../../shared/modals/dialog/modal.dialog.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -20,7 +22,9 @@ export class AccountService {
 
     constructor(
         private http: InterceptedHttp,
-        private imageHandler: ImageHandler) { }
+        private imageHandler: ImageHandler,
+        private translateService: TranslateService,
+        private dialogModalService: DialogModalService) { }
 
     public getAccessTokenForExternalUser(providerKey: string, loginProvider: string, externalAccessToken: string): Observable<AccessTokenModel> {
         let accessTokenBindingModel: IExternalAccessTokenBindingModel =
@@ -107,6 +111,33 @@ export class AccountService {
                 return null;
             });
         });
+    }
+
+    public getUserById(model: UserIdModel): Observable<UserInfo> {
+      let userModelId: string = JSON.stringify(model);
+      console.log("userModelId = " + userModelId);
+      return this.http.authorizedPost('/api/Account/GetUserById', userModelId, null).flatMap((res: Response) => {
+          console.log("getUserInfo Status Code = " + res.status);
+          let httpResponse: HttpResponseSuccessModel = res.json();
+          //ADD USER INTO NATIVESTORAGE
+          let user: StoredUserModel = httpResponse.content;
+          return this.addUserIntoStorage(user).map((isSuccess: boolean) => {
+            return user;
+          });
+      }).catch(error => {
+        console.log("getAccessTokenFromStorage Exception");
+        return Observable.throw(x => "GetUserById Exception = " + JSON.stringify(error));
+      });
+    }
+
+    public getRegistrationId(registrationId: string): Observable<any> {
+      //Get Token From LocalStorage
+      var registrationIdModel = new RegistrationIdModel(registrationId);
+
+      return this.http.authorizedPost('/api/Account/GetRegistrationId', JSON.stringify(registrationIdModel), null).map((res: Response) => {
+        let httpResponse: HttpResponseSuccessModel = res.json();
+        return httpResponse.content;        
+      });
     }
 
     public updateUser(model: UserInfo): Observable<StoredUserModel> {
@@ -231,41 +262,42 @@ export class AccountService {
 
     public logout(): Observable<boolean> {
         console.log("logout");
-        let facebookStatusPromise: Promise<any> = Facebook.getLoginStatus().then(x => x);
-        let facebookStatusObservable: Observable<any> = Observable.fromPromise(facebookStatusPromise);
-
-        let facebookLogoutPromise: Promise<any> = Facebook.logout().then(x => x);
-        let facebookLogout: Observable<any> = Observable.fromPromise(facebookLogoutPromise);
-
-        let removeAccountCachesPromise: Promise<any> = this.removeAccountCaches().then(x => x);
-        let removeAccountCaches: Observable<any> = Observable.fromPromise(removeAccountCachesPromise);
+      
         console.log("logout 2");
+      
         return this.getExternalAccessTokenFromStorage().flatMap((externalAccessToken: IExternalAccessTokenBindingModel) => {
+          
             console.log("logout 3");
-            return facebookStatusObservable.flatMap(response => {
+            return Observable.fromPromise(Facebook.getLoginStatus()).flatMap(response => {
                 console.log("response.status = " + response.status);
                 if (response.status === 'connected') {
-                    return facebookLogout.map(logout => {
-                        return removeAccountCaches.map(x => {
+
+                  return Observable.fromPromise(Facebook.logout()).flatMap(logout => {
+                      return Observable.fromPromise(this.removeAccountCaches()).map(x => {
                             return x;
                         });
                     });
                 } else {
-                    return removeAccountCaches.map(x => {
+                  return Observable.fromPromise(this.removeAccountCaches()).map(x => {
                         return x;
                     });
                 }
             }).catch(err => {
                 console.log("Facebook Status Exception");
-                return removeAccountCaches.map(x => {
+                return Observable.fromPromise(this.removeAccountCaches()).map(x => {
                     return x;
                 }); 
             })
+        }, error => {
+          console.log("External Logout Error");
+          return Observable.fromPromise(this.removeAccountCaches()).map(x => {
+            return x;
+          });
         }).catch(error => {
-            console.log("External Logout Exception");
-            return removeAccountCaches.map(x => {
-                return x;
-            });
+          console.log("External Logout Exception");
+          return Observable.fromPromise(this.removeAccountCaches()).map(x => {
+              return x;
+          });
         });
     }
 
@@ -312,19 +344,56 @@ export class AccountService {
             return x;
         }).catch(x => {
             console.log("GetAccessTokenFromStorage Exception");
-            return null;
+            let accessTokenBindingModel: IExternalAccessTokenBindingModel =
+              {
+                providerKey: null,
+                loginProvider: null,
+                externalAccessToken: null
+              }
+            return Observable.throw(x => accessTokenBindingModel);
         });
     }
 
     public getExternalAccessTokenFromStorage(): Observable<IExternalAccessTokenBindingModel> {
-        let externalAccessTokenPromise: Promise<any> = NativeStorage.getItem('externalAccessToken');
-        let getExternalAccessTokenFromStorage: Observable<IExternalAccessTokenBindingModel> = Observable.fromPromise(externalAccessTokenPromise);
-
-        return getExternalAccessTokenFromStorage.map(x => {
+      
+      console.log("getExternalAccessTokenFromStorage invoked 3");
+      return Observable.fromPromise(NativeStorage.getItem('externalAccessToken')
+        .then((x: IExternalAccessTokenBindingModel) => x,
+        error => {
+          console.log("GetExternalAccessTokenFromStorage getItem error = " + JSON.stringify(error));
+          let accessTokenBindingModel: IExternalAccessTokenBindingModel =
+            {
+              providerKey: null,
+              loginProvider: null,
+              externalAccessToken: null
+            }
+          return accessTokenBindingModel;
+        })
+        .catch(error => {
+          console.log("getExternalAccessTokenFromStorage error = " + JSON.stringify(error));
+          let accessTokenBindingModel: IExternalAccessTokenBindingModel =
+            {
+              providerKey: null,
+              loginProvider: null,
+              externalAccessToken: null
+            }
+          
+          return Observable.throw(x => accessTokenBindingModel);
+        })).map(x => {
+          console.log("getExternalAccessTokenFromStorage invoked 4");
             return x;
+        }, error => {
+          console.log("getExternalAccessTokenFromStorage getItem map error = " + JSON.stringify(error));
+          return null;
         }).catch(x => {
-            console.log("GetExternalAccessTokenFromStorage Exception");
-            return null;
+          console.log("GetExternalAccessTokenFromStorage Exception");
+            let accessTokenBindingModel: IExternalAccessTokenBindingModel =
+            {
+              providerKey: null,
+              loginProvider: null,
+              externalAccessToken: null
+            }
+            return Observable.throw(x => accessTokenBindingModel);
         });
     }
 
@@ -392,5 +461,37 @@ export class AccountService {
             console.log("RemoveAccountCaches Exception")
             return false;
         });
-    }    
+    }
+
+    public forgotPassword(emailModel: EmailModel, cb): Observable<boolean> {
+      return this.http.post("/api/Account/ForgotPassword", JSON.stringify(emailModel), null).flatMap((x: Response) => {
+        console.log("forgotPassword result = " + x.json());
+
+        let result: boolean = x.json();
+
+        return this.translateService.get("FORGOT_PASSWORD_MESSAGE").flatMap((forgotPasswordMessage: string) => {
+          return  this.translateService.get("FORGOT_PASSWORD_TITLE").flatMap((forgotPasswordTitle: string) => {
+            return this.translateService.get("OK").flatMap((ok: string) => {
+              console.log("forgotPasswordMessage = " + forgotPasswordMessage);
+              return this.dialogModalService.displayDialogModal(forgotPasswordMessage, forgotPasswordTitle, ok, null, cb).map(y => {
+                console.log("forgotPasswordTitle  x = " + y);
+                return y;
+              });
+            });
+          });
+        });
+      }).catch(error => {
+        return this.translateService.get("FORGOT_PASSWORD_FAILED_MESSAGE").flatMap((forgotPasswordFailedMessage: string) => {
+          return this.translateService.get("FORGOT_PASSWORD_FAILED_TITLE").flatMap((forgotPasswordFailedTitle: string) => {
+            return this.translateService.get("OK").flatMap((ok: string) => {
+              console.log("forgotPasswordFailedMessage = " + forgotPasswordFailedMessage);
+              return this.dialogModalService.displayDialogModal(forgotPasswordFailedMessage, forgotPasswordFailedTitle, ok, null, null).map(x => {
+                console.log("forgotPasswordFailedTitle x = " + JSON.stringify(x));
+                return null;
+              });
+            });
+          });
+        });
+      });
+    }
 }

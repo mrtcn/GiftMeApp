@@ -5,6 +5,6 @@ import { AuthComponent } from './../../../auth/auth.component';
 import { DialogModalService } from './modal.dialog.service';
 import { ModalController } from 'ionic-angular';
 
-export function dialogModalFactory(translateService: TranslateService, modalCtrl: ModalController, accountService: AccountService, injector: Injector): DialogModalService {
-    return new DialogModalService(translateService, modalCtrl, accountService, injector);
+export function dialogModalFactory(translateService: TranslateService, modalCtrl: ModalController, injector: Injector): DialogModalService {
+    return new DialogModalService(translateService, modalCtrl, injector);
 }

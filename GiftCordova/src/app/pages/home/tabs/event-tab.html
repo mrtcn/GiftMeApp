@@ -10,7 +10,7 @@
     <ion-grid text-center no-padding class="event-tab-grid">
         <!--<ion-row (click)="eventClick(userEvent.id)" class="event-tab-row" *ngFor="let userEvent of eventList | async" [ngStyle]="{'background-image': ' url(assets/inner-pages/bg_overlay.png), url(' + userEvent.eventImagePath + ')', 'background-repeat': 'no-repeat, no-repeat', 'background-size': 'cover, cover'}" text-center bottom>-->
         <ion-row (click)="eventClick(userEvent.id)" class="event-tab-row" *ngFor="let userEvent of eventList | async" text-center bottom>
-            <ion-col class="event-tab-col-profile-pic" col-3>
+            <ion-col class="event-tab-col-profile-pic" col-3 (click)="navToProfile(userEvent.eventOwner.userId); $event.stopPropagation()" >
                 <ion-avatar item-start>
                     <img src="{{userEvent.eventOwner.userThumbnailPath}}" />
                 </ion-avatar>

@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams, NavController, App, Events } from 'ionic-angular';
 import { AccountService } from '../../../auth/shared/account.service';
 import { EventService } from '../../../services/event/event.service';
-import { HomeEventListViewModel } from '../../../services/event/event.model';
+import { HomeEventListViewModel, EventIdModel, EventListModel, EventDetailModel } from '../../../services/event/event.model';
 import { EventDetailComponent } from '../../../pages/event/event-detail/event-detail.component';
+import { ProfilePage } from './../../profile/profile.component'
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -28,14 +29,24 @@ export class EventTabComponent implements OnInit {
         private navCtrl: NavController,
         private events: Events,
         private app: App) {
-        this.events.subscribe('searchbarInput', (searchTerm) => {
-            this.eventService.searchEventList(this.navParams.data, searchTerm).subscribe((x: Array<HomeEventListViewModel>) => {
+      this.events.subscribe('searchbarInput', (searchTerm) => {
+
+        console.log("JSON.stringify(this.navParams.data) = " + this.navParams.data);
+        console.log("JSON.stringify(this.navParams.data) JSON.stringify = " + JSON.stringify(this.navParams.data));
+
+        let paramModel: EventListModel = JSON.parse(JSON.stringify(this.navParams.data));
+        paramModel.searchTerm = searchTerm;
+        console.log("searchbarInput searchTerm = " + searchTerm );
+
+        console.log("JSON.Parse = " + JSON.stringify(paramModel));
+        
+        this.eventService.searchEventList(paramModel).subscribe((x: Array<HomeEventListViewModel>) => {
                 console.log("toggleSearchbar subscribe works");
                 this._eventList.next(x);
             }, error => {
                 console.log("toggleSearchbar subscribe errors");
             });
-        })
+      })      
     }
 
     ngOnInit()
@@ -48,19 +59,27 @@ export class EventTabComponent implements OnInit {
     }
 
     public getEventList() {
-        return this.eventService.getEventList(this.navParams.data).subscribe((x: Array<HomeEventListViewModel>) => {
+        let paramModel: EventListModel = JSON.parse(JSON.stringify(this.navParams.data));
+        return this.eventService.getEventList(paramModel).subscribe((x: HomeEventListViewModel[]) => {
             this._eventList.next(x);
         }, error => {
         });
     }
 
     public eventClick(eventId: number) {
-        this.app.getRootNav().push(EventDetailComponent, eventId);
+      console.log("eventID = " + eventId);
+      this.app.getRootNav().push(EventDetailComponent, new EventDetailModel(2, eventId));
+    }
+
+    public navToProfile(userId: number) {
+      console.log("userId = " + userId);
+      this.app.getRootNav().push(ProfilePage, userId);
     }
 
     doRefresh(refresher) {
-        setTimeout(() => {
-            this.eventService.getEventList(this.navParams.data).subscribe((x: Array<HomeEventListViewModel>) => {
+      setTimeout(() => {
+        let paramModel: EventListModel = JSON.parse(JSON.stringify(this.navParams.data));
+        this.eventService.getEventList(paramModel).subscribe((x: HomeEventListViewModel[]) => {
                 this._eventList.next(x);
                 refresher.complete();
             }, error => {

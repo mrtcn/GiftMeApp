@@ -62,17 +62,23 @@ export class GiftItemList {
     ) { }
 }
 
-export class EventListType{
-    constructor(public eventListType: number) { }
-}
-
-export class SearchEventListModel {
-    constructor(
-        public eventListType: number,
-        public searchTerm: string
-    ) { }
+export class EventListModel{
+  constructor(
+    public userId: number,
+    public eventListType: number,
+    public searchTerm: string
+  ) { }
 }
 
 export class EventIdModel {
-    constructor(public eventId: number) { }
+  constructor(
+    public eventId: number
+  ) { }
+}
+
+export class EventDetailModel {
+  constructor(
+    public itemTypeId: number,
+    public eventId: number
+  ) { }
 }

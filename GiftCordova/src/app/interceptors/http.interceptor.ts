@@ -7,10 +7,10 @@ import { IAppConfig, APP_CONFIG } from '../app.config';
 import { StoredUserModel, AccessTokenModel } from '../auth/shared/account.model';
 import { AccountService } from './../auth/shared/account.service';
 import { AuthComponent } from './../auth/auth.component';
-import { HttpResponseErrorModel, HttpResponseSuccessModel } from './http.model'
+import { HttpResponseErrorModel, HttpResponseSuccessModel, HttpResponseTokenErrorModel } from './http.model'
 import { LocalizationService } from './../services/localization/localization.service';
 import { DialogModalService } from './../shared/modals/dialog/modal.dialog.service';
-import { NavController, App } from 'ionic-angular';
+import { NavController, App, Modal } from 'ionic-angular';
 
 @Injectable()
 export class InterceptedHttp extends Http {
@@ -51,9 +51,21 @@ export class InterceptedHttp extends Http {
         }
         url = this.updateUrl(url);
         return super.get(url, this.getRequestOptionArgs(options)).map(x => x).catch(error => {
-            let errorResponse: any = error._body;
-            return this.getDialogModalService().displayDialogModal(errorResponse.message, "ERROR").map(x => {
-                return null;
+
+          let errorResponse: HttpResponseErrorModel = JSON.parse(error._body);
+
+          //Token Response has different _body attributes
+          if (!errorResponse) {
+            let tokenErrorResponse = JSON.parse(error._body) as HttpResponseTokenErrorModel;
+            errorResponse.errorCode = 400;
+            errorResponse = new HttpResponseErrorModel(400, tokenErrorResponse.error_description, null);
+          }
+
+          let cb = function () {
+            console.log("callback invoked 2");
+          }
+          return this.getDialogModalService().displayDialogModal(errorResponse.errorMessage, "ERROR","OK", null, this.callbackForError.bind(this, error.status) ).map(x => {
+                return error;
             });
         });
     }
@@ -62,25 +74,49 @@ export class InterceptedHttp extends Http {
         url = this.updateUrl(url);
         return super.post(url, body, this.getRequestOptionArgs(options)).map((res: Response) => {
             console.log("authorizedPost res = " + res.text());
-
             if (res.status >= 200 && res.status <= 300) {
                 let successResponse: HttpResponseSuccessModel = res.json();
                 if (successResponse.code == 1234) {
-                    return this.getDialogModalService().displayDialogModalWithCulture(successResponse.message)
+                  return this.getDialogModalService().displayDialogModal(successResponse.message, null, "OK", null,  this.callbackForError.bind(this, res.status) )
                 }
             }
             return res;
         }, error => {
-            console.log("AuthorizedPost Exception = " + JSON.stringify(error));
-            this.getDialogModalService().displayDialogModalWithCulture("UNKNOWN_ERROR_TITLE", "UNKNOWN_ERROR_MESSAGE");            
+          console.log("AuthorizedPost Exception error = ");
+          console.log("AuthorizedPost Exception = " + JSON.stringify(error));          
+            this.getDialogModalService().displayDialogModal("UNKNOWN_ERROR_TITLE", "UNKNOWN_ERROR_MESSAGE", "OK", null,  this.callbackForError.bind(this, error.status) );            
 
             return null;
-        }).catch(error => {
+          }).catch(error => {
+            console.log("AuthorizedPost Exception catch = ");
             console.log("AuthorizedPost Exception = " + JSON.stringify(error));
-            let errorResponse: any = JSON.parse(error._body);
+            let errorResponse: HttpResponseErrorModel = JSON.parse(error._body);
+
+            console.log("AuthorizedPost Exception errorResponse = " + errorResponse);
+
+            //Token Response has different _body attributes
+            if (!errorResponse.errorCode) {
+              let tokenErrorResponse = JSON.parse(error._body) as HttpResponseTokenErrorModel;
+              errorResponse.errorCode = 400;
+              errorResponse = new HttpResponseErrorModel(400, tokenErrorResponse.error_description, null);
+            }
+
             console.log("AuthorizedPost Exception errorResponse = " + JSON.stringify(errorResponse));
-            return this.getDialogModalService().displayDialogModal(errorResponse.message, "ERROR").map(x => {
-                return null;
+
+            return this.getDialogModalService().displayDialogModal(errorResponse.errorMessage, "ERROR", "OK", null, this.callbackForError.bind(this, error.status)).map(x => {
+              //if (x) {
+              console.log("displayDialogModal x = " + JSON.stringify(x));
+              console.log("error.status = " + error.status);
+
+                //return this.getAccountService().logout().map(x => {
+                //  return this.navCtrl().push(AuthComponent).then(z => {
+                //    console.log("logout and navigated");
+                //    return false;
+                //  });
+                //});
+              
+              return error;
+              //}              
             });
         });
     }
@@ -89,51 +125,68 @@ export class InterceptedHttp extends Http {
         console.log("authorizedPost");
         url = this.updateUrl(url);
         console.log("authorizedPost url = " + url);
-
-        //return this.getDialogService()
-        //    .displayDialog("Lorem Ipsum dolor amet", "ERROR")
-        //    .map(x => {
-        //        console.log("localizationService 1");
-        //        return null;
-        //    });     
+        console.log("authorizedPost body = " + body);
+   
         return this.addAuthorizationHeaders(options).flatMap((x: RequestOptionsArgs) => {
             console.log("addAuthorizationHeaders options success = " + JSON.stringify(x));
             return super.post(url, body, x).map((res: Response) => {
                 console.log("authorizedPost res = " + res.text());
-
+                console.log("authorizedPost res.status 1 = " + res.status);
                 if (res.status >= 200 && res.status <= 300) {                   
                     let successResponse: HttpResponseSuccessModel = res.json();                   
                     if (successResponse.code == 1234) {
-                        this.getDialogModalService().displayDialogModalWithCulture(successResponse.message);
+                      this.getDialogModalService().displayDialogModal(successResponse.message, null, "OK", null, this.callbackForError.bind(this, res.status) );
                     }
                 }               
                 return res;
             }).catch(error => {
-                console.log("AuthorizedPost Exception 2 = " + JSON.stringify(error));
                 let errorResponse: any = JSON.parse(JSON.stringify(error));
-                let bodyResponse: any = JSON.parse(errorResponse._body);
-                console.log("AuthorizedPost bodyResponse 2 = " + JSON.stringify(bodyResponse));
+                let bodyResponse: HttpResponseErrorModel = JSON.parse(errorResponse._body);
+
+                //Token Response has different _body attributes
+                if (!bodyResponse) {
+                  let tokenErrorResponse = JSON.parse(error._body) as HttpResponseTokenErrorModel;
+                  bodyResponse.errorCode = 400;
+                  bodyResponse = new HttpResponseErrorModel(400, tokenErrorResponse.error_description, null);
+                }
+
+                console.log("errorResponse = " + JSON.stringify(errorResponse));
+                console.log("bodyResponse = " + JSON.stringify(bodyResponse));
+
                 let status: string = errorResponse.status;
-                console.log("AuthorizedPost status 2 = " + JSON.stringify(status));
+
+                let cb = function () {
+                  console.log("callback invoked");
+                }
 
                 return this.getDialogModalService()
-                    .displayDialogModal(bodyResponse.message, "ERROR")
-                    .map(y => {
-                        console.log("localizationService 2");
+                  .displayDialogModal(bodyResponse.errorMessage, "ERROR", "OK", null,  this.callbackForError.bind(this, error.status) )
+                  .map(y => {
+                      console.log("localizationService 2");
+                      if (status == "401") {
+                        return this.getAccountService().logout().map(x => {
+                          return this.navCtrl().push(AuthComponent).then(z => {
+                            console.log("logout and navigated");
+                            return false;
+                          });
+                        });
+                        
+                      }
                         return true;
                         //return this.getAccountService().logout().map(z => {
                         //    console.log("localizationService 4");
                         //    console.log("localizationService 5");
                         //    // DON'T USE NAVCONTROLLER IN SERVICES!
-                        //    this.navCtrl().push(AuthComponent);
+                        
+                        
                         //    console.log("navigate to xxx");
                         //    return true;
-                        }).catch(error => {
-                            console.log("localizationService 6 = " + error);
-                            return Observable.of(false);
-                        });
+                  }).catch(error => {
+                      console.log("localizationService 6 = " + error);
+                      return Observable.of(false);
+                  });
                         
-                    });                
+            });                
             //});
         })
     }
@@ -142,19 +195,24 @@ export class InterceptedHttp extends Http {
     //    console.log("navigateToAuth has been called");
     //}
 
-    navigateToAuth(): Observable<boolean> {
-        console.log("localizationService 3");
-        return this.getAccountService().logout().map(z => {
-            console.log("localizationService 4");
-            let nav: NavController = this.navCtrl();
-            console.log("localizationService 5");
-          nav.setRoot(AuthComponent);
-          console.log("navigate to xxx");
-          return true;
-        }).catch(error => {
-            console.log("localizationService 6");
-            return Observable.of(false);
-        });
+    callbackForError(status): Observable<boolean> {
+      console.log("localizationService 3 = " + status);
+
+      if (status != 401)
+        return null;
+      
+      return this.getAccountService().logout().map(z => {
+        console.log("localizationService 4");
+        let nav: NavController = this.navCtrl();
+        console.log("localizationService 5");
+        nav.setRoot(AuthComponent);
+        console.log("navigate to xxx");
+        return true;
+      }).catch(error => {
+        console.log("localizationService 6");
+        return Observable.of(false);
+      });
+                
     }
 
     put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
@@ -201,8 +259,6 @@ export class InterceptedHttp extends Http {
             
             options.headers.append('Authorization', 'Bearer ' + accessToken.access_token);
             return options;
-        })
-        
+        })        
     }
-
 }

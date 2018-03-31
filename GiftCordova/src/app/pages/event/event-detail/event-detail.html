@@ -30,9 +30,9 @@
     </div>
     <div #eventTabs *ngIf="(eventDetail | async)?.id && (eventDetail | async)?.id != 0" class="event-detail-list">
         <ion-tabs no-margin no-padding selectedIndex="1">
-            <ion-tab [root]="EventDetailItems1" (ionSelect)="eventTabsChanged(1)" [rootParams]="{itemTypeId:1, eventId: (eventDetail | async)?.id}" tabTitle="{{'ALL' | translate}}"></ion-tab>
-            <ion-tab [root]="EventDetailItems2" (ionSelect)="eventTabsChanged(2)" [rootParams]="{itemTypeId:2, eventId: (eventDetail | async)?.id}" tabTitle="{{'BOUGHT' | translate}}"></ion-tab>
-            <ion-tab [root]="EventDetailItems3" (ionSelect)="eventTabsChanged(3)" [rootParams]="{itemTypeId:3, eventId: (eventDetail | async)?.id}" tabTitle="{{'LEFT' | translate}}"></ion-tab>
+            <ion-tab [root]="EventDetailItems1" (ionSelect)="eventTabsChanged(1)" [rootParams]="{itemTypeId: 1, eventId: (eventDetail | async)?.id}" tabTitle="{{'ALL' | translate}}"></ion-tab>
+            <ion-tab [root]="EventDetailItems2" (ionSelect)="eventTabsChanged(2)" [rootParams]="{itemTypeId: 2, eventId: (eventDetail | async)?.id}" tabTitle="{{'BOUGHT' | translate}}"></ion-tab>
+            <ion-tab [root]="EventDetailItems3" (ionSelect)="eventTabsChanged(3)" [rootParams]="{itemTypeId: 3, eventId: (eventDetail | async)?.id}" tabTitle="{{'LEFT' | translate}}"></ion-tab>
         </ion-tabs>
     </div>
 </ion-content>

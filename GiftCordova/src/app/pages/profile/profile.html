@@ -1,12 +1,33 @@
-﻿<ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>Profile</ion-title>
-    </ion-navbar>
-</ion-header>
+<toolbar [isNotificationIconHidden]="isNotificationIconHidden"
+         [isAddFriendIconHidden]="isAddFriendIconHidden"
+         [isSearchIconHidden]="isSearchIconHidden"
+         [isAddIconHidden]="isAddIconHidden">
+</toolbar>
 
-<ion-content padding>
-    <h3>Profile</h3>
+<ion-content padding class="profile-content" scroll="false">
+  <div class="profile-info">
+    <ion-row>
+      <ion-col col-3>
+        <ion-avatar item-start class="profile-info-avatar">
+          <img src="{{(profile | async)?.imagePath}}" />
+        </ion-avatar>
+      </ion-col>
+      <ion-col class="profile-description" col-7>
+        <p>{{(profile | async)?.fullName}}</p>
+        <p>{{(profile | async)?.birthdate | localizedDate:'shortDate'}}</p>
+      </ion-col>
+      <ion-col class="profile-settings">
+        <button ion-button icon-start (click)="navToProfileSettings()">
+          <ion-icon ios="ios-settings" md="md-settings"></ion-icon>
+        </button>
+</ion-col>
+    </ion-row>
+  </div>
+  <div #profileTabs *ngIf="(profile | async)?.id && (profile | async)?.id != 0" class="profile-list">
+    <ion-tabs no-margin no-padding selectedIndex="1">
+      <ion-tab [root]="ProfileInfoTab" (ionSelect)="profileTabsChanged(1)" [rootParams]="{profileTypeId:1, userId:  (profile | async)?.id}" tabTitle="{{'PROFILE' | translate}}"></ion-tab>
+      <ion-tab [root]="EventTab" (ionSelect)="profileTabsChanged(2)" [rootParams]="{userId: (profile | async)?.id, eventListType:4, searchTerm: null}" tabTitle="{{'WISHLISTS' | translate}}"></ion-tab>
+      <ion-tab [root]="FriendTab" (ionSelect)="profileTabsChanged(3)" [rootParams]="{userId: (profile | async)?.id}" tabTitle="{{'FRIENDS' | translate}}"></ion-tab>
+    </ion-tabs>
+  </div>
 </ion-content>

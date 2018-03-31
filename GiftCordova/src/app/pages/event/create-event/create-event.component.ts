@@ -6,7 +6,7 @@ import { AuthComponent } from '../../auth/auth.component';
 import { EventDetailComponent } from './../event-detail/event-detail.component';
 import { AccountService } from '../../../auth/shared/account.service';
 import { EventService } from '../../../services/event/event.service';
-import { CreateEventModel, EventIdModel } from '../../../services/event/event.model';
+import { CreateEventModel, EventIdModel, EventDetailModel } from '../../../services/event/event.model';
 import { GiftDatePickerComponent } from '../../helpers/directives/datepicker/datepicker.component';
 
 import { Observable } from 'rxjs/Observable';
@@ -78,7 +78,7 @@ export class CreateEventComponent implements OnInit, AfterViewInit {
         this.eventService.createEvent(this.createEvent, targetPath, imgPath).subscribe(x => {
             this.loading.dismissAll();
             this.navCtrl.pop().then(() => {
-                this.navCtrl.popTo(EventDetailComponent, x)
+              this.navCtrl.popTo(EventDetailComponent, new EventDetailModel(2, x))
             })
         }, error => {
             this.loading.dismissAll();

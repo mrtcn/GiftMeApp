@@ -25,6 +25,7 @@ export class EventDetailItemsComponent implements OnInit  {
     private _itemDetail = new BehaviorSubject<ItemViewModel[]>(null);
     itemDetail = this._itemDetail.asObservable();
 
+    itemTypeId: number = 2;
     itemToggle: number = 0;
     lastImage: string = null;
     loading: Loading;
@@ -37,16 +38,22 @@ export class EventDetailItemsComponent implements OnInit  {
         public loadingCtrl: LoadingController,
         public events: Events,
         private app: App) {
-        events.subscribe('tab:clicked', (itemTypeId, eventId) => {
-            this.itemService.getItemList(eventId, itemTypeId).subscribe(x => {
+      events.subscribe('tab:clicked', (itemTypeId, eventId) => {
+        console.log("tab:clicked = itemTypeId = " + itemTypeId + " && eventId = " + eventId);
+
+        this.itemTypeId = itemTypeId;
+        this.itemService.getItemList(eventId, itemTypeId).subscribe(x => {
+            console.log("getItemList in events.subscribe = " + JSON.stringify(x));
                 this._itemDetail.next(x);
             });
         });
     }
 
     ngOnInit() {
-        let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
-        this.itemService.getItemList(itemParams.eventId, itemParams.itemTypeId).subscribe(x => {
+      let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
+      console.log("ngOnInit itemParams = " + JSON.stringify(itemParams));
+      this.itemService.getItemList(itemParams.eventId, this.itemTypeId).subscribe(x => {
+        console.log("getItemList in ngOnInit = " + JSON.stringify(x));
             this._itemDetail.next(x);
         });
     }    
@@ -67,7 +74,8 @@ export class EventDetailItemsComponent implements OnInit  {
 
         this.itemService.toggleItemBuyStatus(id, !isBought, giftStatus).subscribe(x => {            
             let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
-            this.itemService.getItemList(itemParams.eventId, itemParams.itemTypeId).subscribe(itemDetail => {
+            this.itemService.getItemList(itemParams.eventId, this.itemTypeId).subscribe(itemDetail => {
+                console.log("getItemList in toggleBuyStatus = " + JSON.stringify(x));
                 this._itemDetail.next(itemDetail);
             });
         });
@@ -75,11 +83,14 @@ export class EventDetailItemsComponent implements OnInit  {
 
     doRefresh(refresher) {
 
-        setTimeout(() => {
-            let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
-            this.itemService.getItemList(itemParams.eventId, itemParams.itemTypeId).subscribe(x => {
-                refresher.complete();
-                this._itemDetail.next(x);
+      setTimeout(() => {
+        console.log("JSON.stringify(this.navParams.data) = " + JSON.stringify(this.navParams.data));
+        let itemParams: GiftItemTabNavParams = JSON.parse(JSON.stringify(this.navParams.data));
+        console.log("itemParams = " + JSON.stringify(itemParams));
+        this.itemService.getItemList(itemParams.eventId, this.itemTypeId).subscribe(x => {
+          console.log("getItemList in refresher = " + JSON.stringify(x));
+              this._itemDetail.next(x);
+              refresher.complete();
             }, error => {
                 console.log("Event Tab Refresher Error = " + JSON.stringify(error));
             });

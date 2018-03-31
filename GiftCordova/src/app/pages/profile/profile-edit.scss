@@ -1,0 +1,155 @@
+﻿/*REGISTER HEADERS*/
+.register-header{
+    z-index: auto !important;
+}
+
+/*REGISTER HEADERS ENDS*/
+
+/*REGISTER CONTAINER*/
+.register-container{
+    background-image: url('./../assets/img/shared/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.register-container ion-item{
+    background-color: transparent;
+}
+
+.register-form-img-item .item-inner {
+    border-bottom: 0 !important;
+}
+
+.register-form-img-item img{
+    width: 35%;
+}
+
+.register-input-item-username{
+    background-image: url('./../assets/img/shared/name.png');
+}
+
+.register-input-item-password{
+    background-image: url('./../assets/img/shared/password.png');
+}
+
+.register-input-item-email{
+    background-image: url('./../assets/img/register/email.png');
+}
+
+.register-input-item-birthday{
+    height: 4.4em;
+    background-image: url('./../assets/img/register/birthday.png');
+}
+
+.register-input-item-birthday .input-wrapper{
+    width: 100%;
+}
+
+.register-input-item-birthday ion-datetime{
+    color: white;
+    font-weight: 100;
+    padding: 0;
+    padding-bottom: 0.5em;
+}
+
+.register-input-item-birthday ion-label{        
+    width: 40%;
+}
+
+.register-input-item-gender{
+    background-image: url('./../assets/img/register/gender.png');
+    height: 4.4em;
+}
+
+
+
+#register-gender-col-male-radio .radio-md.radio-checked{
+    border-color: none;
+    background-color: white;
+}
+
+/*REGISTER NAV*/
+.register-nav-grid{
+    color: white;
+    font-size: 1.3em;
+    font-weight: 100;
+}
+
+.register-nav-custom-close-button{
+    width: 30%;
+}
+
+.register-nav-custom-title{
+
+}
+/*REGISTER NAV ENDS*/
+
+/*REGISTER FOOTER*/
+.register-footer{
+    text-align: center;
+}
+
+.register-footer ion-title .toolbar-title{
+    color: white;
+    font-size: 1.3em;
+    font-weight: 100;
+}
+
+#register-top-section{
+    font-size: 1.3rem;
+    -webkit-flex: 2;
+    flex: 2;
+}
+
+#register-top-section img {
+    width: 30px;
+    height: 30px;
+}
+
+#register-top-section h2{
+    font-size: 2.2rem;
+}
+
+#register-bottom-section{
+    font-size: 1rem;
+    font-weight: 400;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+#register-content{
+    display: -webkit-flex;
+    display: flex;
+
+    flex-direction: column;
+}
+
+#register-wrapper{
+    height: 100%;
+}
+
+/*HAVE AN ACCOUNT SECTION*/
+#signin-button-section{
+    padding: 8px;
+}
+
+#signin-button-section button{
+    color: white;
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2rem;
+}
+
+#signin-button-section button #signin-button-first-text{
+    opacity: 0.6;
+}
+
+#signin-button-section button #signin-button-second-text{
+    opacity: 1;
+}
+
+#signin-button-section button span{
+    opacity: 1;
+}
+/*HAVE AN ACCOUNT SECTION ENDS*/

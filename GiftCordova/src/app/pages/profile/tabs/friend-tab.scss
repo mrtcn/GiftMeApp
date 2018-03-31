@@ -1,0 +1,44 @@
+.friend-tab-grid{
+}
+
+.friend-tab-row{
+    border-bottom: 0.3rem solid;
+    border-color: #c2c5d6;
+    margin: 0.6rem 0 0.6rem 0;
+}
+
+.grid[no-padding] > .row > .col.friend-tab-col-profile-pic {
+    background-color: transparent;
+    padding: 1rem 1rem 1rem 1rem
+}
+
+.friend-tab-col-profile-pic img{
+    border-radius: 50%;
+    border: 0.3rem solid;
+    border-color: #d9d9d9;
+    width: 86%;
+}
+
+.friend-tab-col-count-right img{    
+}
+
+.friend-tab-col-detail-text {    
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.friend-tab-col-detail-text span {
+    display: inline-block;
+}
+
+.friend-tab-col-detail-text-owner {    
+    color: #777d91;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.friend-tab-col-detail-text-name {
+    color: #c1c5d4;
+    font-size: 1.3rem;
+    font-weight: 600;
+}

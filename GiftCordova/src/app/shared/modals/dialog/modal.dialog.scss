@@ -1,8 +1,109 @@
-#modal-dialog-content{
+/*#modal-dialog-content{
   position: absolute;
   top: 50%;
   left: 15%;
   width: 70%;
   height: 30%;
   background-color: orangered;
+}*/
+
+.gift-modal {
+  background-color: rgba(0,0,0,0.3);
 }
+
+.gift-modal .active .modal-backdrop-bg {
+  opacity: .5;
+  transition: opacity 300ms ease-in-out;
+  background-color: #000;
+}
+
+@media not all and (min-height: 600px) and (min-width: 768px){
+  ion-modal ion-backdrop {
+    visibility: visible;
+  }
+}
+
+@media only screen and (min-height: 175px) and (min-width: 250px){
+  .md .gift-modal .modal-wrapper {
+    border-radius: 5%/7%;
+    overflow: hidden;
+    -webkit-box-shadow: 0 28px 95px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 28px 95px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.md .gift-modal .modal-wrapper {
+  -webkit-transform: translate3d(0, 40px, 0);
+  transform: translate3d(0, 40px, 0);
+  opacity: .01;
+}
+
+.gift-modal .modal-wrapper {
+  border-radius: 5%/7%;
+  z-index: 10;
+  height: 100%;
+}
+
+@media only screen and (min-height: 175px) and (min-width: 250px){
+  .gift-modal .modal-wrapper {
+    left: calc(50% - (350px/2));
+    top: calc(50% - (200px/2));
+    position: absolute;
+    width: 350px;
+    height: 200px;
+  }
+}
+
+@media only screen and (min-height: 175px) and (min-width: 250px){
+  .gift-modal .modal-wrapper {
+    left: calc(50% - (350px/2));
+    top: calc(50% - (175px/2));
+    position: absolute;
+    width: 350px;
+    height: 200px;
+  }
+}
+
+#modal-dialog {
+  background-color: #f0f0f0;
+}
+
+#modal-dialog img {
+  position: fixed;
+  top: -65px;
+  left: 50%;
+  transform: translate(-50%,0);
+}
+
+.modal-dialog-content {
+  height: 70%;
+  width: 90%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10%;
+  color: #9fa2b1;
+  font-size: 1.5rem;
+}
+
+.modal-dialog-buttons {
+  height: 30%;
+  width: 60%;
+  float: right;
+  margin-right: 3%;
+}
+
+.modal-dialog-button {
+  width: 40%;
+  border-radius: 25%/75%;
+}
+
+.modal-dialog-button-left {
+  background-color: #ea5858;
+  margin-right: 5%;
+}
+
+.modal-dialog-button-right {
+  background-color: #5b5c9f;
+}
+

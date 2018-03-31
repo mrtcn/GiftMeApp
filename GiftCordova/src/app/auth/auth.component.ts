@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Injectable, Inject, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, Injectable, Inject, ViewEncapsulation  } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { StatusBar, Splashscreen, InAppBrowser, Facebook, NativeStorage } from 'ionic-native';
 
@@ -8,6 +8,12 @@ import { AccountService } from './shared/account.service';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './registration/register.component';
 import { HomeComponent } from '../pages/home/home.component';
+import { ForgotPasswordComponent } from '../auth/forgot-password/forgot-password.component';
+
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
+import { DialogModalService } from './../shared/modals/dialog/modal.dialog.service';
+import { DeviceInfoModel } from './../services/device-info/device.info.model';
+import { DeviceInfoService } from './../services/device-info/device.info.service';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -36,7 +42,15 @@ export class AuthComponent implements OnInit {
     private _result = new BehaviorSubject<boolean>(false);
     result = this._result.asObservable();
 
-    constructor(public navCtrl: NavController, private platform: Platform, public alertController: AlertController, public accountService: AccountService, private app: App) {
+    constructor(
+      public navCtrl: NavController,
+      private platform: Platform,
+      public alertController: AlertController,
+      public accountService: AccountService,
+      private app: App,
+      private push: Push,
+      private dialog: DialogModalService,
+      private deviceInfoService: DeviceInfoService) {
 
     }
 
@@ -62,6 +76,61 @@ export class AuthComponent implements OnInit {
             let result: boolean = x.valueOf();
             this._result.next(result);
             this.app.getRootNav().setRoot(HomeComponent);
+
+            //// to check if we have permission
+            //this.push.hasPermission()
+            //  .then((res: any) => {
+
+            //    if (res.isEnabled) {
+            //      console.log('We have permission to send push notifications');
+            //    } else {
+            //      console.log('We do not have permission to send push notifications');
+            //    }
+
+            //  });
+            
+            //// to initialize push notifications
+
+            //const options: PushOptions = {
+            //  android: {
+            //    /**
+            //   * Maps to the project number in the Google Developer Console.
+            //   */
+            //    senderID: '601499812904'
+            //  },
+            //  ios: {
+            //    alert: 'true',
+            //    badge: true,
+            //    sound: 'false'
+            //  },
+            //  windows: {},
+            //  browser: {
+            //    pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+            //  }
+            //};
+
+            //const pushObject: PushObject = this.push.init(options);
+          
+            //pushObject.on('notification').subscribe((notification: any) => {
+
+            //  this.dialog.displayDialogModal("Notification = " + JSON.stringify(notification), "Notification", "OK", null, null).subscribe(x => {
+            //    console.log('Received a notification', JSON.stringify(notification));
+            //  });
+
+            //});
+
+            //pushObject.on('registration').subscribe((registration: any) => {
+            //  //this.deviceInfoService.RegisterDevice(registration.registrationId, null, null).subscribe(x => {
+            //  //  console.log("Has Device Registered = " + x);
+            //  //})              
+            //});
+
+            //pushObject.on('error').subscribe(error => {
+            //  this.dialog.displayDialogModal("pushObject error = " + JSON.stringify(error), "ERROR", "OK", null, null).subscribe(x => {
+            //    console.log('Received a error', + JSON.stringify(error));
+            //  });
+            //});
+
         }, err => {
             console.log("err = " + JSON.stringify(err));
         });
@@ -138,5 +207,9 @@ export class AuthComponent implements OnInit {
                     console.log(error);
                 });            
             });
+    }
+
+    navToForgotPassword() {
+      this.navCtrl.push(ForgotPasswordComponent);
     }
 }

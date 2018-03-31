@@ -9,7 +9,7 @@
     </ion-refresher>
     <ion-grid id="gift-list-grid">
 
-        <ion-row class="gift-list-row" *ngFor="let giftItem of (itemDetail | async)" text-center bottom>
+        <ion-row class="gift-list-row" *ngFor="let giftItem of itemDetail | async" text-center bottom>
             <ion-col (click)="toggleItemDescription(giftItem.id)" class="gift-item-col-item-pic" col-3>
                 <img src="{{giftItem.giftItemImagePath}}" />
             </ion-col>

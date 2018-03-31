@@ -38,11 +38,11 @@ export class DialogComponent {
 
     ok() {
         console.log("OK Pressed");
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss({asd: "ok"});
     }
 
     cancel() {
         console.log("CANCEL Pressed");
-        this.viewCtrl.dismiss();
+        this.viewCtrl.dismiss({ asd: "canceş" });
     }
 }

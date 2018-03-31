@@ -1,4 +1,4 @@
-﻿.scroll-content{
+.scroll-content{
     overflow-y: auto;
 }
 
@@ -10,8 +10,9 @@
     padding-right: 16px;
 }
 
-.ion-input-item .input-wrapper{
-    padding-left: 15%;
+.ion-input-item .input-wrapper {
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 .ion-input-item-label.label.label-md{
@@ -41,10 +42,10 @@
 //Vertical Align All
 .vertical-align-content
 {
-     display: flex!important;
-     justify-content: center;
-     align-content: center!important;
-     align-items: center!important;
+  display: flex!important;
+  justify-content: center;
+  align-content: center!important;
+  align-items: center!important;
 }
 
 // Focus Border Style
@@ -267,5 +268,15 @@ ion-radio-item ion-label{
 
 .ion-nav-grid ion-row{    
     margin-top: 0.5rem !important;
+}
+
+.ion-nav-toolbar-menu-button {
+  padding: 0 0.6rem;
+  min-width: 0;
+  margin-left: 0.5rem;
+}
+
+.ion-nav-toolbar-grid ion-row {
+  margin-top: 0 !important;
 }
 

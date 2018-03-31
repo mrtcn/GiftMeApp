@@ -1,4 +1,4 @@
-<ion-header class="home-header" no-border>
+<!--<ion-header class="home-header" no-border>
     <ion-navbar no-padding>
         <ion-toolbar color="eventListHeaderColor" no-padding>
             <ion-grid no-padding>
@@ -10,8 +10,7 @@
                     <ion-col [hidden]="isSearchbarOn" class="home-header-searchbar-title" col-3 (click)="toggleSearchbar()">
                         <span>
                             {{'CLOSE' | translate}}
-                        </span>
-                        
+                        </span>                        
                     </ion-col>
 
                     <ion-col col-2 [hidden]="!isSearchbarOn">
@@ -24,12 +23,12 @@
                         <ion-grid no-padding class="ion-nav-grid">
                             <ion-row no-padding>
                                 <ion-col  class="ion-nav-col-buttons" col-3>
-                                    <button class="ion-nav-button">
+                                    <button class="ion-nav-button" (click)="navigateToNotifications()">
                                         <img src="./assets/img/inner-pages/notification.png" />
                                     </button>
                                 </ion-col>
                                 <ion-col class="ion-nav-col-buttons" col-3>
-                                    <button class="ion-nav-col-buttons ion-nav-button">
+                                    <button class="ion-nav-col-buttons ion-nav-button" (click)="navigateToFriendManagement()">
                                         <img src="./assets/img/inner-pages/friends.png" />
                                     </button>
                                 </ion-col>
@@ -50,11 +49,16 @@
             </ion-grid>            
         </ion-toolbar>
     </ion-navbar>
-</ion-header>
-
+</ion-header>-->
+<toolbar [isNotificationIconHidden]="isNotificationIconHidden"
+         [isAddFriendIconHidden] ="isAddFriendIconHidden"
+         [isSearchIconHidden]="isSearchIconHidden"
+         [isAddIconHidden]="isAddIconHidden"
+         (searchAction)="searchAction($event)">
+</toolbar>
 <ion-content no-margin no-padding class="home-content">
     <ion-tabs no-margin no-padding selectedIndex="1">
-        <ion-tab [root]="EventTab" [rootParams]="2" tabTitle="{{'FRIENDS' | translate}}"></ion-tab>
-        <ion-tab [root]="EventTab" [rootParams]="3" tabTitle="{{'PUBLIC' | translate}}"></ion-tab>
+        <ion-tab [root]="EventTab" [rootParams]="{userId: null, eventListType:2, searchTerm: null}" tabTitle="{{'FRIENDS' | translate}}"></ion-tab>
+        <ion-tab [root]="EventTab" [rootParams]="{userId: null, eventListType:3, searchTerm: null}" tabTitle="{{'PUBLIC' | translate}}"></ion-tab>
     </ion-tabs>
 </ion-content>

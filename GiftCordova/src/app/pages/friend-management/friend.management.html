@@ -1,0 +1,99 @@
+<toolbar [isNotificationIconHidden]="isNotificationIconHidden"
+         [isAddFriendIconHidden]="isAddFriendIconHidden"
+         [isSearchIconHidden]="isSearchIconHidden"
+         [isAddIconHidden]="isAddIconHidden">
+</toolbar>
+
+<ion-content no-margin no-padding class="friend-management-content">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown"
+                           pullingText="Pull to refresh"
+                           refreshingSpinner="circles"
+                           refreshingText="Refreshing...">
+
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-col class="home-header-searchbar" col-9 >
+    <ion-searchbar #searchbar [(ngModel)]="searchTerm" (ionInput)="searchUserName()" animated="true" debounce="250" placeholder="{{'SEARCH_PLACEHOLDER' | translate}}">
+    </ion-searchbar>
+  </ion-col>
+
+  <ion-grid text-center no-padding class="friend-tab-grid">
+    <ion-row (click)="profileClick(user.userId); $event.stopPropagation()" class="friend-tab-row" *ngFor="let user of userList | async" text-center bottom>
+      <ion-col class="friend-tab-col-profile-pic" col-3 (click)="navToProfile(user.userId); $event.stopPropagation()">
+        <ion-avatar item-start>
+          <img src="{{user.thumbnailPath}}" />
+        </ion-avatar>
+      </ion-col>
+      <ion-col class="friend-tab-col-detail" col-6>
+        <ion-grid text-center no-padding>
+          <ion-row>
+            <ion-col col-12>
+              <div class="friend-tab-col-detail-text" text-left>
+                <span class="friend-tab-col-detail-text-owner">
+                  {{user.userName}}
+                </span>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let friendshipStatusItem of user.friendshipStatusList">
+            <ion-col col-12>
+              <div text-wrap class="friend-tab-col-detail-text" text-left>
+                <button *ngIf="friendshipStatusItem.isReadOnly != true; else friendshipStatusLabel" block ion-button clear full (click)="handleFriendshipStatus(friendshipStatusItem.friendshipStatus, user.userId); $event.stopPropagation()"
+                        class="vertical-align-content default-red-submit-button" color="light"
+                        center text-center>
+                  {{ friendshipStatusItem.friendshipStatusText }}
+                </button>
+                <ng-template #friendshipStatusLabel>
+                  <span class="friend-tab-col-detail-text-owner">
+                    {{friendshipStatusItem.friendshipStatusText}}
+                  </span>
+                </ng-template>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid text-center no-padding class="friend-tab-grid">
+    <ion-row (click)="profileClick(friendship.userId); $event.stopPropagation()" class="friend-tab-row" *ngFor="let friendship of friendshipList | async" text-center bottom>
+      <ion-col class="friend-tab-col-profile-pic" col-3 (click)="profileClick(friendship.userId); $event.stopPropagation()">
+        <ion-avatar item-start>
+          <img src="{{friendship.thumbnailPath}}" />
+        </ion-avatar>
+      </ion-col>
+      <ion-col class="friend-tab-col-detail" col-6>
+        <ion-grid text-center no-padding>
+          <ion-row>
+            <ion-col col-12>
+              <div class="friend-tab-col-detail-text" text-left>
+                <span class="friend-tab-col-detail-text-owner">
+                  {{friendship.userName}}
+                </span>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let friendshipStatusItem of friendship.friendshipStatusList" >
+            <ion-col col-12>
+              <div text-wrap class="friend-tab-col-detail-text" text-left>
+                <button *ngIf="friendshipStatusItem.isReadOnly != true; else friendshipStatusLabel" block ion-button clear full (click)="handleFriendshipStatus(friendshipStatusItem.friendshipStatus, friendship.userId); $event.stopPropagation()"
+                        class="vertical-align-content default-red-submit-button" color="light"
+                        center text-center>
+                  {{ friendshipStatusItem.friendshipStatusText }}
+                </button>
+                <ng-template #friendshipStatusLabel>
+                  <span class="friend-tab-col-detail-text-owner">
+                    {{friendshipStatusItem.friendshipStatusText}}
+                  </span>
+                </ng-template>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

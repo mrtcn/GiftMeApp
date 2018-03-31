@@ -1,0 +1,71 @@
+.toolbar-header {
+  background-color: $main-header-color;
+}
+
+.toolbar-header-searchbar {
+  padding-left: 0.6rem;
+  height: 4rem;
+}
+
+
+.toolbar-header-searchbar ion-searchbar .searchbar-input-container .searchbar-input {
+  background-color: #3b3c7e;
+  border-radius: 0.6rem !important;
+}
+
+.toolbar-header-searchbar-title {
+  font-size: 2rem;
+  font-weight: 500;
+  color: white;
+  height: 4rem;
+}
+
+.toolbar-header-searchbar-title span {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0.6rem 0.6rem 0.6rem 1.6rem;
+}
+
+.toolbar-header-searchbar ion-searchbar .searchbar-input-container .searchbar-search-icon {
+  left: 0.6rem;
+  top: 0.6rem;
+}
+
+.toolbar-header-searchbar ion-searchbar .searchbar-input-container .searchbar-input {
+  color: #ffffff;
+  line-height: 1.6rem;
+  font-weight: 100;
+  height: 3rem;
+  padding-left: 3rem;
+}
+
+.toolbar-header-searchbar ion-searchbar .searchbar-input-container .searchbar-input::-moz-placeholder {
+  padding-top: 0.2rem;
+  color: #ffffff;
+}
+
+.toolbar-header-searchbar ion-searchbar .searchbar-input-container .searchbar-input:-ms-input-placeholder {
+  padding-top: 0.2rem;
+  color: #ffffff;
+}
+
+.toolbar-header-searchbar ion-searchbar .searchbar-input-container .searchbar-input::-webkit-input-placeholder {
+  padding-top: 0.2rem;
+  text-indent: 0;
+  color: #ffffff;
+}
+
+.toolbar-header .toolbar .toolbar-background {
+  background-color: $main-header-color;
+}
+
+.toolbar-icon-img{
+  position: absolute;
+  height: 150%;
+  top: 0;
+}
+
+.toolbar-badge {
+  position: relative;
+}

@@ -1,60 +1,82 @@
 import { Injectable, Injector } from '@angular/core';
-import { ModalController } from 'ionic-angular';
+import { ModalController, Modal } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { AccountService } from './../../../auth/shared/account.service';
-import { AuthComponent } from './../../../auth/auth.component';
 import { DialogComponent } from './modal.dialog.component';
+import { InterceptedHttp } from './../../../interceptors/http.interceptor';
 
 
 export interface IDialogModalService {
-    displayDialogModalWithCulture(infoMessage: string, infoTitle: string);
-    displayDialogModal(infoMessage: string, infoTitle: string);
+  //displayDialogModalWithCulture(infoMessage: string, infoTitle: string, firstButtonText: string, secondButtonText: string, cb);
+  displayDialogModal(infoMessage: string, infoTitle: string, firstButtonText: string, secondButtonText: string, cb);
 }
 
 @Injectable()
 export class DialogModalService implements IDialogModalService {
-
+    interceptedHttp: InterceptedHttp;
     constructor(
         private translateService: TranslateService,
         private modalCtrl: ModalController,
-        private accountService: AccountService,
         private injector: Injector) { }
 
-    getAuthComponent(): AuthComponent {
-        return this.injector.get(AuthComponent);
+    getNavController(): InterceptedHttp {
+      return this.injector.get(InterceptedHttp);
     }
 
-    //getNavController(): NavController {
-    //    return this.injector.get(NavController);
-    //}
+    displayDialogModal(infoMessage: string, infoTitle: string = "INFO", firstButtonText: string, secondButtonText: string = null, cb) {
+      console.log("firstButtonText = " + firstButtonText);
 
-    displayDialogModalWithCulture(infoMessage: string, infoTitle: string = "INFO") {
-        return this.translateService.get(infoTitle).flatMap(title => {
-            return this.translateService.get(infoMessage).map(message => {
-                this.dialogModalPresent(infoMessage, title);
-                return true;
-            });
+      return Observable.forkJoin(
+        this.getTranslation(infoTitle),
+        this.getTranslation(infoMessage),
+        this.getTranslation(firstButtonText),
+        this.getTranslation(secondButtonText),
+        (infoTitle: string, infoMessage: string, firstButtonText: string, secondButtonText: string) => {
+          console.log("concat entered result = " + infoTitle + " - " + infoMessage + " - " + firstButtonText + " - " + secondButtonText);
+
+          let messageType: number = infoTitle == "INFO" ? 1 : 2;
+          let dialogModal = this.dialogModalPresent(infoMessage, infoTitle, firstButtonText, secondButtonText, messageType);
+
+          dialogModal.onDidDismiss(data => {
+            console.log("onDidDismiss invoked");
+            let http = this.getNavController();
+
+            if (cb) {
+              console.log("cb JSON = " + JSON.stringify(cb));
+              cb().subscribe(x => x);
+            }
+          });
+
+          return dialogModal;
         });
     }
 
-    displayDialogModal(infoMessage: string, infoTitle: string = "INFO"): Observable<any> {
-        console.log("displayDialogModal");
-        if (infoTitle === 'INFO' || infoTitle === 'ERROR') {
-            return this.translateService.get(infoTitle).map(title => {
-                this.dialogModalPresent(infoMessage, title);
-                return true;
-            });
-        } else {
-            this.dialogModalPresent(infoMessage, infoTitle);
-            return Observable.of(true);
-        }
+    // messageType = 1:Info, 2:Error
+    private dialogModalPresent(infoMessage: string, infoTitle: string, firstButtonText: string, secondButtonText: string, messageType: number): Modal {
+      let cssClass: string = messageType == 1 ? "gift-modal gift-modal-info" : "gift-modal gift-modal-error";
+      let dialogModal = this.modalCtrl.create(DialogComponent,
+        { "infoMessage": infoMessage, "infoTitle": infoTitle, "firstButtonText": firstButtonText, "secondButtonText": secondButtonText },
+        { showBackdrop: true, enableBackdropDismiss: false, cssClass: cssClass });
+      
+      dialogModal.present();
+
+      return dialogModal;
     }
 
-    private dialogModalPresent(infoMessage: string, infoTitle: string) {
+    private getTranslation(key: string): Observable<any> {
+      if (!key)
+        return Observable.of(null);
 
-        let dialogModal = this.modalCtrl.create(DialogComponent, { "infoMessage": infoMessage, "infoTitle": infoTitle, "firstButtonText": "OK", "secondButtonText": "CANCEL" });
-        dialogModal.present();
+     return this.translateService.get(key).map(x => {
+        console.log("key = " + x);
+        return x;
+      }, error => {
+        console.log("key error = " + JSON.stringify(error));
+        return Observable.of(null);
+      }).catch(error => {
+        console.log("key catch = " + JSON.stringify(error));
+        return Observable.of(null);
+      })
     }
 }

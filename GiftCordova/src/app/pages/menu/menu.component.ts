@@ -1,4 +1,4 @@
-﻿import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { Platform, Nav, MenuController, App } from 'ionic-angular';
 import { AccountService } from '../../auth/shared/account.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -22,19 +22,9 @@ export class MenuComponent {
     }
 
     logout() {
-        console.log("logout clicked");
-        this.accountService.logout().subscribe(x => {
-            console.log("1");
-            if (x) {
-                console.log("2");
-                this.menu.toggle();
-                console.log("4");
-                this.app.getRootNav().setRoot(AuthComponent);
-            } else {
-                console.log("3");
-                console.log("failed");
-                this.app.getRootNav().setRoot(AuthComponent);
-            }
-        });
+      this.menu.toggle();
+      this.accountService.logout().subscribe(x => {
+        this.app.getRootNav().setRoot(AuthComponent);
+      });
     }
 }

@@ -118,6 +118,9 @@
     <Content Include="**\**" Exclude="**\platforms\**;**\bin\**;**\bld\**;**\node_modules\**;**\simulation\**;**\plugins\**;.gitignore;GiftCordova.*" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="platforms\android\google-services.json" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="config.xml">
       <SubType>Designer</SubType>
     </Content>

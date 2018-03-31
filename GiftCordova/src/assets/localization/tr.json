@@ -2,6 +2,7 @@
   "ERROR": "Hata",
   "INFO": "Bilgi",
   "USERNAME": "Kullanıcı Adı",
+  "USERNAMEORPASSWORD": "Kullanıcı Adı veya Email",
   "PASSWORD": "Şifre",
   "CONFIRM_PASSWORD": "Şifre Tekrar",
   "EMAIL": "Email Adresi",
@@ -26,6 +27,7 @@
   "OK": "Tamam",
   "CANCEL": "İptal",
   "CLOSE": "Kapat",
+  "SEND": "Gönder",
 
   "ADD_TO_FAVORITES_TEXT": "Bu wishlist'i favorilerinize eklemek istediğinize emin misiniz?",
   "ADD_TO_FAVORITES_TITLE": "Favorilere Ekle",
@@ -55,12 +57,31 @@
   "DESCRIPTION": "Detay",
 
   "WISHLIST": "Wishlist",
+  "WISHLISTS": "Wishlistler",
   "EVENT_DETAIL": "Wishlist Detayı",
 
   "WISHLIST_CREATE": "Wishlist Yaratma",
   "EVENT_NAME": "Wishlist'in Adı",
   "EVENT_DATE": "Bitiş Tarihi",
   "EVENT_PERMISSION": "Paylaşım İzni",
-  "CREATE_WISHLIST": "Wishlist Yarat"
+  "CREATE_WISHLIST": "Wishlist Yarat",
 
+  "PROFILE": "Profil",
+
+  "FORGOT_PASSWORD_MESSAGE": "Şifreniz e-mail'inize gönderilmiştir",
+  "FORGOT_PASSWORD_TITLE": "Mail Gönderimi Başarılı",
+
+  "FORGOT_PASSWORD_FAILED_MESSAGE": "E-Mail gönderilirken bir hata oluştu",
+  "FORGOT_PASSWORD_FAILED_TITLE": "E-Mail Gönderimi Başarısız",
+
+  "SEND_FRIENDSHIP_REQUEST": "Ekle",
+  "ACCEPT_FRIENDSHIP_REQUEST": "Kabul Et",
+  "WAITING_FRIENDSHIP_REQUEST": "Bekleniyor",
+
+  "ACCEPT_FRIENDSHIP": "Kabul Et",
+  "REFUSE_FRIENDSHIP": "Reddet",
+  "WAITING_RESPONSE": "Yanıt Bekleniyor",
+  "YOU_ARE_FRIEND": "Arkadaş",
+  "UNFRIEND": "Arkadaşlıktan Çıkar",
+  "ADD_FRIEND": "Teklif Gönder"
 }

@@ -10,7 +10,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { FilePath } from '@ionic-native/file-path';
 import { AccountService } from '../../auth/shared/account.service';
 import { AccessTokenModel, StoredUserModel } from '../../auth/shared/account.model';
-import { HomeEventListViewModel, EventViewModel, EventListType, EventIdModel, CreateEventModel, SearchEventListModel } from './event.model';
+import { HomeEventListViewModel, EventViewModel, EventListModel, EventIdModel, CreateEventModel } from './event.model';
 import { ImageHandler } from './../../helpers/image.helper';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -37,27 +37,28 @@ export class EventService {
         console.log("event service constructor");
     }
 
-    public getEventList(eventType: number): Observable<Array<HomeEventListViewModel>> {
+    public getEventList(model: EventListModel): Observable<Array<HomeEventListViewModel>> {
         console.log("getEventList Invoked");
-            console.log("GetAccessTokenFromStorage Success");
-            var model = new EventListType(eventType);
-            return this.http.authorizedPost('/api/Event/EventList', JSON.stringify(model), null).map((res: Response) => {
-                console.log("getEventList Status Code = " + res.status);
-                let httpResponse: HttpResponseSuccessModel = res.json();
-                return httpResponse.content;
-            }, error => {
-                console.log("eventList Error StatusCode BadRequest");
-                return null;
-             }).catch(x => {
-                 console.log("eventList Catch StatusCode BadRequest = " + x);
-                 console.log("eventList Catch StatusCode BadRequest = " + JSON.stringify(x));
-                return null;
-            });
+        console.log("GetAccessTokenFromStorage Success");
+        return this.http.authorizedPost('/api/Event/EventList', JSON.stringify(model), null).map((res: Response) => {
+          if (res) {
+            console.log("getEventList RES = " + JSON.stringify(res));
+            console.log("getEventList Status Code = " + res.status);
+            let httpResponse: HttpResponseSuccessModel = res.json();
+            return httpResponse.content;
+          }              
+        }, error => {
+            console.log("eventList Error StatusCode BadRequest");
+            return null;
+          }).catch(x => {
+              console.log("eventList Catch StatusCode BadRequest = " + x);
+              console.log("eventList Catch StatusCode BadRequest = " + JSON.stringify(x));
+            return null;
+        });
     }
 
-    public searchEventList(eventType: number, searchTerm: string): Observable<Array<HomeEventListViewModel>> {
+    public searchEventList(model: EventListModel): Observable<Array<HomeEventListViewModel>> {
         return this.accountService.getAccessTokenFromStorage().flatMap((x: AccessTokenModel) => {
-            var model = new SearchEventListModel(eventType, searchTerm);
             return this.http.authorizedPost('/api/Event/EventList', JSON.stringify(model), null).map((res: Response) => {
                 console.log("getEventList Status Code = " + res.status);
                 let httpResponse: HttpResponseSuccessModel = res.json();
@@ -72,9 +73,8 @@ export class EventService {
         });
     }
 
-    public getEventById(eventId: number): Observable<EventViewModel> {
-        var model = new EventIdModel(eventId);
-        return this.http.authorizedPost('/api/Event/GetEventById', JSON.stringify(model), null).map((res: Response) => {
+    public getEventById(eventIdModel: EventIdModel): Observable<EventViewModel> {
+      return this.http.authorizedPost('/api/Event/GetEventById', JSON.stringify(eventIdModel), null).map((res: Response) => {
             console.log("getEventById Status Code = " + res.status);
             let httpResponse: HttpResponseSuccessModel = res.json();
             return httpResponse.content;
@@ -95,7 +95,7 @@ export class EventService {
                         let dialogConfirmObservable: Observable<number> = Observable.fromPromise(dialogConfirmPromise);
                         return dialogConfirmObservable.flatMap((x: number) => {
                             if (x == 1) {
-                                return this.http.authorizedPost('/api/Favorite/AddOrUpdateFavoriteEvent', JSON.stringify(new EventIdModel(eventId))).map((res: Response) => {
+                              return this.http.authorizedPost('/api/Favorite/AddOrUpdateFavoriteEvent', JSON.stringify(new EventIdModel(eventId))).map((res: Response) => {
                                     let httpResponse: HttpResponseSuccessModel = res.json();
                                     return httpResponse.content;
                                 })

@@ -2,6 +2,7 @@
   "ERROR": "Error",
   "INFO": "Information",
   "USERNAME": "Username",
+  "USERNAMEORPASSWORD": "Username or Password",
   "PASSWORD": "Password",
   "CONFIRM_PASSWORD": "Confirm Password",
   "EMAIL": "Email Address",
@@ -26,6 +27,9 @@
   "OK": "Ok",
   "CANCEL": "Cancel",
   "CLOSE": "Close",
+  "SEND": "Send",
+
+
   "ADD_TO_FAVORITES_TEXT": "Are you sure, adding this wishlist into your favorites?",
   "ADD_TO_FAVORITES_TITLE": "Add Wishlist Into Favorites",
   "REMOVE_FROM_FAVORITES_TEXT": "Are you sure, removing this wishlist from your favorites?",
@@ -51,11 +55,31 @@
   "DESCRIPTION": "Details",
 
   "WISHLIST": "Wishlist",
+  "WISHLISTS": "Wishlists",
   "WISHLIST_DETAIL": "Wishlist Detail",
 
   "WISHLIST_CREATE": "Create Wishlist",
   "EVENT_NAME": "Wishlist Name",
   "EVENT_DATE": "Due Date",
   "EVENT_PERMISSION": "Permissions",
-  "CREATE_WISHLIST": "Create Wishlist"
+  "CREATE_WISHLIST": "Create Wishlist",
+
+  "PROFILE": "Profile",
+
+  "FORGOT_PASSWORD_MESSAGE": "Your password has been sent to your e-mail",
+  "FORGOT_PASSWORD_TITLE": "E-Mail Successfull",
+
+  "FORGOT_PASSWORD_FAILED_MESSAGE": "An error occured during e-mail sending",
+  "FORGOT_PASSWORD_FAILED_TITLE": "E-Mail Failure",
+
+  "SEND_FRIENDSHIP_REQUEST": "Add",
+  "ACCEPT_FRIENDSHIP_REQUEST": "Accept",
+  "WAITING_FRIENDSHIP_REQUEST": "Waiting Response",
+
+  "ACCEPT_FRIENDSHIP": "Accept",
+  "REFUSE_FRIENDSHIP": "Decline",
+  "WAITING_RESPONSE": "Waiting Response",
+  "YOU_ARE_FRIEND": "Friend",
+  "UNFRIEND": "Unfriend",
+  "ADD_FRIEND": "Add Friend"
 }

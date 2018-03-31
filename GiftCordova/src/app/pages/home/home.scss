@@ -3,7 +3,7 @@
     top: -1px;
 }
 
-.home-header{
+/*.home-header{
     background-color: $main-header-color;
 }
 
@@ -64,14 +64,18 @@
 
 .home-header .toolbar .toolbar-background {
     background-color: $main-header-color;
-}
+}*/
 
 .home-content .tabbar{
     /*height: 3.2rem;*/
     background-color: $main-header-tabbar-color;
 }
 
-.home-content .tabs-md .tab-button{
+.home-content .tabs {
+  top: 56px;
+}
+
+.home-content .tabs .tab-button{
     min-height: 3.2rem;
 }
 

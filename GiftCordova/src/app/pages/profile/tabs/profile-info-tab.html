@@ -1,0 +1,26 @@
+<ion-content class="profile-info-content">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown"
+                           pullingText="Pull to refresh"
+                           refreshingSpinner="circles"
+                           refreshingText="Refreshing...">
+
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <h2>Clothing Sizes:</h2>
+    <h3>{{(profileInfo | async)?.tshirtSize}}</h3>
+  <h3>{{(profileInfo | async)?.shoeSize}}</h3>
+  <h3>{{(profileInfo | async)?.clothSize}}</h3>
+  <h3>{{(profileInfo | async)?.jeanSize}}</h3>
+  
+
+  <h2>Interest, Hobies and Notes: </h2>
+  <h3>
+    {{(profileInfo | async)?.aboutMe}}
+  </h3>
+    <h2>Address: </h2>
+  <h3>
+    {{(profileInfo | async)?.address}}
+  </h3>
+</ion-content>
